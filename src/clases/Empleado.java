@@ -108,7 +108,7 @@ public class Empleado {
 	//toString
 	@Override
 	public String toString() {
-		return "EMP-" + id + 
+		return "\nEMP-" + id + 
 				"\n" + nombre + " " + apellido + 
 				"\nDNI: " + dni + 
 				"Fecha de nacimiento: " + nacimiento + 
