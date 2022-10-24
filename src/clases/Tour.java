@@ -146,10 +146,8 @@ public class Tour {
 	//ToString
 	@Override
 	public String toString() {
-		
-		
 		return "TOUR-" + id + 
-		"\n" + nombre + " " + nombre + 
+		"\n" + nombre + 
 		"\nTemática: " + tematica + 
 		"\nGuia: " + guia +
 		"\nAforo: " + aforo + 
