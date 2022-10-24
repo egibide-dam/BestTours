@@ -11,6 +11,7 @@ public class Cliente {
 	private String edad;
 	private String profesion;
 	private List<Reserva> reservas;
+	private List<Bonificacion> bonificaciones;
 	
 	
 	
@@ -84,6 +85,10 @@ public class Cliente {
 
 	public List<Reserva> getReservas() {
 		return reservas;
+	}
+	
+	public List<Bonificacion> getBonificaciones() {
+		return bonificaciones;
 	}
 
 	
