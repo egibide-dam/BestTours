@@ -93,7 +93,7 @@ public class Cliente {
 	//ToString
 	@Override
 	public String toString() {
-		return "CLI- " + id + 
+		return "\nCLI-" + id + 
 				"\n " + nombre + " " + apellidos + 
 				"\nDNI: " + dni + 
 				"\nEdad: " + edad +
