@@ -146,16 +146,16 @@ public class Tour {
 	//ToString
 	@Override
 	public String toString() {
-		return "TOUR-" + id + 
-		"\n" + nombre + 
-		"\nTemática: " + tematica + 
-		"\nGuia: " + guia +
-		"\nAforo: " + aforo + 
-		"\nLugar: " + lugar + 
-		"\nPunto de salida: " + salida + 
-		"\nFecha: " + fecha + 
-		"\nHora: " + hora + 
-		"\nPrecio: "+ precio;
+		return "\nTOUR-" + id + 
+				"\n" + nombre + 
+				"\nTemática: " + tematica + 
+				"\nGuia: " + guia +
+				"\nAforo: " + aforo + 
+				"\nLugar: " + lugar + 
+				"\nPunto de salida: " + salida + 
+				"\nFecha: " + fecha + 
+				"\nHora: " + hora + 
+				"\nPrecio: "+ precio;
 	}
 
 	
