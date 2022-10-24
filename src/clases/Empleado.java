@@ -1,6 +1,7 @@
 package clases;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Empleado {
 	
@@ -12,6 +13,7 @@ public class Empleado {
 	private String nacionalidad;
 	private String puesto;
 	private LocalDate contratacion;
+	private List<Tour> tours;
 	
 	
 	//Constructor
@@ -96,6 +98,9 @@ public class Empleado {
 		this.contratacion = contratacion;
 	}
 
+	public List<Tour> getTours(){
+		return tours;
+	}
 	
 	
 	

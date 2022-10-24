@@ -14,6 +14,7 @@ public class Tour {
 	private LocalDate fecha;
 	private LocalTime hora;
 	private double precio;
+	private Empleado guia;
 
 	
 	
@@ -131,6 +132,15 @@ public class Tour {
 		this.precio = precio;
 	}
 	
+	public Empleado getEmpleado() {
+		return guia;
+	}
+
+
+	public void setEmpleado(Empleado empleado) {
+		this.guia = empleado;
+	}
+	
 	
 	
 	//ToString
@@ -141,6 +151,7 @@ public class Tour {
 		return "TOUR-" + id + 
 		"\n" + nombre + " " + nombre + 
 		"\nTemática: " + tematica + 
+		"\nGuia: " + guia +
 		"\nAforo: " + aforo + 
 		"\nLugar: " + lugar + 
 		"\nPunto de salida: " + salida + 
