@@ -21,7 +21,15 @@ public class Descuento {
 		this.descripcion = descripcion;
 		this.porcentaje = porcentaje;
 		this.acumulable = acumulable;
-		this.setUsosmaximos(usosmaximos);
+		this.usosmaximos = usosmaximos;
+	}
+	
+	public Descuento(String nombre, String descripcion, int porcentaje, boolean acumulable, int usosmaximos) {
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.porcentaje = porcentaje;
+		this.acumulable = acumulable;
+		this.usosmaximos = usosmaximos;
 	}
 	
 	public Descuento() {
