@@ -1,8 +1,15 @@
 package clases;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Date;
+import java.sql.Time;
 
+
+/**
+ * 
+ * @author Andrea Arnal Resa
+ * Acceso a datos
+ * @date 31 oct 2022 - 17:52:57
+ */
 public class Tour {
 	
 	private int id;
@@ -11,10 +18,10 @@ public class Tour {
 	private int aforo;
 	private String lugar;
 	private String salida;
-	private LocalDate fecha;
-	private LocalTime hora;
+	private Date fecha;
+	private Time hora;
 	private double precio;
-	private Empleado guia;
+	private int guia;
 	private Boolean alta;
 
 	
@@ -25,9 +32,23 @@ public class Tour {
 	}
 
 	
-	public Tour(int id, String nombre, String tematica, int aforo, String lugar, String salida, LocalDate fecha,
-			LocalTime hora, double precio) {
-		super();
+	public Tour(String nombre, String tematica, int aforo, String lugar, String salida, Date fecha,
+			Time hora, int idguia, double precio) {
+		this.nombre = nombre;
+		this.tematica = tematica;
+		this.aforo = aforo;
+		this.lugar = lugar;
+		this.salida = salida;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.precio = precio;
+		this.guia = idguia;
+		this.alta = true;
+	}
+
+	
+	public Tour(int id, String nombre, String tematica, int aforo, String lugar, String salida, Date fecha,
+			Time hora, double precio, int guia, boolean alta) {
 		this.id = id;
 		this.nombre = nombre;
 		this.tematica = tematica;
@@ -37,14 +58,13 @@ public class Tour {
 		this.fecha = fecha;
 		this.hora = hora;
 		this.precio = precio;
-		this.setAlta(true);
+		this.guia = guia;
+		this.alta = alta;
 	}
 
 
 
-
 	//Getter y Setters
-	
 	public int getId() {
 		return id;
 	}
@@ -105,22 +125,22 @@ public class Tour {
 	}
 
 
-	public LocalDate getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 
 
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 
 
-	public LocalTime getHora() {
+	public Time getHora() {
 		return hora;
 	}
 
 
-	public void setHora(LocalTime hora) {
+	public void setHora(Time hora) {
 		this.hora = hora;
 	}
 
@@ -134,12 +154,12 @@ public class Tour {
 		this.precio = precio;
 	}
 	
-	public Empleado getEmpleado() {
+	public int getEmpleado() {
 		return guia;
 	}
 
 
-	public void setEmpleado(Empleado empleado) {
+	public void setEmpleado(int empleado) {
 		this.guia = empleado;
 	}
 	
