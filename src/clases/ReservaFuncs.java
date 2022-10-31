@@ -228,5 +228,46 @@ public class ReservaFuncs {
 		return reservas;
 
 	}
+	
+	
+	
+	
+	//INSERTAR NUEVA RESERVA
+	/**
+	 * Guarda una nueva reserva
+	 * @param bd datos de la base de datos para la conexion
+	 * @param reser Objeto reserva para pasar los datos a guardar
+	 */
+	public static void nuevaReserva(BD bd, Reserva reser) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "INSERT INTO reservas (tour, cliente, precio, alta) VALUES (" + reser.getTour() + ", " + reser.getCliente() + ", " + reser.getPrecio() + ", " + reser.isAlta() + ")";
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nReserva guardada.");
+			} else {
+				System.out.println("\nNo se ha podido guardar la reserva.");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido guardar la reserva.");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido guardar la reserva.");
+		}
+
+	}
 
 }
