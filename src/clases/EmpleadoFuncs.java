@@ -41,7 +41,7 @@ public class EmpleadoFuncs {
 		
 		try {
 			// Cargar el driver
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(bd.getDriver());
 
 			// Establecemos la conexion con la BD
 			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());

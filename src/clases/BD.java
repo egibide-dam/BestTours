@@ -5,15 +5,17 @@ public class BD {
 	private String bd;
 	private String user;
 	private String pw;
+	private String driver;
 	
 	
 	
 	//Constructores
-	public BD(String bd, String user, String pw) {
+	public BD(String bd, String user, String pw, String driver) {
 		super();
 		this.bd = bd;
 		this.user = user;
 		this.pw = pw;
+		this.setDriver(driver);
 	}
 
 
@@ -57,6 +59,19 @@ public class BD {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
+
+
+
+	public String getDriver() {
+		return driver;
+	}
+
+
+
+	public void setDriver(String driver) {
+		this.driver = driver;
+	}
+	
 	
 	
 	
