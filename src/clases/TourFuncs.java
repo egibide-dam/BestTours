@@ -79,4 +79,242 @@ public class TourFuncs {
 
 	}
 
+	/**
+	 * Busca un tour por id
+	 * @param bd datos de la bd para conexion
+	 * @param id que queremos buscar
+	 * @return tour con ese id
+	 */
+	public static Tour buscarTourId(BD bd, int id) {
+
+		Tour tour = null;
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE id = " + id);
+
+			if (resul.next()) {
+				tour = new Tour (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4), resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+
+				while (resul.next()) {
+					
+				}
+			} else {
+
+			}
+
+			resul.close();// Cerrar ResultSet
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+
+		} catch (SQLException e) {
+		}
+
+		return tour;
+
+	}
+	
+	
+	/**
+	 * Busca todos los tours de alta
+	 * @param bd datos de la base de daots para la conexion
+	 * @return lista de tours de alta
+	 */
+	public static List<Tour> buscarToursAlta(BD bd) {
+
+		List<Tour> tours = new ArrayList<>();
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE alta = true");
+
+			if (resul.next()) {
+				Tour t = new Tour (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4), resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+				tours.add(t);
+				// Recorremos el resultado para visualizar cada fila// Se hace un bucle mientras
+				// haya registros, se van visualizando
+				while (resul.next()) {
+					t = new Tour (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4), resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+					tours.add(t);
+				}
+			} else {
+
+			}
+
+			resul.close();// Cerrar ResultSet
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			tours = null;
+
+		} catch (SQLException e) {
+			tours = null;
+		}
+
+		return tours;
+
+	}
+	
+	/**
+	 * Busca todos los tours de una determinada tematica
+	 * @param bd datos de la bd para la conexion
+	 * @param tematica de los tours a buscar
+	 * @return lista de tours con esa tematica
+	 */
+	public static List<Tour> buscarToursTematica(BD bd, String tematica) {
+
+		List<Tour> tours = new ArrayList<>();
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE tematica = " + tematica);
+
+			if (resul.next()) {
+				Tour t = new Tour (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4), resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+				tours.add(t);
+				
+				while (resul.next()) {
+					t = new Tour (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4), resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+					tours.add(t);
+				}
+			} else {
+
+			}
+
+			resul.close();// Cerrar ResultSet
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			tours = null;
+
+		} catch (SQLException e) {
+			tours = null;
+		}
+
+		return tours;
+
+	}
+	
+	
+	/**
+	 * Busca todos los tours llevados a cabos en determinado lugar
+	 * @param bd datos de la bd para la conexion
+	 * @param lugar donde se lleven a cabo los tours a buscar
+	 * @return lista de tours que se llevan a cabo en ese lugar
+	 */
+	public static List<Tour> buscarToursLugar(BD bd, String lugar) {
+
+		List<Tour> tours = new ArrayList<>();
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE lugar = " + lugar);
+
+			if (resul.next()) {
+				Tour t = new Tour (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4), resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+				tours.add(t);
+				
+				while (resul.next()) {
+					t = new Tour (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4), resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+					tours.add(t);
+				}
+			} else {
+
+			}
+
+			resul.close();// Cerrar ResultSet
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			tours = null;
+
+		} catch (SQLException e) {
+			tours = null;
+		}
+
+		return tours;
+
+	}
+	
+	/**
+	 * Busca los tours llevados a cabo por un determinado guia
+	 * @param bd datos de la base de datos para la conexion
+	 * @param idguia : id del guia que lleva a cabo los tours a buscar
+	 * @return lista de tours llevados a cabo por ese guia
+	 */
+	public static List<Tour> buscarToursGuia(BD bd, int idguia) {
+
+		List<Tour> tours = new ArrayList<>();
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE guia = " + idguia);
+
+			if (resul.next()) {
+				Tour t = new Tour (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4), resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+				tours.add(t);
+				
+				while (resul.next()) {
+					t = new Tour (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4), resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+					tours.add(t);
+				}
+			} else {
+
+			}
+
+			resul.close();// Cerrar ResultSet
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			tours = null;
+
+		} catch (SQLException e) {
+			tours = null;
+		}
+
+		return tours;
+
+	}
+	
 }

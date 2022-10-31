@@ -239,7 +239,12 @@ public class EmpleadoFuncs {
 
 	}
 	
-	
+	/**
+	 * Busca empleados con un determinado puesto
+	 * @param bd datos de la bd para la conexion
+	 * @param puesto de los empleados a buscar
+	 * @return lista de empleados con ese puesto
+	 */
 	public static List<Empleado> buscarEmpleadosPuesto(BD bd, String puesto) {
 
 		List<Empleado> empleados = new ArrayList<>();
