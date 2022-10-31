@@ -1,6 +1,6 @@
 package clases;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
 
 public class Empleado {
@@ -9,16 +9,16 @@ public class Empleado {
 	private String dni;
 	private String nombre;
 	private String apellido;
-	private LocalDate nacimiento;
+	private Date nacimiento;
 	private String nacionalidad;
 	private String puesto;
-	private LocalDate contratacion;
+	private Date contratacion;
 	private Boolean alta;
 	private List<Tour> tours;
 	
 	
 	//Constructor
-	public Empleado(String dni, String nombre, String apellido, LocalDate nacimiento, String nacionalidad, String puesto, LocalDate contratacion) {
+	public Empleado(String dni, String nombre, String apellido, Date nacimiento, String nacionalidad, String puesto, Date contratacion) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -26,7 +26,19 @@ public class Empleado {
 		this.nacionalidad = nacionalidad;
 		this.puesto = puesto;
 		this.contratacion = contratacion;
-		this.setAlta(true);
+		this.alta = true;
+	}
+	
+	public Empleado(int id, String dni, String nombre, String apellido, Date nacimiento, String nacionalidad, String puesto, Date contratacion, Boolean alta) {
+		this.id = id;
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.nacimiento = nacimiento;
+		this.nacionalidad = nacionalidad;
+		this.puesto = puesto;
+		this.contratacion = contratacion;
+		this.alta = alta;
 	}
 	
 	public Empleado() {
@@ -68,11 +80,11 @@ public class Empleado {
 		this.apellido = apellido;
 	}
 
-	public LocalDate getNacimiento() {
+	public Date getNacimiento() {
 		return nacimiento;
 	}
 
-	public void setNacimiento(LocalDate nacimiento) {
+	public void setNacimiento(Date nacimiento) {
 		this.nacimiento = nacimiento;
 	}
 
@@ -92,11 +104,11 @@ public class Empleado {
 		this.puesto = puesto;
 	}
 
-	public LocalDate getContratacion() {
+	public Date getContratacion() {
 		return contratacion;
 	}
 
-	public void setContratacion(LocalDate contratacion) {
+	public void setContratacion(Date contratacion) {
 		this.contratacion = contratacion;
 	}
 
@@ -125,7 +137,8 @@ public class Empleado {
 				"Fecha de nacimiento: " + nacimiento + 
 				"\nNacionalidad: " + nacionalidad + 
 				"\nPuesto: " + puesto + 
-				"\nFecha de contratacion: "+ contratacion;
+				"\nFecha de contratacion: "+ contratacion +
+				"\nAlta : " + alta;
 	}
 
 
