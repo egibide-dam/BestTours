@@ -8,7 +8,7 @@ public class Cliente {
 	private String dni;
 	private String nombre;
 	private String apellidos;
-	private String edad;
+	private int edad;
 	private String profesion;
 	private Boolean alta;
 	private List<Reserva> reservas;
@@ -17,7 +17,7 @@ public class Cliente {
 	
 	
 	//Constructores
-	public Cliente(String dni, String nombre, String apellidos, String edad, String profesion) {
+	public Cliente(String dni, String nombre, String apellidos, int edad, String profesion) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -26,7 +26,7 @@ public class Cliente {
 		this.alta = true;
 	}
 	
-	public Cliente(int id, String dni, String nombre, String apellidos, String edad, String profesion, boolean alta) {
+	public Cliente(int id, String dni, String nombre, String apellidos, int edad, String profesion, boolean alta) {
 		this.id = id;
 		this.dni = dni;
 		this.nombre = nombre;
@@ -76,11 +76,11 @@ public class Cliente {
 		this.apellidos = apellidos;
 	}
 
-	public String getEdad() {
+	public int getEdad() {
 		return edad;
 	}
 
-	public void setEdad(String edad) {
+	public void setEdad(int edad) {
 		this.edad = edad;
 	}
 

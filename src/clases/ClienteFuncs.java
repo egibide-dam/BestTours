@@ -10,8 +10,7 @@ import java.util.List;
 
 /**
  * 
- * @author Andrea Arnal Resa
- * Acceso a datos
+ * @author Andrea Arnal Resa Acceso a datos
  * @date 31 oct 2022 - 18:07:50
  */
 
@@ -30,16 +29,14 @@ public class ClienteFuncs {
 		}
 	}
 
-	
-	
 	// LEER
 	/**
 	 * Método para leer TODOS los clientes
 	 */
 	public static List<Cliente> leerClientes(BD bd) {
-		
+
 		List<Cliente> clientes = new ArrayList<>();
-		
+
 		try {
 			// Cargar el driver
 			Class.forName(bd.getDriver());
@@ -52,15 +49,17 @@ public class ClienteFuncs {
 			ResultSet resul = sentencia.executeQuery("SELECT * FROM clientes");
 
 			if (resul.next()) {
-				Cliente c = new Cliente (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4), resul.getString(5), resul.getString(6), resul.getBoolean(7));
+				Cliente c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
+						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
 				clientes.add(c);
-				
+
 				while (resul.next()) {
-					c = new Cliente (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4), resul.getString(5), resul.getString(6), resul.getBoolean(7));
+					c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
+							resul.getInt(5), resul.getString(6), resul.getBoolean(7));
 					clientes.add(c);
 				}
 			} else {
-				
+
 			}
 
 			resul.close();// Cerrar ResultSet
@@ -73,14 +72,14 @@ public class ClienteFuncs {
 		} catch (SQLException e) {
 			clientes = null;
 		}
-		
+
 		return clientes;
 
 	}
-	
-	
+
 	/**
 	 * Busca un cliente por su id
+	 * 
 	 * @param bd datos de la bd para la conexion
 	 * @param id del cliente a buscar
 	 * @return cliente con ese id
@@ -101,10 +100,11 @@ public class ClienteFuncs {
 			ResultSet resul = sentencia.executeQuery("SELECT * FROM clientes WHERE id = " + id);
 
 			if (resul.next()) {
-				cli = new Cliente (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4), resul.getString(5), resul.getString(6), resul.getBoolean(7));
+				cli = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
+						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
 
 				while (resul.next()) {
-					
+
 				}
 			} else {
 
@@ -122,9 +122,10 @@ public class ClienteFuncs {
 		return cli;
 
 	}
-	
+
 	/**
 	 * Busca clientes de alta
+	 * 
 	 * @param bd datos de la bd para la conexion
 	 * @return lista de clientes de alta
 	 */
@@ -144,11 +145,13 @@ public class ClienteFuncs {
 			ResultSet resul = sentencia.executeQuery("SELECT * FROM clientes WHERE alta = true");
 
 			if (resul.next()) {
-				Cliente c = new Cliente (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4), resul.getString(5), resul.getString(6), resul.getBoolean(7));
+				Cliente c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
+						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
 				clientes.add(c);
-				
+
 				while (resul.next()) {
-					c = new Cliente (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4), resul.getString(5), resul.getString(6), resul.getBoolean(7));
+					c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
+							resul.getInt(5), resul.getString(6), resul.getBoolean(7));
 					clientes.add(c);
 				}
 			} else {
@@ -169,12 +172,13 @@ public class ClienteFuncs {
 		return clientes;
 
 	}
-	
-	
+
 	/**
 	 * Busca clientes cuyo nombre o apellido empiece con el texto indicado
-	 * @param bd datos de la bd para la conexion
-	 * @param nombre . texto por el que empezara el nombre o apellido de los clientes a buscar
+	 * 
+	 * @param bd     datos de la bd para la conexion
+	 * @param nombre . texto por el que empezara el nombre o apellido de los
+	 *               clientes a buscar
 	 * @return lista de clientes que cumple la condicion
 	 */
 	public static List<Cliente> buscarClientesNombre(BD bd, String nombre) {
@@ -190,13 +194,16 @@ public class ClienteFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM clientes WHERE nombre LIKE '" + nombre + "%' OR apellido LIKE '" + nombre + "%' ");
+			ResultSet resul = sentencia.executeQuery(
+					"SELECT * FROM clientes WHERE nombre LIKE '" + nombre + "%' OR apellido LIKE '" + nombre + "%' ");
 
 			if (resul.next()) {
-				Cliente c = new Cliente (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4), resul.getString(5), resul.getString(6), resul.getBoolean(7));
+				Cliente c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
+						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
 				clientes.add(c);
 				while (resul.next()) {
-					c = new Cliente (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4), resul.getString(5), resul.getString(6), resul.getBoolean(7));
+					c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
+							resul.getInt(5), resul.getString(6), resul.getBoolean(7));
 					clientes.add(c);
 				}
 			} else {
@@ -217,11 +224,11 @@ public class ClienteFuncs {
 		return clientes;
 
 	}
-	
-	
+
 	/**
 	 * Busca clientes de edad entre una edad minima y una maxima
-	 * @param bd datos de la base de datos para la conexion
+	 * 
+	 * @param bd  datos de la base de datos para la conexion
 	 * @param min edad minima del rango a buscar
 	 * @param max edad maxima del rango a buscar
 	 * @return lista de clientes de edad entre min y max
@@ -239,13 +246,16 @@ public class ClienteFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM clientes WHERE edad >= " + min + " AND edad <= " + max);
+			ResultSet resul = sentencia
+					.executeQuery("SELECT * FROM clientes WHERE edad >= " + min + " AND edad <= " + max);
 
 			if (resul.next()) {
-				Cliente c = new Cliente (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4), resul.getString(5), resul.getString(6), resul.getBoolean(7));
+				Cliente c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
+						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
 				clientes.add(c);
 				while (resul.next()) {
-					c = new Cliente (resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4), resul.getString(5), resul.getString(6), resul.getBoolean(7));
+					c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
+							resul.getInt(5), resul.getString(6), resul.getBoolean(7));
 					clientes.add(c);
 				}
 			} else {
@@ -264,6 +274,49 @@ public class ClienteFuncs {
 		}
 
 		return clientes;
+
+	}
+	
+	
+	
+
+	// INSERTAR NUEVO CLIENTE
+	/**
+	 * Inserta un nuevo cliente
+	 * @param bd datos de la base de datos para la conexion
+	 * @param cliente Objeto cliente para pasar los datos a guardar
+	 */
+	public static void nuevoCliente(BD bd, Cliente cliente) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "INSERT INTO clientes (dni, nombre, apellidos, edad, profesion, alta) VALUES ('"
+					+ cliente.getDni() + "', '" + cliente.getNombre() + "', '" + cliente.getApellidos() + "', " + cliente.getEdad()
+					+ ", '" + cliente.getProfesion() + "', " + cliente.getAlta() + ")";
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nCliente  " + cliente.getNombre() + " " + cliente.getApellidos() + " guardado.");
+			} else {
+				System.out.println("\nNo se ha podido guardar el cliente " + cliente.getNombre() + " " + cliente.getApellidos() +".");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido guardar el cliente " + cliente.getNombre() + " " + cliente.getApellidos() +".");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido guardar el cliente " + cliente.getNombre() + " " + cliente.getApellidos() +".");
+		}
 
 	}
 
