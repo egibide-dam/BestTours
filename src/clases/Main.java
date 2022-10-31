@@ -5,6 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 
+/**
+ * 
+ * @author Andrea Arnal Resa
+ * Acceso a datos
+ * @date 31 oct 2022 - 17:52:34
+ */
 public class Main {
 
 	// Diferentes BDs
