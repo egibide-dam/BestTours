@@ -230,5 +230,45 @@ public class BonificacionFuncs {
 	
 	
 	
+	
+	//INSERTAR NUEVA BONIFICACION
+	/**
+	 * Inserta una nueva bonificación
+	 * @param bd datos de la base de datos para la conexion
+	 * @param boni Objeto bonificacion para pasar los datos a guardar
+	 */
+	public static void nuevaBonificacion(BD bd, Bonificacion boni) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "INSERT INTO bonificaciones (descuento, cliente, fecha, usos) VALUES (" + boni.getDescuento() + ", " + boni.getCliente() + ", '" + boni.getFecha() + "', " + boni.getUsos() + ")";
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nBonificacion guardada.");
+			} else {
+				System.out.println("\nNo se ha podido guardar la bonificación.");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido guardar la bonificación.");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido guardar la bonificación.");
+		}
+
+	}
+	
+	
 
 }
