@@ -34,7 +34,7 @@ public class TourFuncs {
 	
 	// LEER
 	/**
-	 * Método para leer TODOS los empleados
+	 * Método para leer TODOS los tours
 	 */
 	public static List<Tour> leerTours(BD bd) {
 		
