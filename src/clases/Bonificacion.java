@@ -1,5 +1,6 @@
 package clases;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Bonificacion {
@@ -7,12 +8,13 @@ public class Bonificacion {
 	private int id;
 	private Descuento descuento;
 	private Cliente cliente;
-	private LocalDate fecha;
+	private Date fecha;
+	private int usos;
 	
 	
 	
 	//Constructores
-	public Bonificacion(int id, Descuento descuento, Cliente cliente, LocalDate fecha) {
+	public Bonificacion(int id, Descuento descuento, Cliente cliente, Date fecha) {
 		this.id = id;
 		this.descuento = descuento;
 		this.cliente = cliente;
@@ -51,12 +53,21 @@ public class Bonificacion {
 		this.cliente = cliente;
 	}
 
-	public LocalDate getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+	
+
+	public int getUsos() {
+		return usos;
+	}
+
+	public void setUsos(int usos) {
+		this.usos = usos;
 	}
 
 	
@@ -71,6 +82,7 @@ public class Bonificacion {
 				"\nCliente: " + cliente.getNombre() + " " + cliente.getApellidos() + 
 				"\nFecha:" + fecha;
 	}
+
 	
 	
 	

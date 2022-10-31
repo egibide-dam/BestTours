@@ -6,6 +6,7 @@ public class Reserva {
 	private Tour tour;
 	private Cliente cliente;
 	private double precio;
+	private boolean alta;
 	
 	
 	
@@ -16,6 +17,7 @@ public class Reserva {
 		this.tour = tour;
 		this.cliente = cliente;
 		this.precio = 0;//calcularPrecio();
+		this.setAlta(true);
 	}
 	
 	public Reserva() {
@@ -57,6 +59,15 @@ public class Reserva {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
+	
+
+	public boolean isAlta() {
+		return alta;
+	}
+
+	public void setAlta(boolean alta) {
+		this.alta = alta;
+	}
 
 	
 	
@@ -79,6 +90,7 @@ public class Reserva {
 				"\nTour: " + tour.getNombre() + 
 				"\nPrecio final: " + precio;
 	}
+
 	
 
 }

@@ -9,17 +9,19 @@ public class Descuento {
 	private String descripcion;
 	private int porcentaje;
 	private boolean acumulable;
+	private int usosmaximos;
 	private List<Bonificacion> beneficiarios;
 	
 	
 	
 	//Constructores
-	public Descuento(int id, String nombre, String descripcion, int porcentaje, boolean acumulable) {
+	public Descuento(int id, String nombre, String descripcion, int porcentaje, boolean acumulable, int usosmaximos) {
 		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.porcentaje = porcentaje;
 		this.acumulable = acumulable;
+		this.setUsosmaximos(usosmaximos);
 	}
 	
 	public Descuento() {
@@ -73,6 +75,15 @@ public class Descuento {
 	public List<Bonificacion> getBeneficiarios() {
 		return beneficiarios;
 	}
+	
+
+	public int getUsosmaximos() {
+		return usosmaximos;
+	}
+
+	public void setUsosmaximos(int usosmaximos) {
+		this.usosmaximos = usosmaximos;
+	}
 
 	
 	
@@ -97,6 +108,7 @@ public class Descuento {
 				"\n" + porcentaje + "%" +
 				"\n" + acumular() + " acumulable";
 	}
+
 
 	
 	
