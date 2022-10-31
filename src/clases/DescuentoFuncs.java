@@ -227,5 +227,52 @@ public class DescuentoFuncs {
 		return descuentos;
 
 	}
+	
+	
+	
+	
+	//INSERTAR NUEVO DESCUENTO
+	/**
+	 * Inserta un nuevo descuento
+	 * @param bd datos de la base de datos para la conexion
+	 * @param desc Objeto descuento para pasar los datos a guardar
+	 */
+	public static void nuevoCliente(BD bd, Descuento desc) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "INSERT INTO descuentos (nombre, descripcion, porcentaje, acumulable, usosmaximos) VALUES ('"
+					+ desc.getNombre() + "', '" + desc.getDescripcion() + "', " + desc.getPorcentaje() + ", " + desc.isAcumulable()
+					+ ", " + desc.getUsosmaximos() + ")";
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nDescuento  " + desc.getNombre() + " guardado.");
+			} else {
+				System.out.println("\nNo se ha podido guardar el descuento " + desc.getNombre() + ".");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido guardar el descuento " + desc.getNombre() + ".");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido guardar el descuento " + desc.getNombre() + ".");
+		}
+
+	}
+	
+	
+	
+	
 
 }
