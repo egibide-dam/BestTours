@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class EmpleadoFuncs {
 	// IMPRIMIR
 	/**
 	 * Imprime el array de empleados que se le pasa
+	 * 
 	 * @param empleados lista a imprimir
 	 */
 	public static void imprimirEmpleados(List<Empleado> empleados) {
@@ -36,6 +38,7 @@ public class EmpleadoFuncs {
 	// LEER
 	/**
 	 * Lee todos los empleados
+	 * 
 	 * @param bd los datos para la conexion con la bbdd
 	 * @return lista de todos los empleados
 	 */
@@ -86,9 +89,9 @@ public class EmpleadoFuncs {
 
 	}
 
-	
 	/**
 	 * Busca un empleado por id
+	 * 
 	 * @param bd datos de la bd para conexion
 	 * @param id de empleado que queremos buscar
 	 * @return empleado con ese id
@@ -112,9 +115,9 @@ public class EmpleadoFuncs {
 				emple = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 						resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
 						resul.getBoolean(9));
-				
+
 				while (resul.next()) {
-					
+
 				}
 			} else {
 
@@ -132,10 +135,10 @@ public class EmpleadoFuncs {
 		return emple;
 
 	}
-	
-	
+
 	/**
 	 * Lee todos los empleados dados de alta
+	 * 
 	 * @param bd datos de la bd para la conexion
 	 * @return lista de empleado de alta
 	 */
@@ -185,11 +188,13 @@ public class EmpleadoFuncs {
 		return empleados;
 
 	}
-	
+
 	/**
 	 * Busca los empleados cuyo nombre o apellidos empiecen con el texto indicado
-	 * @param bd datos de la bd para hacer la conexion
-	 * @param nombre texto por el que empieza el nombre o apellidos que estamos buscando
+	 * 
+	 * @param bd     datos de la bd para hacer la conexion
+	 * @param nombre texto por el que empieza el nombre o apellidos que estamos
+	 *               buscando
 	 * @return lista de empleado que cumple la condicion
 	 */
 	public static List<Empleado> buscarEmpleadosNombre(BD bd, String nombre) {
@@ -205,7 +210,8 @@ public class EmpleadoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM empleados WHERE nombre LIKE '" + nombre + "%' OR apellido LIKE '" + nombre + "%' ");
+			ResultSet resul = sentencia.executeQuery(
+					"SELECT * FROM empleados WHERE nombre LIKE '" + nombre + "%' OR apellido LIKE '" + nombre + "%' ");
 
 			if (resul.next()) {
 				Empleado e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
@@ -238,10 +244,11 @@ public class EmpleadoFuncs {
 		return empleados;
 
 	}
-	
+
 	/**
 	 * Busca empleados con un determinado puesto
-	 * @param bd datos de la bd para la conexion
+	 * 
+	 * @param bd     datos de la bd para la conexion
 	 * @param puesto de los empleados a buscar
 	 * @return lista de empleados con ese puesto
 	 */
@@ -291,7 +298,44 @@ public class EmpleadoFuncs {
 		return empleados;
 
 	}
+
 	
-	
+	// INSETAR EMPLEADO
+	/**
+	 * Inserta un nuevo empleadp
+	 * @param bd datos de la base de datos para la conexion
+	 * @param emple Objeto empleado para pasarle los datos
+	 */
+	public static void nuevoEmple(BD bd, Empleado emple) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "INSERT INTO empleados (dni, nombre, apellido, nacimiento, nacionalidad, puesto, contratacion, alta) VALUES ('" + emple.getDni() + "', '" + emple.getNombre() + "', '" + emple.getApellido() + "', '" + emple.getNacimiento() + "', '" + emple.getNacionalidad() + "', '" + emple.getPuesto() + "', '" + emple.getContratacion() + "', " + emple.getAlta() + ")";
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nEmpleado " + emple.getNombre() + " " + emple.getApellido() + " guardado.");
+			} else {
+				System.out.println("\nNo se ha podido guardar el empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido guardar el empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido guardar el empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
+		}
+
+	}
 
 }
