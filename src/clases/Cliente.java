@@ -17,15 +17,23 @@ public class Cliente {
 	
 	
 	//Constructores
-	public Cliente(int id, String dni, String nombre, String apellidos, String edad, String profesion) {
-		super();
+	public Cliente(String dni, String nombre, String apellidos, String edad, String profesion) {
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.edad = edad;
+		this.profesion = profesion;
+		this.alta = true;
+	}
+	
+	public Cliente(int id, String dni, String nombre, String apellidos, String edad, String profesion, boolean alta) {
 		this.id = id;
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.edad = edad;
 		this.profesion = profesion;
-		this.setAlta(true);
+		this.alta = alta;
 	}
 	
 	public Cliente() {
