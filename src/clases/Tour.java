@@ -15,6 +15,7 @@ public class Tour {
 	private LocalTime hora;
 	private double precio;
 	private Empleado guia;
+	private Boolean alta;
 
 	
 	
@@ -36,6 +37,7 @@ public class Tour {
 		this.fecha = fecha;
 		this.hora = hora;
 		this.precio = precio;
+		this.setAlta(true);
 	}
 
 
@@ -142,6 +144,16 @@ public class Tour {
 	}
 	
 	
+
+	public Boolean getAlta() {
+		return alta;
+	}
+
+
+	public void setAlta(Boolean alta) {
+		this.alta = alta;
+	}
+	
 	
 	//ToString
 	@Override
@@ -157,6 +169,8 @@ public class Tour {
 				"\nHora: " + hora + 
 				"\nPrecio: "+ precio;
 	}
+
+
 
 	
 

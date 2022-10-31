@@ -10,13 +10,14 @@ public class Cliente {
 	private String apellidos;
 	private String edad;
 	private String profesion;
+	private Boolean alta;
 	private List<Reserva> reservas;
 	private List<Bonificacion> bonificaciones;
 	
 	
 	
 	//Constructores
-	public Cliente(int id, String dni, String nombre, String apellidos, String edad, String profesion, List<Reserva> reservas) {
+	public Cliente(int id, String dni, String nombre, String apellidos, String edad, String profesion) {
 		super();
 		this.id = id;
 		this.dni = dni;
@@ -24,7 +25,7 @@ public class Cliente {
 		this.apellidos = apellidos;
 		this.edad = edad;
 		this.profesion = profesion;
-		this.reservas = reservas;
+		this.setAlta(true);
 	}
 	
 	public Cliente() {
@@ -92,6 +93,14 @@ public class Cliente {
 	}
 
 	
+	public Boolean getAlta() {
+		return alta;
+	}
+
+	public void setAlta(Boolean alta) {
+		this.alta = alta;
+	}
+	
 	
 	
 	
@@ -105,6 +114,8 @@ public class Cliente {
 				"\nProfesión: " + profesion;
 		
 	}
+
+	
 	
 	
 

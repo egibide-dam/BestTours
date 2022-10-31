@@ -13,6 +13,7 @@ public class Empleado {
 	private String nacionalidad;
 	private String puesto;
 	private LocalDate contratacion;
+	private Boolean alta;
 	private List<Tour> tours;
 	
 	
@@ -25,6 +26,7 @@ public class Empleado {
 		this.nacionalidad = nacionalidad;
 		this.puesto = puesto;
 		this.contratacion = contratacion;
+		this.setAlta(true);
 	}
 	
 	public Empleado() {
@@ -103,6 +105,15 @@ public class Empleado {
 	}
 	
 	
+	public Boolean getAlta() {
+		return alta;
+	}
+
+	public void setAlta(Boolean alta) {
+		this.alta = alta;
+	}
+	
+	
 	
 	
 	//toString
@@ -116,7 +127,8 @@ public class Empleado {
 				"\nPuesto: " + puesto + 
 				"\nFecha de contratacion: "+ contratacion;
 	}
-	
+
+
 	
 	
 	
