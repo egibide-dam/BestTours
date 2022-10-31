@@ -2,22 +2,28 @@ package clases;
 
 public class Reserva {
 	
-	private int referencia;
-	private Tour tour;
-	private Cliente cliente;
+	private int id;
+	private int tour;
+	private int cliente;
 	private double precio;
 	private boolean alta;
 	
 	
 	
 	//Constructores
-	public Reserva(int referencia, Tour tour, Cliente cliente) {
-		super();
-		this.referencia = referencia;
+	public Reserva(int tour, int cliente) {
 		this.tour = tour;
 		this.cliente = cliente;
 		this.precio = 0;//calcularPrecio();
-		this.setAlta(true);
+		this.alta = true;
+	}
+	
+	public Reserva(int id, int tour, int cliente, double precio, boolean alta) {
+		this.id = id;
+		this.tour = tour;
+		this.cliente = cliente;
+		this.precio = precio;
+		this.alta = alta;
 	}
 	
 	public Reserva() {
@@ -28,27 +34,27 @@ public class Reserva {
 	
 	
 	//Getters y setters
-	public int getReferencia() {
-		return referencia;
+	public int getId() {
+		return id;
 	}
 
-	public void setReferencia(int referencia) {
-		this.referencia = referencia;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public Tour getTour() {
+	public int getTour() {
 		return tour;
 	}
 
-	public void setTour(Tour tour) {
+	public void setTour(int tour) {
 		this.tour = tour;
 	}
 
-	public Cliente getCliente() {
+	public int getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(int cliente) {
 		this.cliente = cliente;
 	}
 
@@ -85,9 +91,9 @@ public class Reserva {
 	
 	@Override
 	public String toString() {		
-		return "\nNº RESERVA: " + referencia + 
-				"\nCliente: " + cliente.getNombre() + " " + cliente.getApellidos() + 
-				"\nTour: " + tour.getNombre() + 
+		return "\nNº RESERVA: " + id + 
+				"\nCliente: " + cliente + 
+				"\nTour: " + tour + 
 				"\nPrecio final: " + precio;
 	}
 
