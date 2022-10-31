@@ -5,19 +5,27 @@ import java.sql.Date;
 public class Bonificacion {
 	
 	private int id;
-	private Descuento descuento;
-	private Cliente cliente;
+	private int descuento;
+	private int cliente;
 	private Date fecha;
 	private int usos;
 	
 	
 	
 	//Constructores
-	public Bonificacion(int id, Descuento descuento, Cliente cliente, Date fecha) {
+	public Bonificacion(int id, int descuento, int cliente, Date fecha, int usos) {
 		this.id = id;
 		this.descuento = descuento;
 		this.cliente = cliente;
 		this.fecha = fecha;
+		this.usos = usos;
+	}
+	
+	public Bonificacion( int descuento, int cliente, Date fecha) {
+		this.descuento = descuento;
+		this.cliente = cliente;
+		this.fecha = fecha;
+		this.usos = 0;
 	}
 	
 	public Bonificacion() {
@@ -36,19 +44,19 @@ public class Bonificacion {
 		this.id = id;
 	}
 
-	public Descuento getDescuento() {
+	public int getDescuento() {
 		return descuento;
 	}
 
-	public void setDescuento(Descuento descuento) {
+	public void setDescuento(int descuento) {
 		this.descuento = descuento;
 	}
 
-	public Cliente getCliente() {
+	public int getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(int cliente) {
 		this.cliente = cliente;
 	}
 
@@ -77,8 +85,8 @@ public class Bonificacion {
 	@Override
 	public String toString() {
 			return "\nBONIF-" + id + 
-				"\n" + descuento.getNombre() + " (" + descuento.getPorcentaje() + "%)" +
-				"\nCliente: " + cliente.getNombre() + " " + cliente.getApellidos() + 
+				"\n" + descuento +
+				"\nCliente: " + cliente + 
 				"\nFecha:" + fecha;
 	}
 
