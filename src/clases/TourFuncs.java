@@ -424,4 +424,44 @@ public class TourFuncs {
 	}
 	
 	
+	
+	/**
+	 * Da de baja un tour
+	 * @param bd datos de la base de datos para la conexion
+	 * @param tour OBjeto tour que contiene el id del tour a dar de baja
+	 */
+	public static void bajaTour(BD bd, Tour tour) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "UPDATE tours SET alta = false WHERE id = " + tour.getId();
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nSe ha dado de baja el tour " + tour.getNombre() + ".");
+			} else {
+				System.out.println("\nNo se ha podido dar de baja el tour " + tour.getNombre() + ". Revise los datos.");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido dar de baja el tour " + tour.getNombre() + ". Revise los datos.");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido dar de baja el tour " + tour.getNombre() + ". Revise los datos.");
+		}
+
+	}
+	
+	
+	
 }
