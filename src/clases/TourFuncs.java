@@ -447,17 +447,17 @@ public class TourFuncs {
 			if (resul > 0) {
 				System.out.println("\nSe ha dado de baja el tour " + tour.getNombre() + ".");
 			} else {
-				System.out.println("\nNo se ha podido dar de baja el tour " + tour.getNombre() + ". Revise los datos.");
+				System.out.println("\nNo se ha podido dar de baja el tour " + tour.getNombre() + ".");
 			}
 
 			sentencia.close();// Cerrar Statement
 			conexion.close();// Cerrar conexion
 
 		} catch (ClassNotFoundException cn) {
-			System.out.println("\nNo se ha podido dar de baja el tour " + tour.getNombre() + ". Revise los datos.");
+			System.out.println("\nNo se ha podido dar de baja el tour " + tour.getNombre() + ".");
 
 		} catch (SQLException e) {
-			System.out.println("\nNo se ha podido dar de baja el tour " + tour.getNombre() + ". Revise los datos.");
+			System.out.println("\nNo se ha podido dar de baja el tour " + tour.getNombre() + ".");
 		}
 
 	}

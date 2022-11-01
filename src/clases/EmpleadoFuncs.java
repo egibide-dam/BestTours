@@ -399,17 +399,17 @@ public class EmpleadoFuncs {
 			if (resul > 0) {
 				System.out.println("\nSe ha dado de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
 			} else {
-				System.out.println("\nNo se ha podido dar de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ". Revise los datos.");
+				System.out.println("\nNo se ha podido dar de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
 			}
 
 			sentencia.close();// Cerrar Statement
 			conexion.close();// Cerrar conexion
 
 		} catch (ClassNotFoundException cn) {
-			System.out.println("\nNo se ha podido dar de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ". Revise los datos.");
+			System.out.println("\nNo se ha podido dar de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
 
 		} catch (SQLException e) {
-			System.out.println("\nNo se ha podido dar de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ". Revise los datos.");
+			System.out.println("\nNo se ha podido dar de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
 		}
 
 	}

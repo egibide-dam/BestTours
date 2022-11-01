@@ -360,4 +360,44 @@ public class ClienteFuncs {
 	}
 	
 	
+	/**
+	 * Da de baja a un cliente registrado
+	 * @param bd datos de la base de datos para la conexion
+	 * @param cliente OBjeto cliente que contiene el id del cliente a dar de baja
+	 */
+	public static void bajaCliente(BD bd, Cliente cliente) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "UPDATE clientes SET alta = false WHERE id = " + cliente.getId();
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nSe ha dado de baja el cliente " + cliente.getNombre() + " " + cliente.getApellidos() + ".");
+			} else {
+				System.out.println("\nNo se ha podido dar de baja al cliente " + cliente.getNombre() + " " + cliente.getApellidos() + ".");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido dar de baja al cliente " + cliente.getNombre() + " " + cliente.getApellidos() + ".");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido dar de baja al cliente " + cliente.getNombre() + " " + cliente.getApellidos() + ".");
+		}
+
+	}
+	
+	
+	
+	
 }
