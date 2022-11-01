@@ -385,4 +385,43 @@ public class TourFuncs {
 
 	}
 
+
+	/**
+	 * Modifica los datos de un tour registrado
+	 * @param bd datos de la base de datos para la conexion
+	 * @param tour Objeto que contiene el id del tour a modificar y los datos nuevos
+	 */
+	public static void modificarTour(BD bd, Tour tour) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "UPDATE tours SET nombre = '" + tour.getNombre() + "', tematica = '" + tour.getTematica() + "', aforo = " + tour.getAforo() + ", lugar = '" + tour.getLugar() + "', salida = '" + tour.getSalida() + "', fecha = '" + tour.getFecha() + "', hora = '" + tour.getHora() + "', precio = " + tour.getPrecio() + ", guia = " + tour.getEmpleado() + " WHERE id = " + tour.getId();
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nDatos del tour " + tour.getNombre() + " modificados.");
+			} else {
+				System.out.println("\nNo se ha podido modificar los datos del tour " + tour.getNombre() + ". Revise los datos.");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido modificar los datos del tour " + tour.getNombre() + ". Revise los datos.");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido modificar los datos del tour " + tour.getNombre() + ". Revise los datos.");
+		}
+
+	}
+	
+	
 }
