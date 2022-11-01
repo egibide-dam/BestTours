@@ -273,6 +273,42 @@ public class DescuentoFuncs {
 	
 	
 	
+	/**
+	 * Modifica los datos de un descuento registrado
+	 * @param bd datos de la base de datos para la conexion
+	 * @param desc Objeto descuento que recoge el id del desc a modificar y los nuevos datos
+	 */
+	public static void modificarDescuento(BD bd, Descuento desc) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "UPDATE descuentos SET nombre = '" + desc.getNombre() + "', descripcion = '" + desc.getDescripcion() + "', porcentaje = " + desc.getPorcentaje() + ", acumulable = " + desc.isAcumulable() + ", usosmaximos = " + desc.getUsosmaximos() + " WHERE id = " + desc.getId();
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nDatos del descuento " + desc.getNombre() + " modificados.");
+			} else {
+				System.out.println("\nNo se ha podido modificar los datos del descuento " + desc.getNombre() + ". Revise los datos.");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido modificar los datos del descuento " + desc.getNombre() + ". Revise los datos.");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido modificar los datos del descuento " + desc.getNombre() + ". Revise los datos.");
+		}
+
+	}
 	
 
 }
