@@ -375,5 +375,43 @@ public class EmpleadoFuncs {
 		}
 
 	}
+	
+	
+	/**
+	 * Da de baja a un empleado
+	 * @param bd datos de la base de datos para la conexion
+	 * @param emple Objeto empleado que contiene el id del empleado a dar de baja
+	 */
+	public static void bajaEmple(BD bd, Empleado emple) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "UPDATE empleados SET alta = false WHERE id = " + emple.getId();
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nSe ha dado de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
+			} else {
+				System.out.println("\nNo se ha podido dar de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ". Revise los datos.");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido dar de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ". Revise los datos.");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido dar de baja al empleado " + emple.getNombre() + " " + emple.getApellido() + ". Revise los datos.");
+		}
+
+	}
 
 }
