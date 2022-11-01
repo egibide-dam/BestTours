@@ -305,19 +305,59 @@ public class ClienteFuncs {
 			if (resul > 0) {
 				System.out.println("\nCliente  " + cliente.getNombre() + " " + cliente.getApellidos() + " guardado.");
 			} else {
-				System.out.println("\nNo se ha podido guardar el cliente " + cliente.getNombre() + " " + cliente.getApellidos() +".");
+				System.out.println("\nNo se ha podido guardar el cliente " + cliente.getNombre() + " " + cliente.getApellidos() +". Tal vez el dni indicado ya exista.");
 			}
 
 			sentencia.close();// Cerrar Statement
 			conexion.close();// Cerrar conexion
 
 		} catch (ClassNotFoundException cn) {
-			System.out.println("\nNo se ha podido guardar el cliente " + cliente.getNombre() + " " + cliente.getApellidos() +".");
+			System.out.println("\nNo se ha podido guardar el cliente " + cliente.getNombre() + " " + cliente.getApellidos() +". Tal vez el dni indicado ya exista.");
 
 		} catch (SQLException e) {
-			System.out.println("\nNo se ha podido guardar el cliente " + cliente.getNombre() + " " + cliente.getApellidos() +".");
+			System.out.println("\nNo se ha podido guardar el cliente " + cliente.getNombre() + " " + cliente.getApellidos() +". Tal vez el dni indicado ya exista.");
 		}
 
 	}
 
+	
+	
+	/**
+	 * Modifica un cliente ya registrado
+	 * @param bd datos de la base de datos para la conexion
+	 * @param cliente objeto cliente que contiene el id del cliente a modificar y los nuevos datos
+	 */
+	public static void modificarCliente(BD bd, Cliente cliente) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "UPDATE clientes SET dni = '" + cliente.getDni() + "', nombre = '" + cliente.getNombre() + "', apellidos = '" + cliente.getApellidos() + "', edad = " + cliente.getEdad() + ", profesion = '" + cliente.getProfesion() + "' WHERE id = " + cliente.getId();
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nDatos del cliente " + cliente.getNombre() + " " + cliente.getApellidos() + " modificados.");
+			} else {
+				System.out.println("\nNo se ha podido modificar los datos del cliente " + cliente.getNombre() + " " + cliente.getApellidos() + ". Revise los datos.");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se han podido modificar los datos del cliente " + cliente.getNombre() + " " + cliente.getApellidos() + ". Revise los datos.");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se han podido modificar los datos del cliente " + cliente.getNombre() + " " + cliente.getApellidos() + ". Revise los datos.");
+		}
+
+	}
+	
+	
 }
