@@ -323,17 +323,55 @@ public class EmpleadoFuncs {
 			if (resul > 0) {
 				System.out.println("\nEmpleado " + emple.getNombre() + " " + emple.getApellido() + " guardado.");
 			} else {
-				System.out.println("\nNo se ha podido guardar el empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
+				System.out.println("\nNo se ha podido guardar el empleado " + emple.getNombre() + " " + emple.getApellido() + ". Tal vez el dni indicado ya exista.");
 			}
 
 			sentencia.close();// Cerrar Statement
 			conexion.close();// Cerrar conexion
 
 		} catch (ClassNotFoundException cn) {
-			System.out.println("\nNo se ha podido guardar el empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
+			System.out.println("\nNo se ha podido guardar el empleado " + emple.getNombre() + " " + emple.getApellido() + ". Tal vez el dni indicado ya exista.");
 
 		} catch (SQLException e) {
-			System.out.println("\nNo se ha podido guardar el empleado " + emple.getNombre() + " " + emple.getApellido() + ".");
+			System.out.println("\nNo se ha podido guardar el empleado " + emple.getNombre() + " " + emple.getApellido() + ". Tal vez el dni indicado ya exista.");
+		}
+
+	}
+	
+	
+	/**
+	 * Modifica los datos de un empleado registrado
+	 * @param bd datos de la base de datos para la conexion
+	 * @param emple Objeto empleado en el que se recoge el id y los nuevos datos
+	 */
+	public static void modificarEmple(BD bd, Empleado emple) {
+
+		try {
+			// Cargar el driver
+			Class.forName(bd.getDriver());
+
+			// Establecemos la conexion con la BD
+			Connection conexion = DriverManager.getConnection(bd.getBd(), bd.getUser(), bd.getPw());
+
+			// Preparamos la consulta
+			Statement sentencia = conexion.createStatement();
+			String sq = "UPDATE empleados SET dni = '" + emple.getDni() + "', nombre = '" + emple.getNombre() + "', apellido = '" + emple.getApellido() + "', nacimiento = '" + emple.getNacimiento() + "', nacionalidad = '" + emple.getNacionalidad() + "', puesto = '" + emple.getPuesto() + "', contratacion = '" + emple.getContratacion() + "' WHERE id = " + emple.getId();
+			int resul = sentencia.executeUpdate(sq);
+
+			if (resul > 0) {
+				System.out.println("\nDatos del empleado " + emple.getNombre() + " " + emple.getApellido() + " modificados.");
+			} else {
+				System.out.println("\nNo se ha podido modificar los datos del empleado " + emple.getNombre() + " " + emple.getApellido() + ". Revise los datos.");
+			}
+
+			sentencia.close();// Cerrar Statement
+			conexion.close();// Cerrar conexion
+
+		} catch (ClassNotFoundException cn) {
+			System.out.println("\nNo se ha podido modificar los datos del empleado " + emple.getNombre() + " " + emple.getApellido() + ". Revise los datos.");
+
+		} catch (SQLException e) {
+			System.out.println("\nNo se ha podido modificar los datos del empleado " + emple.getNombre() + " " + emple.getApellido() + ". Revise los datos.");
 		}
 
 	}
