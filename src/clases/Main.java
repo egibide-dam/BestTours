@@ -17,12 +17,19 @@ import java.util.List;
 public class Main {
 
 	// Diferentes BDs
+	//MySql
 	public static BD bd1 = new BD(1, "EuskoTours", "euskotours.eus", 945131406, 2015, "jdbc:mysql://localhost/prueba", "root", "MySQL1234", "com.mysql.cj.jdbc.Driver");
+	//Oracle
 	public static BD bd2 = new BD(2, "Tour Nord", "tournord.es", 947202122, 2010, "oracle.jdbc.driver.OracleDriver", "root", "Oracle1234", "oracle.jdbc.driver.OracleDriver");
-	public static BD bd3 = new BD(1, "EuskoTours", "euskotours.eus", 945131406, 2015, "jdbc:mysql://localhost/prueba", "root", "MySQL1234", "com.mysql.cj.jdbc.Driver");
-	public static BD bd4 = new BD(2, "Tour Nord", "tournord.es", 947202122, 2010, "oracle.jdbc.driver.OracleDriver", "root", "Oracle1234", "oracle.jdbc.driver.OracleDriver");
+	//Postgre
+	public static BD bd3 = new BD(3, "Iradier Tours", "iradiertours.com", 948111234, 2012, "jdbc:postgresql://192.168.0.26:5432/customerdb", "root", "Postgre1234", "org.postgresql.Driver");
+	//Base openoffice
+	public static BD bd4 = new BD(4, "Travelers", "travelers.com", 943884422, 2017, "jdbc:hsqldb:file:c:\\mydbdir\\mydb", "root", "Base1234", "org.hsqldb.jdbcDriver");
+	
+	//Listado de las BBDD
 	public static List<BD> agencias = new ArrayList<>();
 	
+	//BD general de acceso comun
 	public static BD currentBD;
 	
 	
