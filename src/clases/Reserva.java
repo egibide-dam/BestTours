@@ -11,10 +11,10 @@ public class Reserva {
 	
 	
 	//Constructores
-	public Reserva(int tour, int cliente) {
+	public Reserva(int tour, int cliente, double precio) {
 		this.tour = tour;
 		this.cliente = cliente;
-		this.precio = 0;//calcularPrecio();
+		this.precio = precio;
 		this.alta = true;
 	}
 	
@@ -77,13 +77,8 @@ public class Reserva {
 
 	
 	
-	/**
-	//Métodos de clase
-	public double calcularprecio() {
-		double precio = tour.getPrecio();
-		int descuento = 
-	}
-	**/
+	
+		
 	
 	
 	

@@ -237,7 +237,7 @@ public class DescuentoFuncs {
 	 * @param bd datos de la base de datos para la conexion
 	 * @param desc Objeto descuento para pasar los datos a guardar
 	 */
-	public static void nuevoCliente(BD bd, Descuento desc) {
+	public static void nuevoDescuento(BD bd, Descuento desc) {
 
 		try {
 			// Cargar el driver

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -414,6 +415,7 @@ public class Main {
 				System.out.println("\n¿Está seguro de que desea dar de baja al empleado ");
 				System.out.println(emple);
 				System.out.println("?");
+				respuesta = br.readLine();
 				if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
 					System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
 				} else if (respuesta.equalsIgnoreCase("S")) {
@@ -635,7 +637,7 @@ public class Main {
 		if (empleados != null) {
 			String nombre;
 			do {
-				System.out.print("\nNombre del nuevo empleado:");
+				System.out.print("\nNombre del nuevo tour:");
 				nombre = br.readLine();
 			}while (nombre.equals(" "));
 			
@@ -749,7 +751,7 @@ public class Main {
 				
 				String nombre;
 				do {
-					System.out.print("\nNombre del nuevo empleado:");
+					System.out.print("\nNombre nuevo del tour:");
 					nombre = br.readLine();
 				}while (nombre.equals(" "));
 				
@@ -892,6 +894,7 @@ public class Main {
 				System.out.println("\n¿Está seguro de que desea dar de baja el tour ");
 				System.out.println(t);
 				System.out.println("?");
+				respuesta = br.readLine();
 				if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
 					System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
 				} else if (respuesta.equalsIgnoreCase("S")) {
@@ -1241,6 +1244,707 @@ public class Main {
 	
 	
 	
+	
+	
+	/**
+	 * Pide los datos del nuevo cliente, crea un nuevo Objeto y llama a la funcion de insertar en la BD
+	 * @throws IOException
+	 */
+	public static void newCli() throws IOException {
+		System.out.println("\nNuevo cliente");
+		
+		String dni;
+		boolean exist = false;
+		do {
+			System.out.print("\nDNI del nuevo cliente:");
+			dni = br.readLine();
+			List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
+			if (clientes != null) {
+				for (Cliente c : clientes) {
+					if (c.getDni().equals(dni)) {
+						exist = true;
+						System.out.println("\nEl DNI indicado ya está registrado.");
+					}
+				}
+			}
+		} while (exist == true);
+		
+		String nombre;
+		do {
+			System.out.print("\nNombre del nuevo cliente:");
+			nombre = br.readLine();
+		}while (nombre.equals(" "));
+		
+		String apellidos;
+		do {
+			System.out.print("\nApellidos del nuevo cliente:");
+			apellidos = br.readLine();
+		}while (apellidos.equals(" "));
+		
+		int edad;
+		do {
+			System.out.println("\nEdad del nuevo cliente:");
+			try {
+				edad = Integer.parseInt(br.readLine());	
+			} catch (NumberFormatException e) {
+				System.out.println("\nDebe introducir un número");
+				edad = -1;
+			}
+		} while (edad == -1);
+		
+		String profesion;
+		do {
+			System.out.print("\nProfesion del nuevo cliente:");
+			profesion = br.readLine();
+		}while (profesion.equals(" "));
+		
+		Cliente c = new Cliente(dni, nombre, apellidos, edad, profesion);
+		ClienteFuncs.nuevoCliente(currentBD, c);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Pide indicar el cliente a modificar, muestra los datos guardados y pide los nuevos datos, crea el objeto y llama al update en la BD
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	public static void editCli() throws NumberFormatException, IOException {
+		System.out.println("\nEditar cliente");
+		
+		if (ClienteFuncs.leerClientes(currentBD) != null) {
+			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del cliente:");
+				List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
+				for (Cliente c : clientes) {
+					System.out.println(c);
+				}
+				int id;
+				do {
+					System.out.print("\nID (nº):");
+					id = Integer.parseInt(br.readLine());
+					if (id < 1 || id > clientes.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (id < 1 || id > clientes.size());
+				
+				Cliente currentCli = ClienteFuncs.buscarClienteId(currentBD, id);
+				
+				String dni;
+				boolean exist = false;
+				do {
+					System.out.print("\nDNI nuevo del cliente:");
+					dni = br.readLine();
+					if (clientes != null) {
+						for (Cliente c : clientes) {
+							if (c.getDni().equals(dni)) {
+								exist = true;
+								System.out.println("\nEl DNI indicado ya está registrado.");
+							}
+						}
+					}
+				} while (exist == true);
+				
+				String nombre;
+				do {
+					System.out.print("\nNombre nuevo del cliente:");
+					nombre = br.readLine();
+				}while (nombre.equals(" "));
+				
+				String apellidos;
+				do {
+					System.out.print("\nApellidos nuevos del cliente:");
+					apellidos = br.readLine();
+				}while (apellidos.equals(" "));
+				
+				int edad;
+				do {
+					System.out.println("\nEdad nueva del cliente:");
+					try {
+						edad = Integer.parseInt(br.readLine());	
+					} catch (NumberFormatException e) {
+						System.out.println("\nDebe introducir un número");
+						edad = -1;
+					}
+				} while (edad == -1);
+				
+				String profesion;
+				do {
+					System.out.print("\nProfesion nueva del cliente:");
+					profesion = br.readLine();
+				}while (profesion.equals(" "));
+				
+
+				Boolean alta = true;
+				String respuesta = "";
+				do {
+					String mensaje;
+					if (currentCli.getAlta() == true) {
+						mensaje = "ALTA";
+					} else {
+						mensaje = "BAJA";
+					}
+					System.out.println("\nEstado actual del cliente: " + mensaje);
+					System.out.print("¿Desea que el cliente esté de ALTA? (S/N);");
+					respuesta = br.readLine();
+					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
+						System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
+					} else if (respuesta.equalsIgnoreCase("N")) {
+						alta = false;
+					}
+					
+				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
+				
+				Cliente editCli = new Cliente(id, dni, nombre, apellidos, edad, profesion, alta);
+				ClienteFuncs.modificarCliente(currentBD, editCli);
+				
+			} else {
+				System.out.println("\nAún no hay clientes registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay clientes registrados.");	
+		}
+
+	}
+	
+	
+	
+	
+	/**
+	 * Solicita el cliente a dar de baja, pide confirmación y si la respuesta es sí da de baja al cliente
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	public static void unsuscribeCli() throws NumberFormatException, IOException {
+		System.out.println("\nDar de baja un cliente");
+		
+		if (ClienteFuncs.leerClientes(currentBD) != null) {
+			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del cliente:");
+				List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
+				for (Cliente c : clientes) {
+					System.out.println(c);
+				}
+				int id;
+				do {
+					System.out.print("\nID (nº):");
+					id = Integer.parseInt(br.readLine());
+					if (id < 1 || id > clientes.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (id < 1 || id > clientes.size());
+				
+				Cliente cli = ClienteFuncs.buscarClienteId(currentBD, id);
+
+				String respuesta = "";
+				do {
+				System.out.println("\n¿Está seguro de que desea dar de baja al cliente ");
+				System.out.println(cli);
+				System.out.println("?");
+				respuesta = br.readLine();
+				if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
+					System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
+				} else if (respuesta.equalsIgnoreCase("S")) {
+					ClienteFuncs.bajaCliente(currentBD, cli);
+				} else {
+					System.out.println("\nBaja del cliente cancelada.");
+				}
+				
+				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
+				
+			} else {
+				System.out.println("\nAún no hay clientes registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay clientes registrados.");	
+		}
+
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Muestra todos los clientes que estén de alta
+	 */
+	public static void allClis() {
+		System.out.println("\nTodos los clientes de alta");
+		
+		if (ClienteFuncs.leerClientes(currentBD) != null) {
+			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+				
+				List<Cliente> clientes = ClienteFuncs.buscarClientesAlta(currentBD);
+				for (Cliente c : clientes) {
+					System.out.println(c);
+				}
+				
+			} else {
+				System.out.println("\nAún no hay clientes registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay clientes registrados.");	
+		}
+
+	}
+	
+	
+	
+	
+	/**
+	 * Muestra todos los clientes que de alta o de baja
+	 */
+	public static void historicClis() {
+		System.out.println("\nHistórico de clientes");
+		
+		if (ClienteFuncs.leerClientes(currentBD) != null) {
+			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+				
+				List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
+				for (Cliente c : clientes) {
+					System.out.println(c);
+				}
+				
+			} else {
+				System.out.println("\nAún no hay clientes registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay clientes registrados.");	
+		}
+
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Pide un texto y busca coincidencias con nombres y apellidos en la lista de clientes
+	 * @throws IOException
+	 */
+	public static void nameClis() throws IOException {
+		System.out.println("\nBuscar clientes por nombre");
+		
+		if (ClienteFuncs.leerClientes(currentBD) != null) {
+			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+				
+				System.out.println("\nIntroduzca el nombre o apellido a buscar:");
+				String nombre = br.readLine();
+				
+				List<Cliente> resultados = ClienteFuncs.buscarClientesNombre(currentBD, nombre);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Cliente c: resultados) {
+						System.out.println(c);
+					}
+				}
+
+			} else {
+				System.out.println("\nAún no hay clientes registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay clientes registrados.");	
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Pide una edad minima y una maxima, y busca clientes entre esas edades
+	 * @throws IOException
+	 */
+	public static void ageClis() throws IOException {
+		System.out.println("\nBuscar clientes por edad");
+		
+		if (ClienteFuncs.leerClientes(currentBD) != null) {
+			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+				
+				int min;
+				do {
+					System.out.println("\nEdad mínima:");
+					try {
+						min = Integer.parseInt(br.readLine());
+					}catch (NumberFormatException e) {
+						System.out.println("\nDebe introducir un número entero");
+						min = -1;
+					}
+				} while (min == -1);
+				
+				int max;
+				do {
+					System.out.println("\nEdad máxima:");
+					try {
+						max = Integer.parseInt(br.readLine());
+					}catch (NumberFormatException e) {
+						System.out.println("\nDebe introducir un número entero");
+						max = -1;
+					}
+				} while (max == -1);
+				
+				
+				List<Cliente> resultados = ClienteFuncs.buscarClientesEdad(currentBD, min, max);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Cliente c: resultados) {
+						System.out.println(c);
+					}
+				}
+
+			} else {
+				System.out.println("\nAún no hay clientes registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay clientes registrados.");	
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Pide cliente y un tour, y hace una reserva
+	 * @throws IOException
+	 */
+	public static void newBooking() throws IOException {
+		System.out.println("\nNueva reserva");
+		
+		if (ClienteFuncs.leerClientes(currentBD) != null) {
+			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+				
+				if (TourFuncs.leerTours(currentBD) != null) {
+					if (TourFuncs.leerTours(currentBD).size() == 0) {
+				
+						System.out.println("\nIndique el ID del cliente:");
+						List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
+						for (Cliente c : clientes) {
+							System.out.println(c);
+						}
+						int idcli;
+						do {
+							System.out.print("\nID (nº):");
+							idcli = Integer.parseInt(br.readLine());
+							if (idcli < 1 || idcli > clientes.size()) {
+								System.out.println("\nEl valor indicado no es válido.");
+							}
+						}while (idcli < 1 || idcli > clientes.size());
+						
+						Cliente cli = ClienteFuncs.buscarClienteId(currentBD, idcli);
+						
+						
+						System.out.println("\nIndique el ID del tour:");
+						List<Tour> tours = TourFuncs.leerTours(currentBD);
+						for (Tour t : tours) {
+							System.out.println(t);
+						}
+						int idtour;
+						do {
+							System.out.print("\nID (nº):");
+							idtour = Integer.parseInt(br.readLine());
+							if (idtour < 1 || idtour > tours.size()) {
+								System.out.println("\nEl valor indicado no es válido.");
+							}
+						}while (idtour < 1 || idtour > tours.size());
+						
+						Tour t = TourFuncs.buscarTourId(currentBD, idtour);
+						
+						//Precio
+						List<Bonificacion> bonificaciones = BonificacionFuncs.leerBonificacionesCliente(currentBD, cli.getId());
+						int percdesc = 0;
+						for (Bonificacion b : bonificaciones) {
+							int descuento = b.getDescuento();
+							Descuento d = DescuentoFuncs.buscarDescuentoId(currentBD, descuento);
+							if (d.isAcumulable()) {
+								if (b.getUsos() < d.getUsosmaximos()) {
+									percdesc = percdesc + d.getPorcentaje();
+								}
+							}
+						}
+						if (percdesc == 0) {
+							for (Bonificacion b : bonificaciones) {
+								int descuento = b.getDescuento();
+								Descuento d = DescuentoFuncs.buscarDescuentoId(currentBD, descuento);
+								if (b.getUsos() < d.getUsosmaximos()) {
+									if (d.getPorcentaje() > percdesc) {
+										percdesc = d.getPorcentaje();
+									}
+								}
+								
+							}
+						}
+						
+						double preciofinal = t.getPrecio();
+						if (percdesc != 0) {
+							double cantdesc = t.getPrecio()*percdesc/100;
+							preciofinal = t.getPrecio() - cantdesc;
+						} 
+						
+						Reserva r = new Reserva(t.getId(), cli.getId(), preciofinal);
+						ReservaFuncs.nuevaReserva(currentBD, r);
+						
+						
+					} else {
+						System.out.println("\nAún no hay tours registrados.");	
+					}
+				} else {
+					System.out.println("\nAún no hay tours registrados.");	
+				}
+
+			} else {
+				System.out.println("\nAún no hay clientes registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay clientes registrados.");	
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Pide el cliente a buscar y muestra aquellas reservas de ese cliente
+	 * @throws IOException
+	 */
+	public static void bookingsCli() throws IOException {
+		System.out.println("\nBuscar reservas de un cliente");
+		
+		if (ReservaFuncs.leerReservas(currentBD) != null) {
+			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del cliente:");
+				List<Cliente> cliente = ClienteFuncs.leerClientes(currentBD);
+				for (Cliente c : cliente) {
+					System.out.println(c);
+				}
+				int idcliente;
+				do {
+					System.out.print("\nID (nº):");
+					idcliente = Integer.parseInt(br.readLine());
+					if (idcliente < 1 || idcliente > cliente.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (idcliente < 1 || idcliente > cliente.size());
+				
+				
+				List<Reserva> resultados = ReservaFuncs.leerReservasCliente(currentBD, idcliente);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Reserva r: resultados) {
+						System.out.println(r);
+					}
+				}
+				
+			} else {
+				System.out.println("\nAún no hay reservas registradas.");	
+			}
+		} else {
+			System.out.println("\nAún no hay reservas registradas.");	
+		}
+
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Solicita la reserva a cancelar, pide confirmación y si la respuesta es sí cancela la reserva
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	public static void cancelBooking() throws NumberFormatException, IOException {
+		System.out.println("\nCancelar una reserva");
+		
+		if (ReservaFuncs.leerReservas(currentBD) != null) {
+			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID de la reserva a cancelar:");
+				List<Reserva> reservas = ReservaFuncs.leerReservas(currentBD);
+				for (Reserva r : reservas) {
+					System.out.println(r);
+				}
+				int id;
+				do {
+					System.out.print("\nID (nº):");
+					id = Integer.parseInt(br.readLine());
+					if (id < 1 || id > reservas.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (id < 1 || id > reservas.size());
+				
+				Reserva res = ReservaFuncs.buscarReservaId(currentBD, id);
+				
+
+				String respuesta = "";
+				do {
+				System.out.println("\n¿Está seguro de que desea cancelar la reserva");
+				System.out.println(res);
+				System.out.println("?");
+				respuesta = br.readLine();
+				if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
+					System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
+				} else if (respuesta.equalsIgnoreCase("S")) {
+					ReservaFuncs.bajaReserva(currentBD, res);
+				} else {
+					System.out.println("\nReserva NO cancelada.");
+				}
+				
+				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
+				
+			} else {
+				System.out.println("\nAún no hay reservas registradas.");	
+			}
+		} else {
+			System.out.println("\nAún no hay reservas registradas.");	
+		}
+
+	}
+	
+	
+	
+	
+	/**
+	 * Pide cliente y un descuento, y guarda una bonificacion
+	 * @throws IOException
+	 */
+	public static void setBonus() throws IOException {
+		System.out.println("\nNueva bonificación para un cliente");
+		
+		if (ClienteFuncs.leerClientes(currentBD) != null) {
+			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+				
+				if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
+					if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+				
+						System.out.println("\nIndique el ID del cliente:");
+						List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
+						for (Cliente c : clientes) {
+							System.out.println(c);
+						}
+						int idcli;
+						do {
+							System.out.print("\nID (nº):");
+							idcli = Integer.parseInt(br.readLine());
+							if (idcli < 1 || idcli > clientes.size()) {
+								System.out.println("\nEl valor indicado no es válido.");
+							}
+						}while (idcli < 1 || idcli > clientes.size());
+						
+						Cliente cli = ClienteFuncs.buscarClienteId(currentBD, idcli);
+						
+						
+						System.out.println("\nIndique el ID del descuento:");
+						List<Descuento> descuentos = DescuentoFuncs.leerDescuentos(currentBD);
+						for (Descuento d : descuentos) {
+							System.out.println(d);
+						}
+						int iddesc;
+						do {
+							System.out.print("\nID (nº):");
+							iddesc = Integer.parseInt(br.readLine());
+							if (iddesc < 1 || iddesc > descuentos.size()) {
+								System.out.println("\nEl valor indicado no es válido.");
+							}
+						}while (iddesc < 1 || iddesc > descuentos.size());
+						
+						Descuento d = DescuentoFuncs.buscarDescuentoId(currentBD, iddesc);
+						
+						LocalDate date = LocalDate.now();
+						
+						Bonificacion b = new Bonificacion(d.getId(), cli.getId(), Date.valueOf(date));
+						
+						BonificacionFuncs.nuevaBonificacion(currentBD, b);
+										
+						
+					} else {
+						System.out.println("\nAún no hay tours registrados.");	
+					}
+				} else {
+					System.out.println("\nAún no hay tours registrados.");	
+				}
+
+			} else {
+				System.out.println("\nAún no hay clientes registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay clientes registrados.");	
+		}
+	}
+	
+	
+	
+	
+	/**
+	 * Pide el cliente a buscar y muestra las bonificaciones de ese cliente
+	 * @throws IOException
+	 */
+	public static void bonusCli() throws IOException {
+		System.out.println("\nBuscar bonificaciones de un cliente");
+		
+		if (BonificacionFuncs.leerBonificaciones(currentBD) != null) {
+			if (BonificacionFuncs.leerBonificaciones(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del cliente:");
+				List<Cliente> cliente = ClienteFuncs.leerClientes(currentBD);
+				for (Cliente c : cliente) {
+					System.out.println(c);
+				}
+				int idcliente;
+				do {
+					System.out.print("\nID (nº):");
+					idcliente = Integer.parseInt(br.readLine());
+					if (idcliente < 1 || idcliente > cliente.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (idcliente < 1 || idcliente > cliente.size());
+				
+				
+				List<Bonificacion> resultados = BonificacionFuncs.leerBonificacionesCliente(currentBD, idcliente);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Bonificacion b: resultados) {
+						System.out.println(b);
+					}
+				}
+				
+			} else {
+				System.out.println("\nAún no hay bonificaciones registradas.");	
+			}
+		} else {
+			System.out.println("\nAún no hay bonificaciones registradas.");	
+		}
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////
+	
 	public static void menuDescuentos() throws IOException {
 		String op = "";
 		do {
@@ -1287,4 +1991,353 @@ public class Main {
 	}
 	
 
+	
+	
+	/**
+	 * Pide los datos del nuevo descuento, crea un nuevo Objeto y llama a la funcion de insertar en la BD
+	 * @throws IOException
+	 */
+	public static void newDesc() throws IOException {
+		System.out.println("\nNuevo descuento");
+				
+		String nombre;
+		do {
+			System.out.print("\nNombre del nuevo descuento:");
+			nombre = br.readLine();
+		}while (nombre.equals(" "));
+		
+		String descripcion;
+		do {
+			System.out.print("\nDescripcion del nuevo descuento:");
+			descripcion = br.readLine();
+		}while (descripcion.equals(" "));
+		
+		int porcentaje;
+		do {
+			System.out.print("\nPorcentaje a descontar: ");
+			try {
+				porcentaje = Integer.parseInt(br.readLine());	
+				if (porcentaje < 1 || porcentaje > 100) {
+					System.out.println("\nEs un porcentaje por lo que debe estar entre 1 y 100");
+					porcentaje = -1;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("\nDebe introducir un número");
+				porcentaje = -1;
+			}
+		} while (porcentaje == -1);
+		
+		
+		String respuesta = "";
+		boolean acumulable = false;
+		do {
+			System.out.print("\n¿El descuento es acumulable? (S/N): ");
+			respuesta = br.readLine();
+			
+			if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
+				System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
+			} else if (respuesta.equalsIgnoreCase("S")) {
+				acumulable = true;
+			} 
+		
+		} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
+		
+		
+		int usosmaximos;
+		do {
+			System.out.print("\nUsos maximos del descuento:");
+			try {
+				usosmaximos = Integer.parseInt(br.readLine());	
+			} catch (NumberFormatException e) {
+				System.out.println("\nDebe introducir un número");
+				usosmaximos = -1;
+			}
+		} while (usosmaximos == -1);
+		
+		
+		Descuento d = new Descuento(nombre, descripcion, porcentaje, acumulable, usosmaximos);
+		DescuentoFuncs.nuevoDescuento(currentBD, d);
+		
+	}
+	
+	
+	
+	/**
+	 * Pide indicar el descuento a modificar, muestra los datos guardados y pide los nuevos datos, crea el objeto y llama al update en la BD
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	public static void editDesc() throws NumberFormatException, IOException {
+		System.out.println("\nEditar cliente");
+		
+		if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
+			if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del descuento:");
+				List<Descuento> descuentos = DescuentoFuncs.leerDescuentos(currentBD);
+				for (Descuento d : descuentos) {
+					System.out.println(d);
+				}
+				int id;
+				do {
+					System.out.print("\nID (nº):");
+					id = Integer.parseInt(br.readLine());
+					if (id < 1 || id > descuentos.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (id < 1 || id > descuentos.size());
+				
+				Descuento currentDesc = DescuentoFuncs.buscarDescuentoId(currentBD, id);
+				
+				String nombre;
+				do {
+					System.out.print("\nNombre nuevo del descuento:");
+					nombre = br.readLine();
+				}while (nombre.equals(" "));
+				
+				String descripcion;
+				do {
+					System.out.print("\nDescripcion nueva del descuento:");
+					descripcion = br.readLine();
+				}while (descripcion.equals(" "));
+				
+				int porcentaje;
+				do {
+					System.out.println("\nPorcentaje a descontar: ");
+					try {
+						porcentaje = Integer.parseInt(br.readLine());	
+						if (porcentaje < 1 || porcentaje > 100) {
+							System.out.println("\nEs un porcentaje por lo que debe estar entre 1 y 100.");
+							porcentaje = -1;
+						}
+					} catch (NumberFormatException e) {
+						System.out.println("\nDebe introducir un número.");
+						porcentaje = -1;
+					}
+				} while (porcentaje == -1);
+				
+				
+				String respuesta = "";
+				boolean acumulable = false;
+				do {
+					System.out.println("\n¿El descuento es acumulable? (S/N): ");
+					respuesta = br.readLine();
+					
+					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
+						System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
+					} else if (respuesta.equalsIgnoreCase("S")) {
+						acumulable = true;
+					} 
+				
+				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
+				
+				
+				int usosmaximos;
+				do {
+					System.out.println("\nUsos maximos del descuento: ");
+					try {
+						usosmaximos = Integer.parseInt(br.readLine());	
+					} catch (NumberFormatException e) {
+						System.out.println("\nDebe introducir un número");
+						usosmaximos = -1;
+					}
+				} while (usosmaximos == -1);
+				
+				
+				Descuento d = new Descuento(id, nombre, descripcion, porcentaje, acumulable, usosmaximos);
+				DescuentoFuncs.modificarDescuento(currentBD, d);
+
+			
+			} else {
+				System.out.println("\nAún no hay descuentos registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay descuentos registrados.");	
+		}
+
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Muestra todos los descuentos
+	 */
+	public static void allDescs() {
+		System.out.println("\nTodos los descuentos");
+		
+
+		if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
+			if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+				
+				List<Descuento> descuentos = DescuentoFuncs.leerDescuentos(currentBD);
+				for (Descuento d : descuentos) {
+					System.out.println(d);
+				}
+				
+			} else {
+				System.out.println("\nAún no hay descuentos registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay descuentos registrados.");	
+		}
+
+	}
+	
+	
+	/**
+	 * Pide un porcentaje, y busca descuentos con al menos ese porcentaje de descuento
+	 * @throws IOException
+	 */
+	public static void percentDescs() throws IOException {
+		System.out.println("\nBuscar descuentos por porcentaje");
+		
+		if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
+			if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+				
+				int porcen;
+				do {
+					System.out.println("\nPorcentaje mínimo de descuento:");
+					try {
+						porcen = Integer.parseInt(br.readLine());
+						if (porcen < 1 || porcen >100) {
+							System.out.println("\nEs un porcentaje por lo que debe estar entre 1 y 100.");
+							porcen = -1;
+						}
+					}catch (NumberFormatException e) {
+						System.out.println("\nDebe introducir un número entero");
+						porcen = -1;
+					}
+				} while (porcen == -1);
+				
+				
+				
+				
+				List<Descuento> resultados = DescuentoFuncs.buscarDescuentosPorcen(currentBD, porcen);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Descuento d: resultados) {
+						System.out.println(d);
+					}
+				}
+
+			} else {
+				System.out.println("\nAún no hay descuentos registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay descuentos registrados.");	
+		}
+	}
+	
+	
+	
+	
+	/**
+	 * Muestra todos los descuentos acumulables
+	 */
+	public static void cumulDescs() {
+		System.out.println("\nTodos los descuentos");
+		
+
+		if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
+			if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+				
+				List<Descuento> descuentos = DescuentoFuncs.leerDescuentosAcumulables(currentBD);
+				for (Descuento d : descuentos) {
+					System.out.println(d);
+				}
+				
+			} else {
+				System.out.println("\nAún no hay descuentos registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay descuentos registrados.");	
+		}
+
+	}
+	
+	
+	
+	/**
+	 * Muestra todas las bonificaciones
+	 */
+	public static void allBonus() {
+		System.out.println("\nTodas las bonificaciones");
+		
+
+		if (BonificacionFuncs.leerBonificaciones(currentBD) != null) {
+			if (BonificacionFuncs.leerBonificaciones(currentBD).size() == 0) {
+				
+				List<Bonificacion> bonificaciones = BonificacionFuncs.leerBonificaciones(currentBD);
+				for (Bonificacion b : bonificaciones) {
+					System.out.println(b);
+				}
+				
+			} else {
+				System.out.println("\nAún no hay bonificaciones registradas.");	
+			}
+		} else {
+			System.out.println("\nAún no hay bonificaciones registradas.");	
+		}
+
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Pide el descuento a buscar y muestra aquellas bonificaciones para ese descuento
+	 * @throws IOException
+	 */
+	public static void bonusDesc() throws IOException {
+		System.out.println("\nBuscar bonificaciones para un descuento");
+		
+		if (BonificacionFuncs.leerBonificaciones(currentBD) != null) {
+			if (BonificacionFuncs.leerBonificaciones(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del descuento:");
+				List<Descuento> descuentos = DescuentoFuncs.leerDescuentos(currentBD);
+				for (Descuento d : descuentos) {
+					System.out.println(d);
+				}
+				int iddesc;
+				do {
+					System.out.print("\nID (nº):");
+					iddesc = Integer.parseInt(br.readLine());
+					if (iddesc < 1 || iddesc > descuentos.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (iddesc < 1 || iddesc > descuentos.size());
+				
+				
+				List<Bonificacion> resultados = BonificacionFuncs.leerBonificacionesDescuento(currentBD, iddesc);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Bonificacion b: resultados) {
+						System.out.println(b);
+					}
+				}
+				
+			} else {
+				System.out.println("\nAún no hay bonificaciones registradas.");	
+			}
+		} else {
+			System.out.println("\nAún no hay bonificaciones registradas.");	
+		}
+
+	}
+	
+	
+	
+	
+	
+	
 }
