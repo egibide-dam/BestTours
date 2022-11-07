@@ -126,6 +126,15 @@ public class Empleado {
 	}
 	
 	
+	//Métodos
+	public String veralta() {
+		String ac = "NO";
+		if (alta == 1) {
+			ac = "SÍ";
+		}
+		return ac;
+	}
+	
 	
 	
 	//toString
@@ -138,7 +147,7 @@ public class Empleado {
 				"\nNacionalidad: " + nacionalidad + 
 				"\nPuesto: " + puesto + 
 				"\nFecha de contratacion: "+ contratacion +
-				"\nAlta : " + alta;
+				"\nAlta : " + veralta();
 	}
 
 

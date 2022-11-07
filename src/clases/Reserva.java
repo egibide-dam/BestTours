@@ -77,7 +77,14 @@ public class Reserva {
 
 	
 	
-	
+	//Métodos
+	public String vercancel() {
+		String ac = "CANCELADA";
+		if (alta == 1) {
+			ac = "";
+		}
+		return ac;
+	}
 		
 	
 	
@@ -89,7 +96,8 @@ public class Reserva {
 		return "\nNº RESERVA: " + id + 
 				"\nCliente: " + cliente + 
 				"\nTour: " + tour + 
-				"\nPrecio final: " + precio;
+				"\nPrecio final: " + precio +
+				vercancel();
 	}
 
 	

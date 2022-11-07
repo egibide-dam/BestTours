@@ -174,6 +174,16 @@ public Tour() {
 	}
 	
 	
+	//Métodos
+	public String veralta() {
+		String ac = "NO";
+		if (alta == 1) {
+			ac = "SÍ";
+		}
+		return ac;
+	}
+	
+	
 	//ToString
 	@Override
 	public String toString() {
@@ -186,7 +196,8 @@ public Tour() {
 				"\nPunto de salida: " + salida + 
 				"\nFecha: " + fecha + 
 				"\nHora: " + hora + 
-				"\nPrecio: "+ precio;
+				"\nPrecio: "+ precio + 
+				"\nAlta : " + veralta();
 	}
 
 

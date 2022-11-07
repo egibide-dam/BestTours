@@ -110,6 +110,15 @@ public class Cliente {
 	}
 	
 	
+	//Métodos
+	public String veralta() {
+		String ac = "NO";
+		if (alta == 1) {
+			ac = "SÍ";
+		}
+		return ac;
+	}
+	
 	
 	
 	//ToString
@@ -119,7 +128,8 @@ public class Cliente {
 				"\n " + nombre + " " + apellidos + 
 				"\nDNI: " + dni + 
 				"\nEdad: " + edad +
-				"\nProfesión: " + profesion;
+				"\nProfesión: " + profesion +
+				"\nAlta : " + veralta();
 		
 	}
 
