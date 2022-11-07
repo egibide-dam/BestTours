@@ -30,12 +30,12 @@ public class Main {
 	// Oracle
 	public static BD bd2 = new BD(2, "Tour Nord", "tournord.es", 947202122, 2010, "jdbc:oracle:thin:@localhost:1521:XE",
 			"root", "Oracle1234", "oracle.jdbc.driver.OracleDriver");
-	// Postgre
+	// H2
 	public static BD bd3 = new BD(3, "Iradier Tours", "iradiertours.com", 948111234, 2012,
-			"jdbc:postgresql://192.168.0.26:5432/customerdb", "root", "Postgre1234", "org.postgresql.Driver");
+			"jdbc:h2:tcp://localhost/~/test", "root", "H21234", "org.h2.Driver");
+	
 	// Base openoffice
-	public static BD bd4 = new BD(4, "Travelers", "travelers.com", 943884422, 2017,
-			"jdbc:hsqldb:file:c:\\mydbdir\\mydb", "root", "Base1234", "org.hsqldb.jdbcDriver");
+	//public static BD bd4 = new BD(4, "Travelers", "travelers.com", 943884422, 2017, "jdbc:hsqldb:file:C:\\mydb", "root", "Base1234", "org.hsqlbd.jdbcDriver");
 
 	// Listado de las BBDD
 	public static List<BD> agencias = new ArrayList<>();
@@ -50,7 +50,7 @@ public class Main {
 		agencias.add(bd1);
 		agencias.add(bd2);
 		agencias.add(bd3);
-		agencias.add(bd4);
+		//agencias.add(bd4);
 
 		System.out.println("BEST TOURS\n==========\nEncuentra las mejores experiencias turísticas");
 
@@ -76,10 +76,10 @@ public class Main {
 				currentBD = bd3;
 				menuPrincipal();
 				break;
-			case "4":
-				currentBD = bd4;
-				menuPrincipal();
-				break;
+			//case "4":
+				//currentBD = bd4;
+				//menuPrincipal();
+				//break;
 			case "5":
 				System.out.println("\n¡Hasta otra!");
 				break;
