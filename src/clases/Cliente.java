@@ -10,7 +10,7 @@ public class Cliente {
 	private String apellidos;
 	private int edad;
 	private String profesion;
-	private Boolean alta;
+	private int alta;
 	private List<Reserva> reservas;
 	private List<Bonificacion> bonificaciones;
 	
@@ -23,10 +23,10 @@ public class Cliente {
 		this.apellidos = apellidos;
 		this.edad = edad;
 		this.profesion = profesion;
-		this.alta = true;
+		this.alta = 1;
 	}
 	
-	public Cliente(int id, String dni, String nombre, String apellidos, int edad, String profesion, boolean alta) {
+	public Cliente(int id, String dni, String nombre, String apellidos, int edad, String profesion, int alta) {
 		this.id = id;
 		this.dni = dni;
 		this.nombre = nombre;
@@ -101,11 +101,11 @@ public class Cliente {
 	}
 
 	
-	public Boolean getAlta() {
+	public int getAlta() {
 		return alta;
 	}
 
-	public void setAlta(Boolean alta) {
+	public void setAlta(int alta) {
 		this.alta = alta;
 	}
 	

@@ -13,7 +13,7 @@ public class Empleado {
 	private String nacionalidad;
 	private String puesto;
 	private Date contratacion;
-	private Boolean alta;
+	private int alta;
 	private List<Tour> tours;
 	
 	
@@ -26,10 +26,10 @@ public class Empleado {
 		this.nacionalidad = nacionalidad;
 		this.puesto = puesto;
 		this.contratacion = contratacion;
-		this.alta = true;
+		this.alta = 1;
 	}
 	
-	public Empleado(int id, String dni, String nombre, String apellido, Date nacimiento, String nacionalidad, String puesto, Date contratacion, Boolean alta) {
+	public Empleado(int id, String dni, String nombre, String apellido, Date nacimiento, String nacionalidad, String puesto, Date contratacion, int alta) {
 		this.id = id;
 		this.dni = dni;
 		this.nombre = nombre;
@@ -117,11 +117,11 @@ public class Empleado {
 	}
 	
 	
-	public Boolean getAlta() {
+	public int getAlta() {
 		return alta;
 	}
 
-	public void setAlta(Boolean alta) {
+	public void setAlta(int alta) {
 		this.alta = alta;
 	}
 	

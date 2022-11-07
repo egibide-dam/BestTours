@@ -6,7 +6,7 @@ public class Reserva {
 	private int tour;
 	private int cliente;
 	private double precio;
-	private boolean alta;
+	private int alta;
 	
 	
 	
@@ -15,10 +15,10 @@ public class Reserva {
 		this.tour = tour;
 		this.cliente = cliente;
 		this.precio = precio;
-		this.alta = true;
+		this.alta = 1;
 	}
 	
-	public Reserva(int id, int tour, int cliente, double precio, boolean alta) {
+	public Reserva(int id, int tour, int cliente, double precio, int alta) {
 		this.id = id;
 		this.tour = tour;
 		this.cliente = cliente;
@@ -67,11 +67,11 @@ public class Reserva {
 	}
 	
 
-	public boolean isAlta() {
+	public int isAlta() {
 		return alta;
 	}
 
-	public void setAlta(boolean alta) {
+	public void setAlta(int alta) {
 		this.alta = alta;
 	}
 

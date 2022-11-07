@@ -28,7 +28,7 @@ public class Main {
 	public static BD bd1 = new BD(1, "EuskoTours", "euskotours.eus", 945131406, 2015, "jdbc:mysql://localhost/agencia",
 			"root", "MySQL1234", "com.mysql.cj.jdbc.Driver");
 	// Oracle
-	public static BD bd2 = new BD(2, "Tour Nord", "tournord.es", 947202122, 2010, "oracle.jdbc.driver.OracleDriver",
+	public static BD bd2 = new BD(2, "Tour Nord", "tournord.es", 947202122, 2010, "jdbc:oracle:thin:@localhost:1521:XE",
 			"root", "Oracle1234", "oracle.jdbc.driver.OracleDriver");
 	// Postgre
 	public static BD bd3 = new BD(3, "Iradier Tours", "iradiertours.com", 948111234, 2012,
@@ -390,11 +390,11 @@ public class Main {
 				    }
 				} while (contratacion.equals(" "));
 				
-				Boolean alta = true;
+				int alta = 1;
 				String respuesta = "";
 				do {
 					String mensaje;
-					if (currentEmp.getAlta() == true) {
+					if (currentEmp.getAlta() == 1) {
 						mensaje = "ALTA";
 					} else {
 						mensaje = "BAJA";
@@ -405,7 +405,7 @@ public class Main {
 					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
 						System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
 					} else if (respuesta.equalsIgnoreCase("N")) {
-						alta = false;
+						alta = 0;
 					}
 					
 				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
@@ -895,11 +895,11 @@ public class Main {
 				}
 				
 				
-				Boolean alta = true;
+				int alta = 1;
 				String respuesta = "";
 				do {
 					String mensaje;
-					if (currentT.getAlta() == true) {
+					if (currentT.getAlta() == 1) {
 						mensaje = "ALTA";
 					} else {
 						mensaje = "BAJA";
@@ -910,7 +910,7 @@ public class Main {
 					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
 						System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
 					} else if (respuesta.equalsIgnoreCase("N")) {
-						alta = false;
+						alta = 0;
 					}
 					
 				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
@@ -1464,11 +1464,11 @@ public class Main {
 				}while (profesion.equals(" "));
 				
 
-				Boolean alta = true;
+				int alta = 1;
 				String respuesta = "";
 				do {
 					String mensaje;
-					if (currentCli.getAlta() == true) {
+					if (currentCli.getAlta() == 1) {
 						mensaje = "ALTA";
 					} else {
 						mensaje = "BAJA";
@@ -1479,7 +1479,7 @@ public class Main {
 					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
 						System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
 					} else if (respuesta.equalsIgnoreCase("N")) {
-						alta = false;
+						alta = 0;
 					}
 					
 				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
@@ -1752,7 +1752,7 @@ public class Main {
 						for (Bonificacion b : bonificaciones) {
 							int descuento = b.getDescuento();
 							Descuento d = DescuentoFuncs.buscarDescuentoId(currentBD, descuento);
-							if (d.isAcumulable()) {
+							if (d.isAcumulable() == 1) {
 								if (b.getUsos() < d.getUsosmaximos()) {
 									percdesc = percdesc + d.getPorcentaje();
 								}
@@ -2166,7 +2166,7 @@ public class Main {
 		
 		
 		String respuesta = "";
-		boolean acumulable = false;
+		int acumulable = 0;
 		do {
 			System.out.print("\n¿El descuento es acumulable? (S/N): ");
 			respuesta = br.readLine();
@@ -2174,7 +2174,7 @@ public class Main {
 			if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
 				System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
 			} else if (respuesta.equalsIgnoreCase("S")) {
-				acumulable = true;
+				acumulable = 1;
 			} 
 		
 		} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
@@ -2228,18 +2228,21 @@ public class Main {
 				
 				String nombre;
 				do {
+					System.out.print("\nNombre actual del descuento: " + currentDesc.getNombre());
 					System.out.print("\nNombre nuevo del descuento:");
 					nombre = br.readLine();
 				}while (nombre.equals(" "));
 				
 				String descripcion;
 				do {
+					System.out.print("\nDescripcion actual del descuento: " + currentDesc.getDescripcion());
 					System.out.print("\nDescripcion nueva del descuento:");
 					descripcion = br.readLine();
 				}while (descripcion.equals(" "));
 				
 				int porcentaje;
 				do {
+					System.out.print("\nPorcentaje actual del descuento: " + currentDesc.getPorcentaje());
 					System.out.println("\nPorcentaje a descontar: ");
 					try {
 						porcentaje = Integer.parseInt(br.readLine());	
@@ -2255,15 +2258,20 @@ public class Main {
 				
 				
 				String respuesta = "";
-				boolean acumulable = false;
+				int acumulable = 0;
 				do {
+					String msg = "NO";
+					if(currentDesc.isAcumulable() == 1) {
+						msg = "SÍ";
+					}
+					System.out.print("\nActualmente el descuento " + msg + " es acumulable.");
 					System.out.println("\n¿El descuento es acumulable? (S/N): ");
 					respuesta = br.readLine();
 					
 					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
 						System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
 					} else if (respuesta.equalsIgnoreCase("S")) {
-						acumulable = true;
+						acumulable = 1;
 					} 
 				
 				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
@@ -2271,6 +2279,7 @@ public class Main {
 				
 				int usosmaximos;
 				do {
+					System.out.print("\nUsos máximos actuales del descuento: " + currentDesc.getUsosmaximos());
 					System.out.println("\nUsos maximos del descuento: ");
 					try {
 						usosmaximos = Integer.parseInt(br.readLine());	

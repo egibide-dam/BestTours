@@ -53,12 +53,12 @@ public class ReservaFuncs {
 
 			if (resul.next()) {
 				Reserva r = new Reserva(resul.getInt(1), resul.getInt(2), resul.getInt(3), resul.getDouble(4),
-						resul.getBoolean(5));
+						resul.getInt(5));
 				reservas.add(r);
 
 				while (resul.next()) {
 					r = new Reserva(resul.getInt(1), resul.getInt(2), resul.getInt(3), resul.getDouble(4),
-							resul.getBoolean(5));
+							resul.getInt(5));
 					reservas.add(r);
 				}
 			} else {
@@ -104,7 +104,7 @@ public class ReservaFuncs {
 
 			if (resul.next()) {
 				reser = new Reserva(resul.getInt(1), resul.getInt(2), resul.getInt(3), resul.getDouble(4),
-						resul.getBoolean(5));
+						resul.getInt(5));
 
 				while (resul.next()) {
 
@@ -150,12 +150,12 @@ public class ReservaFuncs {
 
 			if (resul.next()) {
 				Reserva r = new Reserva(resul.getInt(1), resul.getInt(2), resul.getInt(3), resul.getDouble(4),
-						resul.getBoolean(5));
+						resul.getInt(5));
 				reservas.add(r);
 
 				while (resul.next()) {
 					r = new Reserva(resul.getInt(1), resul.getInt(2), resul.getInt(3), resul.getDouble(4),
-							resul.getBoolean(5));
+							resul.getInt(5));
 					reservas.add(r);
 				}
 			} else {
@@ -202,12 +202,12 @@ public class ReservaFuncs {
 
 			if (resul.next()) {
 				Reserva r = new Reserva(resul.getInt(1), resul.getInt(2), resul.getInt(3), resul.getDouble(4),
-						resul.getBoolean(5));
+						resul.getInt(5));
 				reservas.add(r);
 
 				while (resul.next()) {
 					r = new Reserva(resul.getInt(1), resul.getInt(2), resul.getInt(3), resul.getDouble(4),
-							resul.getBoolean(5));
+							resul.getInt(5));
 					reservas.add(r);
 				}
 			} else {
@@ -249,7 +249,12 @@ public class ReservaFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "INSERT INTO reservas (tour, cliente, precio, alta) VALUES (" + reser.getTour() + ", " + reser.getCliente() + ", " + reser.getPrecio() + ", " + reser.isAlta() + ")";
+			String sq;
+			if (bd.getId() == 2) {
+				sq = "INSERT INTO reservas VALUES (reservas_seq.nextval, " + reser.getTour() + ", " + reser.getCliente() + ", " + reser.getPrecio() + ", " + reser.isAlta() + ")";
+		} else {
+				sq = "INSERT INTO reservas (tour, cliente, precio, alta) VALUES (" + reser.getTour() + ", " + reser.getCliente() + ", " + reser.getPrecio() + ", " + reser.isAlta() + ")";
+			}
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {
@@ -288,7 +293,7 @@ public class ReservaFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "UPDATE reservas SET alta = false WHERE id = " + reserva.getId();
+			String sq = "UPDATE reservas SET alta = 0 WHERE id = " + reserva.getId();
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {

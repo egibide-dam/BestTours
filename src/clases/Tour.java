@@ -22,7 +22,7 @@ public class Tour {
 	private Time hora;
 	private double precio;
 	private int guia;
-	private Boolean alta;
+	private int alta;
 
 	
 	
@@ -39,12 +39,12 @@ public class Tour {
 		this.hora = hora;
 		this.precio = precio;
 		this.guia = idguia;
-		this.alta = true;
+		this.alta = 1;
 	}
 
 	
 	public Tour(int id, String nombre, String tematica, int aforo, String lugar, String salida, Date fecha,
-			Time hora, double precio, int guia, boolean alta) {
+			Time hora, double precio, int guia, int alta) {
 		this.id = id;
 		this.nombre = nombre;
 		this.tematica = tematica;
@@ -164,12 +164,12 @@ public Tour() {
 	
 	
 
-	public Boolean getAlta() {
+	public int getAlta() {
 		return alta;
 	}
 
 
-	public void setAlta(Boolean alta) {
+	public void setAlta(int alta) {
 		this.alta = alta;
 	}
 	

@@ -8,14 +8,14 @@ public class Descuento {
 	private String nombre;
 	private String descripcion;
 	private int porcentaje;
-	private boolean acumulable;
+	private int acumulable;
 	private int usosmaximos;
 	private List<Bonificacion> beneficiarios;
 	
 	
 	
 	//Constructores
-	public Descuento(int id, String nombre, String descripcion, int porcentaje, boolean acumulable, int usosmaximos) {
+	public Descuento(int id, String nombre, String descripcion, int porcentaje, int acumulable, int usosmaximos) {
 		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -24,7 +24,7 @@ public class Descuento {
 		this.usosmaximos = usosmaximos;
 	}
 	
-	public Descuento(String nombre, String descripcion, int porcentaje, boolean acumulable, int usosmaximos) {
+	public Descuento(String nombre, String descripcion, int porcentaje, int acumulable, int usosmaximos) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.porcentaje = porcentaje;
@@ -72,11 +72,11 @@ public class Descuento {
 		this.porcentaje = porcentaje;
 	}
 
-	public boolean isAcumulable() {
+	public int isAcumulable() {
 		return acumulable;
 	}
 
-	public void setAcumulable(boolean acumulable) {
+	public void setAcumulable(int acumulable) {
 		this.acumulable = acumulable;
 	}
 
@@ -100,7 +100,7 @@ public class Descuento {
 	//Métodos
 	public String acumular() {
 		String ac = "NO";
-		if (acumulable) {
+		if (acumulable== 1) {
 			ac = "SÍ";
 		}
 		return ac;

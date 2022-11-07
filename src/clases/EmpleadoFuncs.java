@@ -44,6 +44,7 @@ public class EmpleadoFuncs {
 	 */
 	public static List<Empleado> leerEmpleados(BD bd) {
 
+
 		List<Empleado> empleados = new ArrayList<>();
 
 		try {
@@ -60,14 +61,14 @@ public class EmpleadoFuncs {
 			if (resul.next()) {
 				Empleado e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 						resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
-						resul.getBoolean(9));
+						resul.getInt(9));
 				empleados.add(e);
 				// Recorremos el resultado para visualizar cada fila// Se hace un bucle mientras
 				// haya registros, se van visualizando
 				while (resul.next()) {
 					e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 							resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
-							resul.getBoolean(9));
+							resul.getInt(9));
 					empleados.add(e);
 				}
 			} else {
@@ -83,6 +84,7 @@ public class EmpleadoFuncs {
 
 		} catch (SQLException e) {
 			empleados = null;
+
 		}
 
 		return empleados;
@@ -114,7 +116,7 @@ public class EmpleadoFuncs {
 			if (resul.next()) {
 				emple = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 						resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
-						resul.getBoolean(9));
+						resul.getInt(9));
 
 				while (resul.next()) {
 
@@ -146,6 +148,7 @@ public class EmpleadoFuncs {
 
 		List<Empleado> empleados = new ArrayList<>();
 
+
 		try {
 			// Cargar el driver
 			Class.forName(bd.getDriver());
@@ -155,24 +158,23 @@ public class EmpleadoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM empleados WHERE alta = true");
-
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM empleados WHERE alta = 1");
+			
 			if (resul.next()) {
 				Empleado e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 						resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
-						resul.getBoolean(9));
+						resul.getInt(9));
 				empleados.add(e);
 				// Recorremos el resultado para visualizar cada fila// Se hace un bucle mientras
 				// haya registros, se van visualizando
 				while (resul.next()) {
 					e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 							resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
-							resul.getBoolean(9));
+							resul.getInt(9));
 					empleados.add(e);
 				}
-			} else {
-
-			}
+				
+			} 
 
 			resul.close();// Cerrar ResultSet
 			sentencia.close();// Cerrar Statement
@@ -181,8 +183,11 @@ public class EmpleadoFuncs {
 		} catch (ClassNotFoundException cn) {
 			empleados = null;
 
+
 		} catch (SQLException e) {
 			empleados = null;
+			System.out.println(e);
+
 		}
 
 		return empleados;
@@ -216,14 +221,14 @@ public class EmpleadoFuncs {
 			if (resul.next()) {
 				Empleado e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 						resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
-						resul.getBoolean(9));
+						resul.getInt(9));
 				empleados.add(e);
 				// Recorremos el resultado para visualizar cada fila// Se hace un bucle mientras
 				// haya registros, se van visualizando
 				while (resul.next()) {
 					e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 							resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
-							resul.getBoolean(9));
+							resul.getInt(9));
 					empleados.add(e);
 				}
 			} else {
@@ -270,14 +275,14 @@ public class EmpleadoFuncs {
 			if (resul.next()) {
 				Empleado e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 						resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
-						resul.getBoolean(9));
+						resul.getInt(9));
 				empleados.add(e);
 				// Recorremos el resultado para visualizar cada fila// Se hace un bucle mientras
 				// haya registros, se van visualizando
 				while (resul.next()) {
 					e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
 							resul.getDate(5), resul.getString(6), resul.getString(7), resul.getDate(8),
-							resul.getBoolean(9));
+							resul.getInt(9));
 					empleados.add(e);
 				}
 			} else {
@@ -317,7 +322,12 @@ public class EmpleadoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "INSERT INTO empleados (dni, nombre, apellido, nacimiento, nacionalidad, puesto, contratacion, alta) VALUES ('" + emple.getDni() + "', '" + emple.getNombre() + "', '" + emple.getApellido() + "', '" + emple.getNacimiento() + "', '" + emple.getNacionalidad() + "', '" + emple.getPuesto() + "', '" + emple.getContratacion() + "', " + emple.getAlta() + ")";
+			String sq;
+			if (bd.getId() == 2) {
+				sq = "INSERT INTO empleados VALUES (empleadosId_seq.nextval, '" + emple.getDni() + "', '" + emple.getNombre() + "', '" + emple.getApellido() + "', to_date('" + emple.getNacimiento() + "', 'yyyy-mm-dd'), '" + emple.getNacionalidad() + "', '" + emple.getPuesto() + "', to_date('" + emple.getContratacion() + "', 'yyyy-mm-dd'), " + emple.getAlta() + ")";
+			} else {
+				sq = "INSERT INTO empleados (dni, nombre, apellido, nacimiento, nacionalidad, puesto, contratacion, alta) VALUES ('" + emple.getDni() + "', '" + emple.getNombre() + "', '" + emple.getApellido() + "', '" + emple.getNacimiento() + "', '" + emple.getNacionalidad() + "', '" + emple.getPuesto() + "', '" + emple.getContratacion() + "', " + emple.getAlta() + ")";
+			}
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {
@@ -355,7 +365,12 @@ public class EmpleadoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "UPDATE empleados SET dni = '" + emple.getDni() + "', nombre = '" + emple.getNombre() + "', apellido = '" + emple.getApellido() + "', nacimiento = '" + emple.getNacimiento() + "', nacionalidad = '" + emple.getNacionalidad() + "', puesto = '" + emple.getPuesto() + "', contratacion = '" + emple.getContratacion() + "', alta = " + emple.getAlta() + " WHERE id = " + emple.getId();
+			String sq;
+			if (bd.getId() == 2) {
+				sq = "UPDATE empleados SET dni = '" + emple.getDni() + "', nombre = '" + emple.getNombre() + "', apellido = '" + emple.getApellido() + "', nacimiento = to_date('" + emple.getNacimiento() + "', 'yyyy-mm-dd'), nacionalidad = '" + emple.getNacionalidad() + "', puesto = '" + emple.getPuesto() + "', contratacion = to_date('" + emple.getContratacion() + "', 'yyyy-mm-dd'), alta = " + emple.getAlta() + " WHERE id = " + emple.getId();
+			} else {
+				sq = "UPDATE empleados SET dni = '" + emple.getDni() + "', nombre = '" + emple.getNombre() + "', apellido = '" + emple.getApellido() + "', nacimiento = '" + emple.getNacimiento() + "', nacionalidad = '" + emple.getNacionalidad() + "', puesto = '" + emple.getPuesto() + "', contratacion = '" + emple.getContratacion() + "', alta = " + emple.getAlta() + " WHERE id = " + emple.getId();
+			}
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {
@@ -393,7 +408,7 @@ public class EmpleadoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "UPDATE empleados SET alta = false WHERE id = " + emple.getId();
+			String sq = "UPDATE empleados SET alta = 0 WHERE id = " + emple.getId();
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {

@@ -53,12 +53,12 @@ public class DescuentoFuncs {
 
 			if (resul.next()) {
 				Descuento d = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
-						resul.getBoolean(5), resul.getInt(6));
+						resul.getInt(5), resul.getInt(6));
 				descuentos.add(d);
 
 				while (resul.next()) {
 					d = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
-							resul.getBoolean(5), resul.getInt(6));
+							resul.getInt(5), resul.getInt(6));
 					descuentos.add(d);
 				}
 			} else {
@@ -104,7 +104,7 @@ public class DescuentoFuncs {
 
 			if (resul.next()) {
 				desc = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
-						resul.getBoolean(5), resul.getInt(6));
+						resul.getInt(5), resul.getInt(6));
 
 				while (resul.next()) {
 
@@ -151,12 +151,12 @@ public class DescuentoFuncs {
 
 			if (resul.next()) {
 				Descuento d = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
-						resul.getBoolean(5), resul.getInt(6));
+						resul.getInt(5), resul.getInt(6));
 				descuentos.add(d);
 
 				while (resul.next()) {
 					d = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
-							resul.getBoolean(5), resul.getInt(6));
+							resul.getInt(5), resul.getInt(6));
 					descuentos.add(d);
 				}
 			} else {
@@ -197,16 +197,16 @@ public class DescuentoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM decuentos WHERE acumulable = true");
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM decuentos WHERE acumulable = 1");
 
 			if (resul.next()) {
 				Descuento d = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
-						resul.getBoolean(5), resul.getInt(6));
+						resul.getInt(5), resul.getInt(6));
 				descuentos.add(d);
 
 				while (resul.next()) {
 					d = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
-							resul.getBoolean(5), resul.getInt(6));
+							resul.getInt(5), resul.getInt(6));
 					descuentos.add(d);
 				}
 			} else {
@@ -248,9 +248,15 @@ public class DescuentoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "INSERT INTO descuentos (nombre, descripcion, porcentaje, acumulable, usosmaximos) VALUES ('"
+			String sq;
+			if (bd.getId() == 2) {
+				sq = "INSERT INTO descuentos VALUES (descuentosId.nextval, '" + desc.getNombre() + "', '" + desc.getDescripcion() + "', " + desc.getPorcentaje() + ", " + desc.isAcumulable()
+				+ ", " + desc.getUsosmaximos() + ")";
+			} else {
+				sq = "INSERT INTO descuentos (nombre, descripcion, porcentaje, acumulable, usosmaximos) VALUES ('"
 					+ desc.getNombre() + "', '" + desc.getDescripcion() + "', " + desc.getPorcentaje() + ", " + desc.isAcumulable()
 					+ ", " + desc.getUsosmaximos() + ")";
+			}
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {

@@ -50,12 +50,12 @@ public class ClienteFuncs {
 
 			if (resul.next()) {
 				Cliente c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
-						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
+						resul.getInt(5), resul.getString(6), resul.getInt(7));
 				clientes.add(c);
 
 				while (resul.next()) {
 					c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
-							resul.getInt(5), resul.getString(6), resul.getBoolean(7));
+							resul.getInt(5), resul.getString(6), resul.getInt(7));
 					clientes.add(c);
 				}
 			} else {
@@ -101,7 +101,7 @@ public class ClienteFuncs {
 
 			if (resul.next()) {
 				cli = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
-						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
+						resul.getInt(5), resul.getString(6), resul.getInt(7));
 
 				while (resul.next()) {
 
@@ -142,16 +142,16 @@ public class ClienteFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM clientes WHERE alta = true");
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM clientes WHERE alta = 1");
 
 			if (resul.next()) {
 				Cliente c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
-						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
+						resul.getInt(5), resul.getString(6), resul.getInt(7));
 				clientes.add(c);
 
 				while (resul.next()) {
 					c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
-							resul.getInt(5), resul.getString(6), resul.getBoolean(7));
+							resul.getInt(5), resul.getString(6), resul.getInt(7));
 					clientes.add(c);
 				}
 			} else {
@@ -199,11 +199,11 @@ public class ClienteFuncs {
 
 			if (resul.next()) {
 				Cliente c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
-						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
+						resul.getInt(5), resul.getString(6), resul.getInt(7));
 				clientes.add(c);
 				while (resul.next()) {
 					c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
-							resul.getInt(5), resul.getString(6), resul.getBoolean(7));
+							resul.getInt(5), resul.getString(6), resul.getInt(7));
 					clientes.add(c);
 				}
 			} else {
@@ -251,11 +251,11 @@ public class ClienteFuncs {
 
 			if (resul.next()) {
 				Cliente c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
-						resul.getInt(5), resul.getString(6), resul.getBoolean(7));
+						resul.getInt(5), resul.getString(6), resul.getInt(7));
 				clientes.add(c);
 				while (resul.next()) {
 					c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
-							resul.getInt(5), resul.getString(6), resul.getBoolean(7));
+							resul.getInt(5), resul.getString(6), resul.getInt(7));
 					clientes.add(c);
 				}
 			} else {
@@ -297,9 +297,14 @@ public class ClienteFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "INSERT INTO clientes (dni, nombre, apellidos, edad, profesion, alta) VALUES ('"
+			String sq;
+			if (bd.getId() == 2) {
+				sq = "INSERT INTO clientes VALUES (clientesId_seq.nextval, '" + cliente.getDni() + "', '" + cliente.getNombre() + "', " + cliente.getEdad()+ ", '" + cliente.getProfesion() + "', " + cliente.getAlta() + ")";
+			} else {
+				sq = "INSERT INTO clientes (dni, nombre, apellidos, edad, profesion, alta) VALUES ('"
 					+ cliente.getDni() + "', '" + cliente.getNombre() + "', '" + cliente.getApellidos() + "', " + cliente.getEdad()
 					+ ", '" + cliente.getProfesion() + "', " + cliente.getAlta() + ")";
+			}
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {
@@ -376,7 +381,7 @@ public class ClienteFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "UPDATE clientes SET alta = false WHERE id = " + cliente.getId();
+			String sq = "UPDATE clientes SET alta = 0 WHERE id = " + cliente.getId();
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {

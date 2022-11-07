@@ -51,14 +51,14 @@ public class TourFuncs {
 			if (resul.next()) {
 				Tour t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 						resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9),
-						resul.getInt(10), resul.getBoolean(11));
+						resul.getInt(10), resul.getInt(11));
 				tours.add(t);
 				// Recorremos el resultado para visualizar cada fila// Se hace un bucle mientras
 				// haya registros, se van visualizando
 				while (resul.next()) {
 					t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 							resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8),
-							resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+							resul.getDouble(9), resul.getInt(10), resul.getInt(11));
 					tours.add(t);
 				}
 			} else {
@@ -105,7 +105,7 @@ public class TourFuncs {
 			if (resul.next()) {
 				tour = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 						resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9),
-						resul.getInt(10), resul.getBoolean(11));
+						resul.getInt(10), resul.getInt(11));
 
 				while (resul.next()) {
 
@@ -146,19 +146,19 @@ public class TourFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE alta = true");
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE alta = 1");
 
 			if (resul.next()) {
 				Tour t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 						resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9),
-						resul.getInt(10), resul.getBoolean(11));
+						resul.getInt(10), resul.getInt(11));
 				tours.add(t);
 				// Recorremos el resultado para visualizar cada fila// Se hace un bucle mientras
 				// haya registros, se van visualizando
 				while (resul.next()) {
 					t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 							resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8),
-							resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+							resul.getDouble(9), resul.getInt(10), resul.getInt(11));
 					tours.add(t);
 				}
 			} else {
@@ -205,13 +205,13 @@ public class TourFuncs {
 			if (resul.next()) {
 				Tour t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 						resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9),
-						resul.getInt(10), resul.getBoolean(11));
+						resul.getInt(10), resul.getInt(11));
 				tours.add(t);
 
 				while (resul.next()) {
 					t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 							resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8),
-							resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+							resul.getDouble(9), resul.getInt(10), resul.getInt(11));
 					tours.add(t);
 				}
 			} else {
@@ -258,13 +258,13 @@ public class TourFuncs {
 			if (resul.next()) {
 				Tour t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 						resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9),
-						resul.getInt(10), resul.getBoolean(11));
+						resul.getInt(10), resul.getInt(11));
 				tours.add(t);
 
 				while (resul.next()) {
 					t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 							resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8),
-							resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+							resul.getDouble(9), resul.getInt(10), resul.getInt(11));
 					tours.add(t);
 				}
 			} else {
@@ -311,13 +311,13 @@ public class TourFuncs {
 			if (resul.next()) {
 				Tour t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 						resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8), resul.getDouble(9),
-						resul.getInt(10), resul.getBoolean(11));
+						resul.getInt(10), resul.getInt(11));
 				tours.add(t);
 
 				while (resul.next()) {
 					t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
 							resul.getString(5), resul.getString(6), resul.getDate(7), resul.getTime(8),
-							resul.getDouble(9), resul.getInt(10), resul.getBoolean(11));
+							resul.getDouble(9), resul.getInt(10), resul.getInt(11));
 					tours.add(t);
 				}
 			} else {
@@ -358,10 +358,17 @@ public class TourFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "INSERT INTO tours (nombre, tematica, aforo, lugar, salida, fecha, hora, precio, guia, alta) VALUES ('"
+			String sq;
+			if (bd.getId() == 2) {
+				sq = "INSERT INTO tours VALUES (toursId_seq.nextval, '" + tour.getNombre() + "', '" + tour.getTematica() + "', " + tour.getAforo() + ", '"
+						+ tour.getLugar() + "', '" + tour.getSalida() + "', to_date('" + tour.getFecha() + "', 'yyy-mm-dd'), to_timestamp'"
+						+ tour.getHora() + "', 'HH24:MI:SS'), " + tour.getPrecio()  + ", " + tour.getEmpleado() + ", " + tour.getAlta() + ")";
+			} else {
+				sq = "INSERT INTO tours (nombre, tematica, aforo, lugar, salida, fecha, hora, precio, guia, alta) VALUES ('"
 					+ tour.getNombre() + "', '" + tour.getTematica() + "', " + tour.getAforo() + ", '"
 					+ tour.getLugar() + "', '" + tour.getSalida() + "', '" + tour.getFecha() + "', '"
 					+ tour.getHora() + "', " + tour.getPrecio()  + ", " + tour.getEmpleado() + ", " + tour.getAlta() + ")";
+			}
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {
@@ -402,7 +409,12 @@ public class TourFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "UPDATE tours SET nombre = '" + tour.getNombre() + "', tematica = '" + tour.getTematica() + "', aforo = " + tour.getAforo() + ", lugar = '" + tour.getLugar() + "', salida = '" + tour.getSalida() + "', fecha = '" + tour.getFecha() + "', hora = '" + tour.getHora() + "', precio = " + tour.getPrecio() + ", guia = " + tour.getEmpleado() + " WHERE id = " + tour.getId();
+			String sq;
+			if (bd.getId() == 2) {
+				sq = "UPDATE tours SET nombre = '" + tour.getNombre() + "', tematica = '" + tour.getTematica() + "', aforo = " + tour.getAforo() + ", lugar = '" + tour.getLugar() + "', salida = '" + tour.getSalida() + "', fecha = to_date('" + tour.getFecha() + "', 'yyyy-mm-dd'), hora = to_timestamp('" + tour.getHora() + "', 'HH24:MI:SS'), precio = " + tour.getPrecio() + ", guia = " + tour.getEmpleado() + " WHERE id = " + tour.getId();
+			} else {
+				sq = "UPDATE tours SET nombre = '" + tour.getNombre() + "', tematica = '" + tour.getTematica() + "', aforo = " + tour.getAforo() + ", lugar = '" + tour.getLugar() + "', salida = '" + tour.getSalida() + "', fecha = '" + tour.getFecha() + "', hora = '" + tour.getHora() + "', precio = " + tour.getPrecio() + ", guia = " + tour.getEmpleado() + " WHERE id = " + tour.getId();
+			}
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {
@@ -441,7 +453,7 @@ public class TourFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "UPDATE tours SET alta = false WHERE id = " + tour.getId();
+			String sq = "UPDATE tours SET alta = 0 WHERE id = " + tour.getId();
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {
