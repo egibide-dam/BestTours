@@ -27,10 +27,6 @@ public class Tour {
 	
 	
 	//Constructores
-	public Tour() {
-		
-	}
-
 	
 	public Tour(String nombre, String tematica, int aforo, String lugar, String salida, Date fecha,
 			Time hora, int idguia, double precio) {
@@ -62,6 +58,9 @@ public class Tour {
 		this.alta = alta;
 	}
 
+public Tour() {
+		
+	}
 
 
 	//Getter y Setters

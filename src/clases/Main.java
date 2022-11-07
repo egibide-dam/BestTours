@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +144,11 @@ public class Main {
 	}
 	
 	
+	
+	
+	
+	//////////////////////////
+	
 	/**
 	 * Menú de funcionalidades relacionadas con empleados
 	 * @throws IOException
@@ -206,10 +212,12 @@ public class Main {
 			System.out.print("\nDNI del nuevo empleado:");
 			dni = br.readLine();
 			List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
-			for (Empleado e : empleados) {
-				if (e.getDni().equals(dni)) {
-					exist = true;
-					System.out.println("\nEl DNI indicado ya está registrado.");
+			if (empleados != null) {
+				for (Empleado e : empleados) {
+					if (e.getDni().equals(dni)) {
+						exist = true;
+						System.out.println("\nEl DNI indicado ya está registrado.");
+					}
 				}
 			}
 		} while (exist == true);
@@ -525,7 +533,7 @@ public class Main {
 				}while (!type.equalsIgnoreCase("GUIA") && !type.equalsIgnoreCase("RECEPCIONISTA"));
 				
 				
-				List<Empleado> resultados = EmpleadoFuncs.buscarEmpleadosPuesto(currentBD, type)
+				List<Empleado> resultados = EmpleadoFuncs.buscarEmpleadosPuesto(currentBD, type);
 				if (resultados == null) {
 					System.out.println("\nHa habido un error al hacer la búsqueda");
 				} else if (resultados.size() == 0) {
@@ -547,7 +555,7 @@ public class Main {
 	
 	
 	
-	
+	//////////////////////////////
 	
 	
 	
@@ -612,6 +620,550 @@ public class Main {
 			}
 		} while (!op.equals("11"));
 	}
+	
+	
+	
+	/**
+	 * Pide los datos del nuevo tour, crea un nuevo Objeto tour y llama a la funcion de insertar en la BD
+	 * @throws IOException
+	 */
+	public static void newTour() throws IOException {
+		System.out.println("\nNuevo Tour");
+		
+		List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
+
+		if (empleados != null) {
+			String nombre;
+			do {
+				System.out.print("\nNombre del nuevo empleado:");
+				nombre = br.readLine();
+			}while (nombre.equals(" "));
+			
+			String tematica;
+			do {
+				System.out.println("\nTemática del tour (HISTORICO/ARTISTICO/LEYENDAS/FIESTA):");
+				tematica = br.readLine();
+				if (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA")) {
+					System.out.println("\nLa opción introducida no es válida.");
+				}
+			}while (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA"));
+			
+			int aforo = -1;
+			do {
+				System.out.println("\nAforo del tour:");
+				try {
+					aforo = Integer.parseInt(br.readLine());	
+				} catch (NumberFormatException e) {
+					System.out.println("\nDebe introducir un número");
+					aforo = -1;
+				}
+			} while (aforo == -1);
+			
+			String lugar;
+			do {
+				System.out.println("\nLugar (VITORIA/BILBAO/DONOSTIA/PAMPLONA/BURGOS/LOGROÑO):");
+				lugar = br.readLine();
+				if (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO")) {
+					System.out.println("\nLa opción introducida no es válida.");
+				}
+			}while (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO"));
+
+			String salida;
+			do {
+				System.out.print("\nIndique el punto de salida del tour:");
+				salida = br.readLine();
+			}while (salida.equals(" "));
+			
+			String fecha = " ";
+			do {
+				System.out.print("\nFecha del tour (AAAA-MM-DD):");
+				fecha = br.readLine();
+			} while (fecha.equals(" "));
+			
+			String hora = " ";
+			do {
+				System.out.print("\nHora del tour (HH:MM:SS):");
+				hora = br.readLine();
+			} while (hora.equals(" "));
+			
+			
+			System.out.println("\nIndique el ID del guia:");
+			for (Empleado e : empleados) {
+				System.out.println(e);
+			}
+			int idguia;
+			do {
+				System.out.print("\nID (nº):");
+				idguia = Integer.parseInt(br.readLine());
+				if (idguia < 1 || idguia > empleados.size()) {
+					System.out.println("\nEl valor indicado no es válido.");
+				}
+			}while (idguia < 1 || idguia > empleados.size());
+			
+			double precio = 0.00;
+			System.out.print("\nPrecio del tour por persona:");
+			try {
+				precio = Double.parseDouble(br.readLine());
+			} catch (NumberFormatException e) {
+				System.out.println("\nDebe introducir un número");
+			}
+			
+			
+			Tour t = new Tour(nombre,tematica, aforo, lugar, salida, Date.valueOf(fecha), Time.valueOf(hora), idguia, precio);
+			TourFuncs.nuevoTour(currentBD, t);	
+				
+		} else {
+			System.out.println("\nPara registrar un nuevo tour debe primero registrar al menos un empleado.");
+		}
+		
+	}
+	
+	
+	/**
+	 * Pide el id del tour a modificar, los nuevos datos, los guarda en un objeto y llama al update de la BD
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	public static void editTour() throws NumberFormatException, IOException {
+		System.out.println("\nEditar Tour");
+		
+		if (TourFuncs.leerTours(currentBD) != null) {
+			if (TourFuncs.leerTours(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del tour a modificar:");
+				List<Tour> tours = TourFuncs.leerTours(currentBD);
+				for (Tour t : tours) {
+					System.out.println(t);
+				}
+				int id;
+				do {
+					System.out.print("\nID (nº):");
+					id = Integer.parseInt(br.readLine());
+					if (id < 1 || id > tours.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (id < 1 || id > tours.size());
+				
+				Tour currentT = TourFuncs.buscarTourId(currentBD, id);
+				
+				
+				String nombre;
+				do {
+					System.out.print("\nNombre del nuevo empleado:");
+					nombre = br.readLine();
+				}while (nombre.equals(" "));
+				
+				String tematica;
+				do {
+					System.out.println("\nTemática del tour (HISTORICO/ARTISTICO/LEYENDAS/FIESTA):");
+					tematica = br.readLine();
+					if (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA")) {
+						System.out.println("\nLa opción introducida no es válida.");
+					}
+				}while (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA"));
+				
+				int aforo = -1;
+				do {
+					System.out.println("\nAforo del tour:");
+					try {
+						aforo = Integer.parseInt(br.readLine());	
+					} catch (NumberFormatException e) {
+						System.out.println("\nDebe introducir un número");
+						aforo = -1;
+					}
+				} while (aforo == -1);
+				
+				String lugar;
+				do {
+					System.out.println("\nLugar (VITORIA/BILBAO/DONOSTIA/PAMPLONA/BURGOS/LOGROÑO):");
+					lugar = br.readLine();
+					if (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO")) {
+						System.out.println("\nLa opción introducida no es válida.");
+					}
+				}while (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO"));
+
+				String salida;
+				do {
+					System.out.print("\nIndique el punto de salida del tour:");
+					salida = br.readLine();
+				}while (salida.equals(" "));
+				
+				String fecha = " ";
+				do {
+					System.out.print("\nFecha del tour (AAAA-MM-DD):");
+					fecha = br.readLine();
+				} while (fecha.equals(" "));
+				
+				String hora = " ";
+				do {
+					System.out.print("\nHora del tour (HH:MM:SS):");
+					hora = br.readLine();
+				} while (hora.equals(" "));
+				
+				
+				System.out.println("\nIndique el ID del guia:");
+				List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
+				for (Empleado e : empleados) {
+					System.out.println(e);
+				}
+				int idguia;
+				do {
+					System.out.print("\nID (nº):");
+					idguia = Integer.parseInt(br.readLine());
+					if (idguia < 1 || idguia > empleados.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (idguia < 1 || idguia > empleados.size());
+				
+				double precio = 0.00;
+				System.out.print("\nPrecio del tour por persona:");
+				try {
+					precio = Double.parseDouble(br.readLine());
+				} catch (NumberFormatException e) {
+					System.out.println("\nDebe introducir un número");
+				}
+				
+				
+				Boolean alta = true;
+				String respuesta = "";
+				do {
+					String mensaje;
+					if (currentT.getAlta() == true) {
+						mensaje = "ALTA";
+					} else {
+						mensaje = "BAJA";
+					}
+					System.out.println("\nEstado actual del tour: " + mensaje);
+					System.out.print("¿Desea que el tour esté de ALTA? (S/N);");
+					respuesta = br.readLine();
+					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
+						System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
+					} else if (respuesta.equalsIgnoreCase("N")) {
+						alta = false;
+					}
+					
+				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
+				
+				
+				
+				Tour t = new Tour(id, nombre, tematica, aforo, lugar, salida, Date.valueOf(fecha), Time.valueOf(hora), precio, idguia, alta);
+				TourFuncs.modificarTour(currentBD, t);	
+				
+			} else {
+				System.out.println("\nAún no hay tours registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay tours registrados.");	
+		}
+
+	}
+	
+	
+	
+	
+	/**
+	 * Solicita el tour a dar de baja, pide confirmación y si la respuesta es sí da de baja al tour
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	public static void unsuscribeTour() throws NumberFormatException, IOException {
+		System.out.println("\nDar de baja un tour");
+		
+		if (TourFuncs.leerTours(currentBD) != null) {
+			if (TourFuncs.leerTours(currentBD).size() == 0) {
+				System.out.println("\nIndique el ID del tour:");
+				List<Tour> tours = TourFuncs.leerTours(currentBD);
+				for (Tour t : tours) {
+					System.out.println(t);
+				}
+				int id;
+				do {
+					System.out.print("\nID (nº):");
+					id = Integer.parseInt(br.readLine());
+					if (id < 1 || id > tours.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (id < 1 || id > tours.size());
+				
+				Tour t = TourFuncs.buscarTourId(currentBD, id);
+
+				String respuesta = "";
+				do {
+				System.out.println("\n¿Está seguro de que desea dar de baja el tour ");
+				System.out.println(t);
+				System.out.println("?");
+				if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
+					System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
+				} else if (respuesta.equalsIgnoreCase("S")) {
+					TourFuncs.bajaTour(currentBD, t);
+				} else {
+					System.out.println("\nBaja del tour cancelada.");
+				}
+				
+				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
+				
+			} else {
+				System.out.println("\nAún no hay tours registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay tours registrados.");	
+		}
+
+	}
+	
+	
+	
+	
+	/**
+	 * Muestra todos los tours que estén de alta
+	 */
+	public static void allTours() {
+		System.out.println("\nTodos los tours de alta");
+		
+		if (TourFuncs.leerTours(currentBD) != null) {
+			if (TourFuncs.leerTours(currentBD).size() == 0) {
+				
+				List<Tour> tours = TourFuncs.buscarToursAlta(currentBD);
+				for (Tour t : tours) {
+					System.out.println(t);
+				}
+				
+			} else {
+				System.out.println("\nAún no hay tours registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay tours registrados.");	
+		}
+
+	}
+	
+	
+	
+	/**
+	 * Muestra todos los tours que de alta o de baja
+	 */
+	public static void historicTours() {
+		System.out.println("\nHistórico de tours");
+		
+		if (TourFuncs.leerTours(currentBD) != null) {
+			if (TourFuncs.leerTours(currentBD).size() == 0) {
+				
+				List<Tour> tours = TourFuncs.leerTours(currentBD);
+				for (Tour t : tours) {
+					System.out.println(t);
+				}
+				
+			} else {
+				System.out.println("\nAún no hay tours registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay tours registrados.");	
+		}
+
+	}
+	
+	
+	
+	/**
+	 * Pide el lugar a buscar y muestra aquellos tours en ese lugar
+	 * @throws IOException
+	 */
+	public static void placeTours() throws IOException {
+		System.out.println("\nBuscar tour por lugar");
+		
+		if (TourFuncs.leerTours(currentBD) != null) {
+			if (TourFuncs.leerTours(currentBD).size() == 0) {
+				
+				String lugar;
+				do {
+					System.out.println("\nLugar (VITORIA/BILBAO/DONOSTIA/PAMPLONA/BURGOS/LOGROÑO):");
+					lugar = br.readLine();
+					if (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO")) {
+						System.out.println("\nLa opción introducida no es válida.");
+					}
+				}while (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO"));
+				
+				
+				List<Tour> resultados = TourFuncs.buscarToursLugar(currentBD, lugar);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Tour t: resultados) {
+						System.out.println(t);
+					}
+				}
+				
+			} else {
+				System.out.println("\nAún no hay tours registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay tours registrados.");	
+		}
+
+	}
+	
+	
+	/**
+	 * Pide la tematica a buscar y muestra aquellos tours con esa tematica
+	 * @throws IOException
+	 */
+	public static void themeTours() throws IOException {
+		System.out.println("\nBuscar tour por tematica");
+		
+		if (TourFuncs.leerTours(currentBD) != null) {
+			if (TourFuncs.leerTours(currentBD).size() == 0) {
+				
+				String tematica;
+				do {
+					System.out.println("\nTemática del tour (HISTORICO/ARTISTICO/LEYENDAS/FIESTA):");
+					tematica = br.readLine();
+					if (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA")) {
+						System.out.println("\nLa opción introducida no es válida.");
+					}
+				}while (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA"));
+				
+				
+				List<Tour> resultados = TourFuncs.buscarToursTematica(currentBD, tematica);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Tour t: resultados) {
+						System.out.println(t);
+					}
+				}
+				
+			} else {
+				System.out.println("\nAún no hay tours registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay tours registrados.");	
+		}
+
+	}
+	
+	
+	/**
+	 * Pide el guia a buscar y muestra aquellos tours impartidos por ese guia
+	 * @throws IOException
+	 */
+	public static void guideTours() throws IOException {
+		System.out.println("\nBuscar tour por guia");
+		
+		if (TourFuncs.leerTours(currentBD) != null) {
+			if (TourFuncs.leerTours(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del guia:");
+				List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
+				for (Empleado e : empleados) {
+					System.out.println(e);
+				}
+				int idguia;
+				do {
+					System.out.print("\nID (nº):");
+					idguia = Integer.parseInt(br.readLine());
+					if (idguia < 1 || idguia > empleados.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (idguia < 1 || idguia > empleados.size());
+				
+				
+				List<Tour> resultados = TourFuncs.buscarToursGuia(currentBD, idguia);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Tour t: resultados) {
+						System.out.println(t);
+					}
+				}
+				
+			} else {
+				System.out.println("\nAún no hay tours registrados.");	
+			}
+		} else {
+			System.out.println("\nAún no hay tours registrados.");	
+		}
+
+	}
+	
+	
+	/**
+	 * Muestra todas las reservas
+	 */
+	public static void bookings() {
+		System.out.println("\nTodas las reservas");
+		
+		if (ReservaFuncs.leerReservas(currentBD) != null) {
+			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+				
+				List<Reserva> reservas = ReservaFuncs.leerReservas(currentBD);
+				for (Reserva r : reservas) {
+					System.out.println(r);
+				}
+				
+			} else {
+				System.out.println("\nAún no hay reservas registradas.");	
+			}
+		} else {
+			System.out.println("\nAún no hay reservas registradas.");	
+		}
+
+	}
+	
+	
+	
+	/**
+	 * Pide el tour a buscar y muestra aquellas reservas para ese tour
+	 * @throws IOException
+	 */
+	public static void bookingsTour() throws IOException {
+		System.out.println("\nBuscar reservas para un tour");
+		
+		if (ReservaFuncs.leerReservas(currentBD) != null) {
+			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del tour:");
+				List<Tour> tours = TourFuncs.leerTours(currentBD);
+				for (Tour t : tours) {
+					System.out.println(t);
+				}
+				int idtour;
+				do {
+					System.out.print("\nID (nº):");
+					idtour = Integer.parseInt(br.readLine());
+					if (idtour < 1 || idtour > tours.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (idtour < 1 || idtour > tours.size());
+				
+				
+				List<Reserva> resultados = ReservaFuncs.leerReservasTour(currentBD, idtour);
+				if (resultados == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (resultados.size() == 0) {
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
+				} else {
+					for (Reserva r: resultados) {
+						System.out.println(r);
+					}
+				}
+				
+			} else {
+				System.out.println("\nAún no hay reservas registradas.");	
+			}
+		} else {
+			System.out.println("\nAún no hay reservas registradas.");	
+		}
+
+	}
+	
+	
+	//////////////////////////////
 	
 	
 	/**
