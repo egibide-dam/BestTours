@@ -411,9 +411,9 @@ public class TourFuncs {
 			Statement sentencia = conexion.createStatement();
 			String sq;
 			if (bd.getId() == 2) {
-				sq = "UPDATE tours SET nombre = '" + tour.getNombre() + "', tematica = '" + tour.getTematica() + "', aforo = " + tour.getAforo() + ", lugar = '" + tour.getLugar() + "', salida = '" + tour.getSalida() + "', fecha = to_date('" + tour.getFecha() + "', 'yyyy-mm-dd'), hora = to_timestamp('" + tour.getHora() + "', 'HH24:MI:SS'), precio = " + tour.getPrecio() + ", guia = " + tour.getEmpleado() + " WHERE id = " + tour.getId();
+				sq = "UPDATE tours SET nombre = '" + tour.getNombre() + "', tematica = '" + tour.getTematica() + "', aforo = " + tour.getAforo() + ", lugar = '" + tour.getLugar() + "', salida = '" + tour.getSalida() + "', fecha = to_date('" + tour.getFecha() + "', 'yyyy-mm-dd'), hora = to_timestamp('" + tour.getHora() + "', 'HH24:MI:SS'), precio = " + tour.getPrecio() + ", guia = " + tour.getEmpleado() + ", alta = " + tour.getAlta() + " WHERE id = " + tour.getId();
 			} else {
-				sq = "UPDATE tours SET nombre = '" + tour.getNombre() + "', tematica = '" + tour.getTematica() + "', aforo = " + tour.getAforo() + ", lugar = '" + tour.getLugar() + "', salida = '" + tour.getSalida() + "', fecha = '" + tour.getFecha() + "', hora = '" + tour.getHora() + "', precio = " + tour.getPrecio() + ", guia = " + tour.getEmpleado() + " WHERE id = " + tour.getId();
+				sq = "UPDATE tours SET nombre = '" + tour.getNombre() + "', tematica = '" + tour.getTematica() + "', aforo = " + tour.getAforo() + ", lugar = '" + tour.getLugar() + "', salida = '" + tour.getSalida() + "', fecha = '" + tour.getFecha() + "', hora = '" + tour.getHora() + "', precio = " + tour.getPrecio() + ", guia = " + tour.getEmpleado() + ", alta = " + tour.getAlta() + " WHERE id = " + tour.getId();
 			}
 			int resul = sentencia.executeUpdate(sq);
 

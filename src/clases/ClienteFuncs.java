@@ -343,7 +343,7 @@ public class ClienteFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "UPDATE clientes SET dni = '" + cliente.getDni() + "', nombre = '" + cliente.getNombre() + "', apellidos = '" + cliente.getApellidos() + "', edad = " + cliente.getEdad() + ", profesion = '" + cliente.getProfesion() + "' WHERE id = " + cliente.getId();
+			String sq = "UPDATE clientes SET dni = '" + cliente.getDni() + "', nombre = '" + cliente.getNombre() + "', apellidos = '" + cliente.getApellidos() + "', edad = " + cliente.getEdad() + ", profesion = '" + cliente.getProfesion() + "', alta = " + cliente.getAlta() + " WHERE id = " + cliente.getId();
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {
