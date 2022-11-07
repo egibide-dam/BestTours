@@ -1939,6 +1939,57 @@ public class Main {
 	
 	
 	
+	/**
+	 * Pide el cliente a buscar y calcula el gasto total de las reservas para los tours de este año
+	 * @throws IOException
+	 */
+	public static void costCli() throws IOException {
+		System.out.println("\nGasto anual de un cliente");
+		
+		if (ReservaFuncs.leerReservas(currentBD) != null) {
+			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+				
+				System.out.println("\nIndique el ID del cliente:");
+				List<Cliente> cliente = ClienteFuncs.leerClientes(currentBD);
+				for (Cliente c : cliente) {
+					System.out.println(c);
+				}
+				int idcliente;
+				do {
+					System.out.print("\nID (nº):");
+					idcliente = Integer.parseInt(br.readLine());
+					if (idcliente < 1 || idcliente > cliente.size()) {
+						System.out.println("\nEl valor indicado no es válido.");
+					}
+				}while (idcliente < 1 || idcliente > cliente.size());
+				
+				double gasto = 0;
+				List<Reserva> reservas = ReservaFuncs.leerReservasCliente(currentBD, idcliente);
+				if (reservas == null) {
+					System.out.println("\nHa habido un error al hacer la búsqueda");
+				} else if (reservas.size() == 0) {
+					System.out.println("\nEl gasto total este año es de 0€");
+				} else {
+					for (Reserva r: reservas) {
+						int tourid = r.getTour();
+						Tour t = TourFuncs.buscarTourId(currentBD, tourid);
+						if (t.getFecha().after(Date.valueOf("01-01-2022"))  && t.getFecha().before(Date.valueOf(LocalDate.now())) ) {
+							gasto = gasto + r.getPrecio();
+						}
+					}
+					System.out.println("\nEl gasto total este año es de " + gasto + "€.");
+				}
+				
+			} else {
+				System.out.println("\nAún no hay reservas registradas.");	
+			}
+		} else {
+			System.out.println("\nAún no hay reservas registradas.");	
+		}
+
+	}
+	
+	
 	
 	
 	
@@ -2337,7 +2388,43 @@ public class Main {
 	
 	
 	
+	/////////////////////////
 	
+	/**
+	 * Lee las reservas y calcula la recaudación para este año
+	 * @throws IOException
+	 */
+	public static void recaudacionAnual() throws IOException {
+		System.out.println("\nRecaudación anual de la empresa");
+		
+		if (ReservaFuncs.leerReservas(currentBD) != null) {
+			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+				
+				List<Reserva> reservas = ReservaFuncs.leerReservas(currentBD);
+
+				
+				double gasto = 0;
+				if (reservas.size() == 0) {
+					System.out.println("\nLa recaudación total de este año es de 0€");
+				} else {
+					for (Reserva r: reservas) {
+						int tourid = r.getTour();
+						Tour t = TourFuncs.buscarTourId(currentBD, tourid);
+						if (t.getFecha().after(Date.valueOf("01-01-2022"))  && t.getFecha().before(Date.valueOf(LocalDate.now())) ) {
+							gasto = gasto + r.getPrecio();
+						}
+					}
+					System.out.println("\nLa recaudación total de este año es de " + gasto + "€.");
+				}
+				
+			} else {
+				System.out.println("\nAún no hay reservas registradas.");	
+			}
+		} else {
+			System.out.println("\nAún no hay reservas registradas.");	
+		}
+
+	}
 	
 	
 }

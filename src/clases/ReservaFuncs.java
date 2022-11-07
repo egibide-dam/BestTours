@@ -310,7 +310,7 @@ public class ReservaFuncs {
 	}
 	
 	
-	
+
 	
 
 }
