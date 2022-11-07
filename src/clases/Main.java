@@ -810,13 +810,15 @@ public class Main {
 				
 				String nombre;
 				do {
-					System.out.print("\nNombre nuevo del tour:");
+					System.out.print("\nNombre actual del tour: " + currentT.getNombre());
+					System.out.print("Nombre nuevo del tour:");
 					nombre = br.readLine();
 				}while (nombre.equals(" "));
 				
 				String tematica;
 				do {
-					System.out.println("\nTemática del tour (HISTORICO/ARTISTICO/LEYENDAS/FIESTA):");
+					System.out.print("\nTematica actual del tour: " + currentT.getTematica());
+					System.out.println("Temática nueva del tour (HISTORICO/ARTISTICO/LEYENDAS/FIESTA):");
 					tematica = br.readLine();
 					if (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA")) {
 						System.out.println("\nLa opción introducida no es válida.");
@@ -826,7 +828,8 @@ public class Main {
 				
 				int aforo = -1;
 				do {
-					System.out.println("\nAforo del tour:");
+					System.out.print("\nAforo actual del tour: " + currentT.getAforo());
+					System.out.println("\nAforo nuevo del tour:");
 					try {
 						aforo = Integer.parseInt(br.readLine());	
 					} catch (NumberFormatException e) {
@@ -837,7 +840,8 @@ public class Main {
 				
 				String lugar;
 				do {
-					System.out.println("\nLugar (VITORIA/BILBAO/DONOSTIA/PAMPLONA/BURGOS/LOGROÑO):");
+					System.out.print("\nLugar actual del tour: " + currentT.getLugar());
+					System.out.println("Lugar nuevo (VITORIA/BILBAO/DONOSTIA/PAMPLONA/BURGOS/LOGROÑO):");
 					lugar = br.readLine();
 					if (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO")) {
 						System.out.println("\nLa opción introducida no es válida.");
@@ -847,13 +851,15 @@ public class Main {
 
 				String salida;
 				do {
-					System.out.print("\nIndique el punto de salida del tour:");
+					System.out.print("\nPunto de salida actual del tour: " + currentT.getSalida());
+					System.out.print("Nuevo punto de salida del tour:");
 					salida = br.readLine();
 				}while (salida.equals(" "));
 				
 				String fecha = " ";
 				do {
-					System.out.print("\nFecha del tour (AAAA-MM-DD):");
+					System.out.print("\nFecha actual del tour: " + currentT.getFecha());
+					System.out.print("Fecha nueva del tour (AAAA-MM-DD):");
 					fecha = br.readLine();
 					Pattern pat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
 				    Matcher mat = pat.matcher(fecha);
@@ -865,7 +871,8 @@ public class Main {
 				
 				String hora = " ";
 				do {
-					System.out.print("\nHora del tour (HH:MM:SS):");
+					System.out.print("\nHora actual del tour: " + currentT.getHora());
+					System.out.print("Hora nueva del tour (HH:MM:SS):");
 					hora = br.readLine();
 					Pattern pat = Pattern.compile("[0-9]{2}:[0-9]{2}:[0-9]{2}");
 				    Matcher mat = pat.matcher(hora);
@@ -1418,7 +1425,8 @@ public class Main {
 				String dni;
 				boolean exist = false;
 				do {
-					System.out.print("\nDNI nuevo del cliente:");
+					System.out.print("\nDNI actual del cliente: " + currentCli.getDni());
+					System.out.print("DNI nuevo del cliente:");
 					dni = br.readLine();
 					Pattern pat = Pattern.compile("[0-9]{8}[A-Z]{1}");
 				    Matcher mat = pat.matcher(dni);
@@ -1440,19 +1448,22 @@ public class Main {
 				
 				String nombre;
 				do {
-					System.out.print("\nNombre nuevo del cliente:");
+					System.out.print("\nNombre actual del cliente: " + currentCli.getNombre());
+					System.out.print("Nombre nuevo del cliente:");
 					nombre = br.readLine();
 				}while (nombre.equals(" "));
 				
 				String apellidos;
 				do {
-					System.out.print("\nApellidos nuevos del cliente:");
+					System.out.print("\nApellidos actuales del cliente: " + currentCli.getApellidos());
+					System.out.print("Apellidos nuevos del cliente:");
 					apellidos = br.readLine();
 				}while (apellidos.equals(" "));
 				
 				int edad;
 				do {
-					System.out.println("\nEdad nueva del cliente:");
+					System.out.print("\nEdad actual del cliente: " + currentCli.getEdad());
+					System.out.println("Edad nueva del cliente:");
 					try {
 						edad = Integer.parseInt(br.readLine());	
 					} catch (NumberFormatException e) {
@@ -1463,7 +1474,8 @@ public class Main {
 				
 				String profesion;
 				do {
-					System.out.print("\nProfesion nueva del cliente:");
+					System.out.print("\nProfesion actual del cliente: " + currentCli.getProfesion());
+					System.out.print("Profesion nueva del cliente:");
 					profesion = br.readLine();
 				}while (profesion.equals(" "));
 				
@@ -2233,21 +2245,21 @@ public class Main {
 				String nombre;
 				do {
 					System.out.print("\nNombre actual del descuento: " + currentDesc.getNombre());
-					System.out.print("\nNombre nuevo del descuento:");
+					System.out.print("Nombre nuevo del descuento:");
 					nombre = br.readLine();
 				}while (nombre.equals(" "));
 				
 				String descripcion;
 				do {
 					System.out.print("\nDescripcion actual del descuento: " + currentDesc.getDescripcion());
-					System.out.print("\nDescripcion nueva del descuento:");
+					System.out.print("Descripcion nueva del descuento:");
 					descripcion = br.readLine();
 				}while (descripcion.equals(" "));
 				
 				int porcentaje;
 				do {
 					System.out.print("\nPorcentaje actual del descuento: " + currentDesc.getPorcentaje());
-					System.out.println("\nPorcentaje a descontar: ");
+					System.out.println("Porcentaje a descontar: ");
 					try {
 						porcentaje = Integer.parseInt(br.readLine());	
 						if (porcentaje < 1 || porcentaje > 100) {
@@ -2269,7 +2281,7 @@ public class Main {
 						msg = "SÍ";
 					}
 					System.out.print("\nActualmente el descuento " + msg + " es acumulable.");
-					System.out.println("\n¿El descuento es acumulable? (S/N): ");
+					System.out.println("¿El descuento es acumulable? (S/N): ");
 					respuesta = br.readLine();
 					
 					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
@@ -2284,7 +2296,7 @@ public class Main {
 				int usosmaximos;
 				do {
 					System.out.print("\nUsos máximos actuales del descuento: " + currentDesc.getUsosmaximos());
-					System.out.println("\nUsos maximos del descuento: ");
+					System.out.println("Usos maximos del descuento: ");
 					try {
 						usosmaximos = Integer.parseInt(br.readLine());	
 					} catch (NumberFormatException e) {
