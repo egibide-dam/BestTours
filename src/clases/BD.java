@@ -155,12 +155,20 @@ public class BD {
 
 	@Override
 	public String toString() {
-		return "\n"+ id + "- " + nombre.toUpperCase() +
-				"\n@: " + url +
-				"\nTF: " + telefono +
-				"\nDESDE " + anoapertura + 
-				"\n(" + EmpleadoFuncs.buscarEmpleadosAlta(this).size() + " empleados)"
-		;
+		try {
+			return "\n"+ id + "- " + nombre.toUpperCase() +
+					"\n@: " + url +
+					"\nTF: " + telefono +
+					"\nDESDE " + anoapertura + 
+					"\n(" + EmpleadoFuncs.buscarEmpleadosAlta(this).size() + " empleados)";
+		} catch (NullPointerException e) {
+			return "\n"+ id + "- " + nombre.toUpperCase() +
+					"\n@: " + url +
+					"\nTF: " + telefono +
+					"\nDESDE " + anoapertura +
+					"\n(? empleados)";
+		}
+		
 	}
 	
 		

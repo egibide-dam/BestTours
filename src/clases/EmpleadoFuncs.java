@@ -265,7 +265,7 @@ public class EmpleadoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM empleados WHERE puesto = " + puesto);
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM empleados WHERE puesto = '" + puesto + "'");
 
 			if (resul.next()) {
 				Empleado e = new Empleado(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),
@@ -289,10 +289,10 @@ public class EmpleadoFuncs {
 			conexion.close();// Cerrar conexion
 
 		} catch (ClassNotFoundException cn) {
-			empleados = null;
+			//empleados = null;
 
 		} catch (SQLException e) {
-			empleados = null;
+			//empleados = null;
 		}
 
 		return empleados;
@@ -355,7 +355,7 @@ public class EmpleadoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			String sq = "UPDATE empleados SET dni = '" + emple.getDni() + "', nombre = '" + emple.getNombre() + "', apellido = '" + emple.getApellido() + "', nacimiento = '" + emple.getNacimiento() + "', nacionalidad = '" + emple.getNacionalidad() + "', puesto = '" + emple.getPuesto() + "', contratacion = '" + emple.getContratacion() + "' WHERE id = " + emple.getId();
+			String sq = "UPDATE empleados SET dni = '" + emple.getDni() + "', nombre = '" + emple.getNombre() + "', apellido = '" + emple.getApellido() + "', nacimiento = '" + emple.getNacimiento() + "', nacionalidad = '" + emple.getNacionalidad() + "', puesto = '" + emple.getPuesto() + "', contratacion = '" + emple.getContratacion() + "', alta = " + emple.getAlta() + " WHERE id = " + emple.getId();
 			int resul = sentencia.executeUpdate(sq);
 
 			if (resul > 0) {

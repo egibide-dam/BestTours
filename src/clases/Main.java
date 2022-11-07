@@ -13,6 +13,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 
@@ -23,7 +25,7 @@ public class Main {
 
 	// Diferentes BDs
 	// MySql
-	public static BD bd1 = new BD(1, "EuskoTours", "euskotours.eus", 945131406, 2015, "jdbc:mysql://localhost/prueba",
+	public static BD bd1 = new BD(1, "EuskoTours", "euskotours.eus", 945131406, 2015, "jdbc:mysql://localhost/agencia",
 			"root", "MySQL1234", "com.mysql.cj.jdbc.Driver");
 	// Oracle
 	public static BD bd2 = new BD(2, "Tour Nord", "tournord.es", 947202122, 2010, "oracle.jdbc.driver.OracleDriver",
@@ -40,15 +42,6 @@ public class Main {
 
 	// BD general de acceso comun
 	public static BD currentBD;
-
-	// Empleado e = new Empleado("45456219J", "Irene", "Santaolaia",
-	// Date.valueOf("1995-03-10"), "Española", "Guia", Date.valueOf("2022-01-08"));
-	// EmpleadoFuncs.nuevoEmple(bd1, e);
-
-	// Empleado e = new Empleado(4, "45456219J", "Irene", "Santaolaia",
-	// Date.valueOf("1995-03-11"), "Española", "Guia", Date.valueOf("2022-01-08"),
-	// true);
-	// EmpleadoFuncs.modificarEmple(bd1, e);
 
 	public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -216,33 +209,47 @@ public class Main {
 		do {
 			System.out.print("\nDNI del nuevo empleado:");
 			dni = br.readLine();
-			List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
-			if (empleados != null) {
-				for (Empleado e : empleados) {
-					if (e.getDni().equals(dni)) {
-						exist = true;
-						System.out.println("\nEl DNI indicado ya está registrado.");
+			Pattern pat = Pattern.compile("[0-9]{8}[A-Z]{1}");
+		    Matcher mat = pat.matcher(dni);
+		    if (!mat.matches()) {
+		    	System.out.println("\nEl formato del DNI no es correcto.");
+		    	dni = "";
+		    } else {
+		    	List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
+				if (empleados != null) {
+					for (Empleado e : empleados) {
+						if (e.getDni().equals(dni)) {
+							exist = true;
+							System.out.println("\nEl DNI indicado ya está registrado.");
+						}
 					}
 				}
-			}
-		} while (exist == true);
+		    }
+			
+		} while (exist == true || dni.equals(""));
 		
 		String nombre;
 		do {
 			System.out.print("\nNombre del nuevo empleado:");
 			nombre = br.readLine();
-		}while (nombre.equals(" "));
+		}while (nombre.equals(" ") || nombre.equals(""));
 		
 		String apellido;
 		do {
 			System.out.print("\nApellido del nuevo empleado:");
 			apellido = br.readLine();
-		}while (apellido.equals(" "));
+		}while (apellido.equals(" ") || apellido.equals(""));
 		
 		String nacimiento = " ";
 		do {
 			System.out.print("\nFecha de nacimiento del nuevo empleado (AAAA-MM-DD):");
 			nacimiento = br.readLine();
+			Pattern pat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+		    Matcher mat = pat.matcher(nacimiento);
+		    if (!mat.matches()) {
+		    	System.out.println("\nEl formato de la fecha no es correcto.");
+		    	nacimiento = " ";
+		    }
 		} while (nacimiento.equals(" "));
 		
 		String nacionalidad;
@@ -253,14 +260,21 @@ public class Main {
 		
 		String puesto;
 		do {
-			System.out.print("\nPuesto del nuevo empleado:");
+			System.out.print("\nPuesto del nuevo empleado (GUIA/RECEPCIONISTA):");
 			puesto = br.readLine();
-		}while (puesto.equals(" "));
-		
+		}while (!puesto.equalsIgnoreCase("GUIA") && !puesto.equalsIgnoreCase("RECEPCIONISTA"));
+		puesto = puesto.toUpperCase();
+
 		String contratacion = " ";
 		do {
 			System.out.print("\nFecha de contratacion del nuevo empleado (AAAA-MM-DD):");
 			contratacion = br.readLine();
+			Pattern pat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+		    Matcher mat = pat.matcher(contratacion);
+		    if (!mat.matches()) {
+		    	System.out.println("\nEl formato de la fecha no es correcto.");
+		    	contratacion = " ";
+		    }
 		} while (contratacion.equals(" "));
 		
 		Empleado e = new Empleado(dni, nombre, apellido, Date.valueOf(nacimiento), nacionalidad, puesto, Date.valueOf(contratacion));
@@ -278,7 +292,7 @@ public class Main {
 		System.out.println("\nEditar empleado");
 		
 		if (EmpleadoFuncs.leerEmpleados(currentBD) != null) {
-			if (EmpleadoFuncs.leerEmpleados(currentBD).size() == 0) {
+			if (EmpleadoFuncs.leerEmpleados(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del empleado:");
 				List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
@@ -302,15 +316,23 @@ public class Main {
 					System.out.println("\nDNI actual del empleado: " + currentEmp.getDni());
 					System.out.print("DNI nuevo del empleado:");
 					dni = br.readLine();
-					for (Empleado e : empleados) {
-						if (e.getDni().equals(dni)) {
-							if (e != currentEmp) {
-								exist = true;
-								System.out.println("\nEl DNI indicado ya está registrado.");
+					Pattern pat = Pattern.compile("[0-9]{8}[A-Z]{1}");
+				    Matcher mat = pat.matcher(dni);
+				    if (!mat.matches()) {
+				    	System.out.println("\nEl formato del DNI no es correcto.");
+				    	dni = "";
+				    } else {
+				    	for (Empleado e : empleados) {
+							if (e.getDni().equals(dni)) {
+								if (e.getId() != currentEmp.getId()) {
+									exist = true;
+									System.out.println("\nEl DNI indicado ya está registrado.");
+								}
 							}
 						}
-					}
-				} while (exist == true);
+				    }
+					
+				} while (exist == true || dni.equals(""));
 				
 				String nombre;
 				do {
@@ -331,6 +353,12 @@ public class Main {
 					System.out.println("\nFecha de nacimiento actual del empleado: " + currentEmp.getNacimiento());
 					System.out.print("Fecha de nacimiento nueva del empleado (AAAA-MM-DD):");
 					nacimiento = br.readLine();
+					Pattern pat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+				    Matcher mat = pat.matcher(nacimiento);
+				    if (!mat.matches()) {
+				    	System.out.println("\nEl formato de la fecha no es correcto.");
+				    	nacimiento = " ";
+				    }
 				} while (nacimiento.equals(" "));
 				
 				String nacionalidad;
@@ -338,6 +366,7 @@ public class Main {
 					System.out.println("\nNacionalidad actual del empleado: " + currentEmp.getNacionalidad());
 					System.out.print("Nacionalidad nueva del empleado:");
 					nacionalidad = br.readLine();
+					
 				}while (nacionalidad.equals(" "));
 				
 				String puesto;
@@ -346,12 +375,19 @@ public class Main {
 					System.out.print("Puesto nuevo del empleado:");
 					puesto = br.readLine();
 				}while (puesto.equals(" "));
+				puesto = puesto.toUpperCase();
 				
 				String contratacion = " ";
 				do {
 					System.out.println("\nFecha de contratacion actual del empleado: " + currentEmp.getContratacion());
 					System.out.print("Fecha de contratacion nueva del empleado (AAAA-MM-DD):");
 					contratacion = br.readLine();
+					Pattern pat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+				    Matcher mat = pat.matcher(contratacion);
+				    if (!mat.matches()) {
+				    	System.out.println("\nEl formato de la fecha no es correcto.");
+				    	contratacion = " ";
+				    }
 				} while (contratacion.equals(" "));
 				
 				Boolean alta = true;
@@ -397,7 +433,7 @@ public class Main {
 		System.out.println("\nDar de baja un empleado");
 		
 		if (EmpleadoFuncs.leerEmpleados(currentBD) != null) {
-			if (EmpleadoFuncs.leerEmpleados(currentBD).size() == 0) {
+			if (EmpleadoFuncs.leerEmpleados(currentBD).size() != 0) {
 				System.out.println("\nIndique el ID del empleado:");
 				List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
 				for (Empleado e : empleados) {
@@ -446,7 +482,7 @@ public class Main {
 		System.out.println("\nTodos los empleados de alta");
 		
 		if (EmpleadoFuncs.leerEmpleados(currentBD) != null) {
-			if (EmpleadoFuncs.leerEmpleados(currentBD).size() == 0) {
+			if (EmpleadoFuncs.leerEmpleados(currentBD).size() != 0) {
 				
 				List<Empleado> empleados = EmpleadoFuncs.buscarEmpleadosAlta(currentBD);
 				for (Empleado e : empleados) {
@@ -469,7 +505,7 @@ public class Main {
 		System.out.println("\nHistórico de empleados");
 		
 		if (EmpleadoFuncs.leerEmpleados(currentBD) != null) {
-			if (EmpleadoFuncs.leerEmpleados(currentBD).size() == 0) {
+			if (EmpleadoFuncs.leerEmpleados(currentBD).size() != 0) {
 				
 				List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
 				for (Empleado e : empleados) {
@@ -493,7 +529,7 @@ public class Main {
 		System.out.println("\nBuscar empleado por nombre");
 		
 		if (EmpleadoFuncs.leerEmpleados(currentBD) != null) {
-			if (EmpleadoFuncs.leerEmpleados(currentBD).size() == 0) {
+			if (EmpleadoFuncs.leerEmpleados(currentBD).size() != 0) {
 				
 				System.out.println("\nIntroduzca el nombre o apellido a buscar:");
 				String nombre = br.readLine();
@@ -527,7 +563,7 @@ public class Main {
 		System.out.println("\nBuscar empleado por puesto");
 		
 		if (EmpleadoFuncs.leerEmpleados(currentBD) != null) {
-			if (EmpleadoFuncs.leerEmpleados(currentBD).size() == 0) {
+			if (EmpleadoFuncs.leerEmpleados(currentBD).size() != 0) {
 				
 				String type = "";
 				do {
@@ -538,6 +574,7 @@ public class Main {
 					}
 				}while (!type.equalsIgnoreCase("GUIA") && !type.equalsIgnoreCase("RECEPCIONISTA"));
 				
+				type = type.toUpperCase();
 				
 				List<Empleado> resultados = EmpleadoFuncs.buscarEmpleadosPuesto(currentBD, type);
 				if (resultados == null) {
@@ -653,7 +690,8 @@ public class Main {
 					System.out.println("\nLa opción introducida no es válida.");
 				}
 			}while (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA"));
-			
+			tematica = tematica.toUpperCase();
+
 			int aforo = -1;
 			do {
 				System.out.println("\nAforo del tour:");
@@ -673,6 +711,7 @@ public class Main {
 					System.out.println("\nLa opción introducida no es válida.");
 				}
 			}while (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO"));
+			lugar = lugar.toUpperCase();
 
 			String salida;
 			do {
@@ -684,12 +723,24 @@ public class Main {
 			do {
 				System.out.print("\nFecha del tour (AAAA-MM-DD):");
 				fecha = br.readLine();
+				Pattern pat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+			    Matcher mat = pat.matcher(fecha);
+			    if (!mat.matches()) {
+			    	System.out.println("\nEl formato de la fecha no es correcto.");
+			    	fecha = " ";
+			    }
 			} while (fecha.equals(" "));
 			
 			String hora = " ";
 			do {
 				System.out.print("\nHora del tour (HH:MM:SS):");
 				hora = br.readLine();
+				Pattern pat = Pattern.compile("[0-9]{2}:[0-9]{2}:[0-9]{2}");
+			    Matcher mat = pat.matcher(hora);
+			    if (!mat.matches()) {
+			    	System.out.println("\nEl formato de la hora no es correcto.");
+			    	hora = " ";
+			    }
 			} while (hora.equals(" "));
 			
 			
@@ -734,7 +785,7 @@ public class Main {
 		System.out.println("\nEditar Tour");
 		
 		if (TourFuncs.leerTours(currentBD) != null) {
-			if (TourFuncs.leerTours(currentBD).size() == 0) {
+			if (TourFuncs.leerTours(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del tour a modificar:");
 				List<Tour> tours = TourFuncs.leerTours(currentBD);
@@ -767,6 +818,7 @@ public class Main {
 						System.out.println("\nLa opción introducida no es válida.");
 					}
 				}while (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA"));
+				tematica = tematica.toUpperCase();
 				
 				int aforo = -1;
 				do {
@@ -787,6 +839,7 @@ public class Main {
 						System.out.println("\nLa opción introducida no es válida.");
 					}
 				}while (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO"));
+				lugar = lugar.toUpperCase();
 
 				String salida;
 				do {
@@ -798,12 +851,24 @@ public class Main {
 				do {
 					System.out.print("\nFecha del tour (AAAA-MM-DD):");
 					fecha = br.readLine();
+					Pattern pat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+				    Matcher mat = pat.matcher(fecha);
+				    if (!mat.matches()) {
+				    	System.out.println("\nEl formato de la fecha no es correcto.");
+				    	fecha = " ";
+				    }
 				} while (fecha.equals(" "));
 				
 				String hora = " ";
 				do {
 					System.out.print("\nHora del tour (HH:MM:SS):");
 					hora = br.readLine();
+					Pattern pat = Pattern.compile("[0-9]{2}:[0-9]{2}:[0-9]{2}");
+				    Matcher mat = pat.matcher(hora);
+				    if (!mat.matches()) {
+				    	System.out.println("\nEl formato de la fecha no es correcto.");
+				    	hora = " ";
+				    }
 				} while (hora.equals(" "));
 				
 				
@@ -876,7 +941,7 @@ public class Main {
 		System.out.println("\nDar de baja un tour");
 		
 		if (TourFuncs.leerTours(currentBD) != null) {
-			if (TourFuncs.leerTours(currentBD).size() == 0) {
+			if (TourFuncs.leerTours(currentBD).size() != 0) {
 				System.out.println("\nIndique el ID del tour:");
 				List<Tour> tours = TourFuncs.leerTours(currentBD);
 				for (Tour t : tours) {
@@ -928,7 +993,7 @@ public class Main {
 		System.out.println("\nTodos los tours de alta");
 		
 		if (TourFuncs.leerTours(currentBD) != null) {
-			if (TourFuncs.leerTours(currentBD).size() == 0) {
+			if (TourFuncs.leerTours(currentBD).size() != 0) {
 				
 				List<Tour> tours = TourFuncs.buscarToursAlta(currentBD);
 				for (Tour t : tours) {
@@ -953,7 +1018,7 @@ public class Main {
 		System.out.println("\nHistórico de tours");
 		
 		if (TourFuncs.leerTours(currentBD) != null) {
-			if (TourFuncs.leerTours(currentBD).size() == 0) {
+			if (TourFuncs.leerTours(currentBD).size() != 0) {
 				
 				List<Tour> tours = TourFuncs.leerTours(currentBD);
 				for (Tour t : tours) {
@@ -979,7 +1044,7 @@ public class Main {
 		System.out.println("\nBuscar tour por lugar");
 		
 		if (TourFuncs.leerTours(currentBD) != null) {
-			if (TourFuncs.leerTours(currentBD).size() == 0) {
+			if (TourFuncs.leerTours(currentBD).size() != 0) {
 				
 				String lugar;
 				do {
@@ -989,7 +1054,8 @@ public class Main {
 						System.out.println("\nLa opción introducida no es válida.");
 					}
 				}while (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO"));
-				
+				lugar = lugar.toUpperCase();
+
 				
 				List<Tour> resultados = TourFuncs.buscarToursLugar(currentBD, lugar);
 				if (resultados == null) {
@@ -1020,7 +1086,7 @@ public class Main {
 		System.out.println("\nBuscar tour por tematica");
 		
 		if (TourFuncs.leerTours(currentBD) != null) {
-			if (TourFuncs.leerTours(currentBD).size() == 0) {
+			if (TourFuncs.leerTours(currentBD).size() != 0) {
 				
 				String tematica;
 				do {
@@ -1030,7 +1096,8 @@ public class Main {
 						System.out.println("\nLa opción introducida no es válida.");
 					}
 				}while (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA"));
-				
+				tematica = tematica.toUpperCase();
+
 				
 				List<Tour> resultados = TourFuncs.buscarToursTematica(currentBD, tematica);
 				if (resultados == null) {
@@ -1061,7 +1128,7 @@ public class Main {
 		System.out.println("\nBuscar tour por guia");
 		
 		if (TourFuncs.leerTours(currentBD) != null) {
-			if (TourFuncs.leerTours(currentBD).size() == 0) {
+			if (TourFuncs.leerTours(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del guia:");
 				List<Empleado> empleados = EmpleadoFuncs.leerEmpleados(currentBD);
@@ -1106,7 +1173,7 @@ public class Main {
 		System.out.println("\nTodas las reservas");
 		
 		if (ReservaFuncs.leerReservas(currentBD) != null) {
-			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+			if (ReservaFuncs.leerReservas(currentBD).size() != 0) {
 				
 				List<Reserva> reservas = ReservaFuncs.leerReservas(currentBD);
 				for (Reserva r : reservas) {
@@ -1132,7 +1199,7 @@ public class Main {
 		System.out.println("\nBuscar reservas para un tour");
 		
 		if (ReservaFuncs.leerReservas(currentBD) != null) {
-			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+			if (ReservaFuncs.leerReservas(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del tour:");
 				List<Tour> tours = TourFuncs.leerTours(currentBD);
@@ -1262,16 +1329,23 @@ public class Main {
 		do {
 			System.out.print("\nDNI del nuevo cliente:");
 			dni = br.readLine();
-			List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
-			if (clientes != null) {
-				for (Cliente c : clientes) {
-					if (c.getDni().equals(dni)) {
-						exist = true;
-						System.out.println("\nEl DNI indicado ya está registrado.");
+			Pattern pat = Pattern.compile("[0-9]{8}[A-Z]{1}");
+		    Matcher mat = pat.matcher(dni);
+		    if (!mat.matches()) {
+		    	System.out.println("\nEl formato del dni no es correcto.");
+		    	dni = "";
+		    } else {
+		    	List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
+				if (clientes != null) {
+					for (Cliente c : clientes) {
+						if (c.getDni().equals(dni)) {
+							exist = true;
+							System.out.println("\nEl DNI indicado ya está registrado.");
+						}
 					}
 				}
-			}
-		} while (exist == true);
+		    }
+		} while (exist == true || dni.endsWith(""));
 		
 		String nombre;
 		do {
@@ -1319,7 +1393,7 @@ public class Main {
 		System.out.println("\nEditar cliente");
 		
 		if (ClienteFuncs.leerClientes(currentBD) != null) {
-			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+			if (ClienteFuncs.leerClientes(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del cliente:");
 				List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
@@ -1342,14 +1416,22 @@ public class Main {
 				do {
 					System.out.print("\nDNI nuevo del cliente:");
 					dni = br.readLine();
-					if (clientes != null) {
-						for (Cliente c : clientes) {
-							if (c.getDni().equals(dni)) {
-								exist = true;
-								System.out.println("\nEl DNI indicado ya está registrado.");
+					Pattern pat = Pattern.compile("[0-9]{8}[A-Z]{1}");
+				    Matcher mat = pat.matcher(dni);
+				    if (!mat.matches()) {
+				    	System.out.println("\nEl formato del dni no es correcto.");
+				    	dni = "";
+				    } else {
+				    	if (clientes != null) {
+							for (Cliente c : clientes) {
+								if (c.getDni().equals(dni)) {
+									exist = true;
+									System.out.println("\nEl DNI indicado ya está registrado.");
+								}
 							}
 						}
-					}
+				    }
+					
 				} while (exist == true);
 				
 				String nombre;
@@ -1426,7 +1508,7 @@ public class Main {
 		System.out.println("\nDar de baja un cliente");
 		
 		if (ClienteFuncs.leerClientes(currentBD) != null) {
-			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+			if (ClienteFuncs.leerClientes(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del cliente:");
 				List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
@@ -1480,7 +1562,7 @@ public class Main {
 		System.out.println("\nTodos los clientes de alta");
 		
 		if (ClienteFuncs.leerClientes(currentBD) != null) {
-			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+			if (ClienteFuncs.leerClientes(currentBD).size() != 0) {
 				
 				List<Cliente> clientes = ClienteFuncs.buscarClientesAlta(currentBD);
 				for (Cliente c : clientes) {
@@ -1506,7 +1588,7 @@ public class Main {
 		System.out.println("\nHistórico de clientes");
 		
 		if (ClienteFuncs.leerClientes(currentBD) != null) {
-			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+			if (ClienteFuncs.leerClientes(currentBD).size() != 0) {
 				
 				List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
 				for (Cliente c : clientes) {
@@ -1534,7 +1616,7 @@ public class Main {
 		System.out.println("\nBuscar clientes por nombre");
 		
 		if (ClienteFuncs.leerClientes(currentBD) != null) {
-			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+			if (ClienteFuncs.leerClientes(currentBD).size() != 0) {
 				
 				System.out.println("\nIntroduzca el nombre o apellido a buscar:");
 				String nombre = br.readLine();
@@ -1570,7 +1652,7 @@ public class Main {
 		System.out.println("\nBuscar clientes por edad");
 		
 		if (ClienteFuncs.leerClientes(currentBD) != null) {
-			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+			if (ClienteFuncs.leerClientes(currentBD).size() != 0) {
 				
 				int min;
 				do {
@@ -1598,7 +1680,7 @@ public class Main {
 				List<Cliente> resultados = ClienteFuncs.buscarClientesEdad(currentBD, min, max);
 				if (resultados == null) {
 					System.out.println("\nHa habido un error al hacer la búsqueda");
-				} else if (resultados.size() == 0) {
+				} else if (resultados.size() != 0) {
 					System.out.println("\nNo se han encontrado resultados para su búsqueda");
 				} else {
 					for (Cliente c: resultados) {
@@ -1626,10 +1708,10 @@ public class Main {
 		System.out.println("\nNueva reserva");
 		
 		if (ClienteFuncs.leerClientes(currentBD) != null) {
-			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+			if (ClienteFuncs.leerClientes(currentBD).size() != 0) {
 				
 				if (TourFuncs.leerTours(currentBD) != null) {
-					if (TourFuncs.leerTours(currentBD).size() == 0) {
+					if (TourFuncs.leerTours(currentBD).size() != 0) {
 				
 						System.out.println("\nIndique el ID del cliente:");
 						List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
@@ -1726,7 +1808,7 @@ public class Main {
 		System.out.println("\nBuscar reservas de un cliente");
 		
 		if (ReservaFuncs.leerReservas(currentBD) != null) {
-			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+			if (ReservaFuncs.leerReservas(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del cliente:");
 				List<Cliente> cliente = ClienteFuncs.leerClientes(currentBD);
@@ -1776,7 +1858,7 @@ public class Main {
 		System.out.println("\nCancelar una reserva");
 		
 		if (ReservaFuncs.leerReservas(currentBD) != null) {
-			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+			if (ReservaFuncs.leerReservas(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID de la reserva a cancelar:");
 				List<Reserva> reservas = ReservaFuncs.leerReservas(currentBD);
@@ -1831,10 +1913,10 @@ public class Main {
 		System.out.println("\nNueva bonificación para un cliente");
 		
 		if (ClienteFuncs.leerClientes(currentBD) != null) {
-			if (ClienteFuncs.leerClientes(currentBD).size() == 0) {
+			if (ClienteFuncs.leerClientes(currentBD).size() != 0) {
 				
 				if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
-					if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+					if (DescuentoFuncs.leerDescuentos(currentBD).size() != 0) {
 				
 						System.out.println("\nIndique el ID del cliente:");
 						List<Cliente> clientes = ClienteFuncs.leerClientes(currentBD);
@@ -1902,7 +1984,7 @@ public class Main {
 		System.out.println("\nBuscar bonificaciones de un cliente");
 		
 		if (BonificacionFuncs.leerBonificaciones(currentBD) != null) {
-			if (BonificacionFuncs.leerBonificaciones(currentBD).size() == 0) {
+			if (BonificacionFuncs.leerBonificaciones(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del cliente:");
 				List<Cliente> cliente = ClienteFuncs.leerClientes(currentBD);
@@ -1951,7 +2033,7 @@ public class Main {
 		System.out.println("\nGasto anual de un cliente");
 		
 		if (ReservaFuncs.leerReservas(currentBD) != null) {
-			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+			if (ReservaFuncs.leerReservas(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del cliente:");
 				List<Cliente> cliente = ClienteFuncs.leerClientes(currentBD);
@@ -2126,7 +2208,7 @@ public class Main {
 		System.out.println("\nEditar cliente");
 		
 		if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
-			if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+			if (DescuentoFuncs.leerDescuentos(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del descuento:");
 				List<Descuento> descuentos = DescuentoFuncs.leerDescuentos(currentBD);
@@ -2224,7 +2306,7 @@ public class Main {
 		
 
 		if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
-			if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+			if (DescuentoFuncs.leerDescuentos(currentBD).size() != 0) {
 				
 				List<Descuento> descuentos = DescuentoFuncs.leerDescuentos(currentBD);
 				for (Descuento d : descuentos) {
@@ -2249,7 +2331,7 @@ public class Main {
 		System.out.println("\nBuscar descuentos por porcentaje");
 		
 		if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
-			if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+			if (DescuentoFuncs.leerDescuentos(currentBD).size() != 0) {
 				
 				int porcen;
 				do {
@@ -2299,7 +2381,7 @@ public class Main {
 		
 
 		if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
-			if (DescuentoFuncs.leerDescuentos(currentBD).size() == 0) {
+			if (DescuentoFuncs.leerDescuentos(currentBD).size() != 0) {
 				
 				List<Descuento> descuentos = DescuentoFuncs.leerDescuentosAcumulables(currentBD);
 				for (Descuento d : descuentos) {
@@ -2325,7 +2407,7 @@ public class Main {
 		
 
 		if (BonificacionFuncs.leerBonificaciones(currentBD) != null) {
-			if (BonificacionFuncs.leerBonificaciones(currentBD).size() == 0) {
+			if (BonificacionFuncs.leerBonificaciones(currentBD).size() != 0) {
 				
 				List<Bonificacion> bonificaciones = BonificacionFuncs.leerBonificaciones(currentBD);
 				for (Bonificacion b : bonificaciones) {
@@ -2353,7 +2435,7 @@ public class Main {
 		System.out.println("\nBuscar bonificaciones para un descuento");
 		
 		if (BonificacionFuncs.leerBonificaciones(currentBD) != null) {
-			if (BonificacionFuncs.leerBonificaciones(currentBD).size() == 0) {
+			if (BonificacionFuncs.leerBonificaciones(currentBD).size() != 0) {
 				
 				System.out.println("\nIndique el ID del descuento:");
 				List<Descuento> descuentos = DescuentoFuncs.leerDescuentos(currentBD);
@@ -2402,7 +2484,7 @@ public class Main {
 		System.out.println("\nRecaudación anual de la empresa");
 		
 		if (ReservaFuncs.leerReservas(currentBD) != null) {
-			if (ReservaFuncs.leerReservas(currentBD).size() == 0) {
+			if (ReservaFuncs.leerReservas(currentBD).size() != 0) {
 				
 				List<Reserva> reservas = ReservaFuncs.leerReservas(currentBD);
 
