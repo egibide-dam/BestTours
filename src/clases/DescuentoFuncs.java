@@ -49,7 +49,7 @@ public class DescuentoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM decuentos");
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM descuentos");
 
 			if (resul.next()) {
 				Descuento d = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
@@ -147,7 +147,7 @@ public class DescuentoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM decuentos WHERE porcentaje >= " + percent);
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM descuentos WHERE porcentaje >= " + percent);
 
 			if (resul.next()) {
 				Descuento d = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),

@@ -196,7 +196,7 @@ public Tour() {
 				"\nPunto de salida: " + salida + 
 				"\nFecha: " + fecha + 
 				"\nHora: " + hora + 
-				"\nPrecio: "+ precio + 
+				"\nPrecio: "+ precio + " €" +
 				"\nAlta : " + veralta();
 	}
 

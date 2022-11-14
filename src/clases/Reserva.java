@@ -96,7 +96,7 @@ public class Reserva {
 		return "\nNº RESERVA: " + id + 
 				"\nCliente: " + cliente + 
 				"\nTour: " + tour + 
-				"\nPrecio final: " + precio +
+				"\nPrecio final: " + precio + "\n" +
 				vercancel();
 	}
 

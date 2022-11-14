@@ -200,7 +200,7 @@ public class TourFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE tematica = " + tematica);
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE tematica = '" + tematica + "'");
 
 			if (resul.next()) {
 				Tour t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),
@@ -253,7 +253,7 @@ public class TourFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE lugar = " + lugar);
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM tours WHERE lugar = '" + lugar + "'");
 
 			if (resul.next()) {
 				Tour t = new Tour(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),

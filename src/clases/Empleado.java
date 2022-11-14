@@ -143,7 +143,7 @@ public class Empleado {
 		return "\nEMP-" + id + 
 				"\n" + nombre + " " + apellido + 
 				"\nDNI: " + dni + 
-				"Fecha de nacimiento: " + nacimiento + 
+				"\nFecha de nacimiento: " + nacimiento + 
 				"\nNacionalidad: " + nacionalidad + 
 				"\nPuesto: " + puesto + 
 				"\nFecha de contratacion: "+ contratacion +

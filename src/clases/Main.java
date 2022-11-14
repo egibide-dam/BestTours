@@ -810,14 +810,14 @@ public class Main {
 				
 				String nombre;
 				do {
-					System.out.print("\nNombre actual del tour: " + currentT.getNombre());
-					System.out.print("Nombre nuevo del tour:");
+					System.out.println("\nNombre actual del tour: " + currentT.getNombre());
+					System.out.println("Nombre nuevo del tour:");
 					nombre = br.readLine();
 				}while (nombre.equals(" "));
 				
 				String tematica;
 				do {
-					System.out.print("\nTematica actual del tour: " + currentT.getTematica());
+					System.out.println("\nTematica actual del tour: " + currentT.getTematica());
 					System.out.println("Temática nueva del tour (HISTORICO/ARTISTICO/LEYENDAS/FIESTA):");
 					tematica = br.readLine();
 					if (!tematica.equalsIgnoreCase("HISTORICO") && !tematica.equalsIgnoreCase("ARTISTICO") && !tematica.equalsIgnoreCase("LEYENDAS") && !tematica.equalsIgnoreCase("FIESTA")) {
@@ -828,7 +828,7 @@ public class Main {
 				
 				int aforo = -1;
 				do {
-					System.out.print("\nAforo actual del tour: " + currentT.getAforo());
+					System.out.println("\nAforo actual del tour: " + currentT.getAforo());
 					System.out.println("\nAforo nuevo del tour:");
 					try {
 						aforo = Integer.parseInt(br.readLine());	
@@ -840,7 +840,7 @@ public class Main {
 				
 				String lugar;
 				do {
-					System.out.print("\nLugar actual del tour: " + currentT.getLugar());
+					System.out.println("\nLugar actual del tour: " + currentT.getLugar());
 					System.out.println("Lugar nuevo (VITORIA/BILBAO/DONOSTIA/PAMPLONA/BURGOS/LOGROÑO):");
 					lugar = br.readLine();
 					if (!lugar.equalsIgnoreCase("VITORIA") && !lugar.equalsIgnoreCase("BILBAO") && !lugar.equalsIgnoreCase("DONOSTIA") && !lugar.equalsIgnoreCase("PAMPLONA") && !lugar.equalsIgnoreCase("BURGOS") && !lugar.equalsIgnoreCase("LOGROÑO")) {
@@ -851,15 +851,15 @@ public class Main {
 
 				String salida;
 				do {
-					System.out.print("\nPunto de salida actual del tour: " + currentT.getSalida());
-					System.out.print("Nuevo punto de salida del tour:");
+					System.out.println("\nPunto de salida actual del tour: " + currentT.getSalida());
+					System.out.println("Nuevo punto de salida del tour:");
 					salida = br.readLine();
 				}while (salida.equals(" "));
 				
 				String fecha = " ";
 				do {
-					System.out.print("\nFecha actual del tour: " + currentT.getFecha());
-					System.out.print("Fecha nueva del tour (AAAA-MM-DD):");
+					System.out.println("\nFecha actual del tour: " + currentT.getFecha());
+					System.out.println("Fecha nueva del tour (AAAA-MM-DD):");
 					fecha = br.readLine();
 					Pattern pat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
 				    Matcher mat = pat.matcher(fecha);
@@ -871,8 +871,8 @@ public class Main {
 				
 				String hora = " ";
 				do {
-					System.out.print("\nHora actual del tour: " + currentT.getHora());
-					System.out.print("Hora nueva del tour (HH:MM:SS):");
+					System.out.println("\nHora actual del tour: " + currentT.getHora());
+					System.out.println("Hora nueva del tour (HH:MM:SS):");
 					hora = br.readLine();
 					Pattern pat = Pattern.compile("[0-9]{2}:[0-9]{2}:[0-9]{2}");
 				    Matcher mat = pat.matcher(hora);
@@ -916,7 +916,7 @@ public class Main {
 						mensaje = "BAJA";
 					}
 					System.out.println("\nEstado actual del tour: " + mensaje);
-					System.out.print("¿Desea que el tour esté de ALTA? (S/N);");
+					System.out.println("¿Desea que el tour esté de ALTA? (S/N);");
 					respuesta = br.readLine();
 					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
 						System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
@@ -1338,6 +1338,7 @@ public class Main {
 		String dni;
 		boolean exist = false;
 		do {
+			exist = false;
 			System.out.print("\nDNI del nuevo cliente:");
 			dni = br.readLine();
 			Pattern pat = Pattern.compile("[0-9]{8}[A-Z]{1}");
@@ -1356,7 +1357,7 @@ public class Main {
 					}
 				}
 		    }
-		} while (exist == true || dni.endsWith(""));
+		} while (exist == true || dni.equals(""));
 		
 		String nombre;
 		do {
@@ -1421,22 +1422,22 @@ public class Main {
 				}while (id < 1 || id > clientes.size());
 				
 				Cliente currentCli = ClienteFuncs.buscarClienteId(currentBD, id);
-				
+								
 				String dni;
 				boolean exist = false;
 				do {
-					System.out.print("\nDNI actual del cliente: " + currentCli.getDni());
-					System.out.print("DNI nuevo del cliente:");
+					System.out.println("\nDNI actual del cliente: " + currentCli.getDni());
+					System.out.println("DNI nuevo del cliente:");
 					dni = br.readLine();
 					Pattern pat = Pattern.compile("[0-9]{8}[A-Z]{1}");
 				    Matcher mat = pat.matcher(dni);
 				    if (!mat.matches()) {
-				    	System.out.println("\nEl formato del dni no es correcto.");
+				    	System.out.println("\nEl formato del DNI no es correcto.");
 				    	dni = "";
 				    } else {
-				    	if (clientes != null) {
-							for (Cliente c : clientes) {
-								if (c.getDni().equals(dni)) {
+				    	for (Cliente c : clientes) {
+							if (c.getDni().equals(dni)) {
+								if (c.getId() != currentCli.getId()) {
 									exist = true;
 									System.out.println("\nEl DNI indicado ya está registrado.");
 								}
@@ -1444,25 +1445,25 @@ public class Main {
 						}
 				    }
 					
-				} while (exist == true);
+				} while (exist == true || dni.equals(""));
 				
 				String nombre;
 				do {
-					System.out.print("\nNombre actual del cliente: " + currentCli.getNombre());
-					System.out.print("Nombre nuevo del cliente:");
+					System.out.println("\nNombre actual del cliente: " + currentCli.getNombre());
+					System.out.println("Nombre nuevo del cliente:");
 					nombre = br.readLine();
 				}while (nombre.equals(" "));
 				
 				String apellidos;
 				do {
-					System.out.print("\nApellidos actuales del cliente: " + currentCli.getApellidos());
-					System.out.print("Apellidos nuevos del cliente:");
+					System.out.println("\nApellidos actuales del cliente: " + currentCli.getApellidos());
+					System.out.println("Apellidos nuevos del cliente:");
 					apellidos = br.readLine();
 				}while (apellidos.equals(" "));
 				
 				int edad;
 				do {
-					System.out.print("\nEdad actual del cliente: " + currentCli.getEdad());
+					System.out.println("\nEdad actual del cliente: " + currentCli.getEdad());
 					System.out.println("Edad nueva del cliente:");
 					try {
 						edad = Integer.parseInt(br.readLine());	
@@ -1474,8 +1475,8 @@ public class Main {
 				
 				String profesion;
 				do {
-					System.out.print("\nProfesion actual del cliente: " + currentCli.getProfesion());
-					System.out.print("Profesion nueva del cliente:");
+					System.out.println("\nProfesion actual del cliente: " + currentCli.getProfesion());
+					System.out.println("Profesion nueva del cliente:");
 					profesion = br.readLine();
 				}while (profesion.equals(" "));
 				
@@ -1490,7 +1491,7 @@ public class Main {
 						mensaje = "BAJA";
 					}
 					System.out.println("\nEstado actual del cliente: " + mensaje);
-					System.out.print("¿Desea que el cliente esté de ALTA? (S/N);");
+					System.out.println("¿Desea que el cliente esté de ALTA? (S/N);");
 					respuesta = br.readLine();
 					if (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N")) {
 						System.out.println("\nLa respuesta indicada no es válida porque no se ajusta al formato (S/N)");
@@ -1696,7 +1697,7 @@ public class Main {
 				List<Cliente> resultados = ClienteFuncs.buscarClientesEdad(currentBD, min, max);
 				if (resultados == null) {
 					System.out.println("\nHa habido un error al hacer la búsqueda");
-				} else if (resultados.size() != 0) {
+				} else if (resultados.size() == 0) {
 					System.out.println("\nNo se han encontrado resultados para su búsqueda");
 				} else {
 					for (Cliente c: resultados) {
@@ -2068,14 +2069,14 @@ public class Main {
 				double gasto = 0;
 				List<Reserva> reservas = ReservaFuncs.leerReservasCliente(currentBD, idcliente);
 				if (reservas == null) {
-					System.out.println("\nHa habido un error al hacer la búsqueda");
+					System.out.println("\nEl gasto total este año es de 0€");
 				} else if (reservas.size() == 0) {
 					System.out.println("\nEl gasto total este año es de 0€");
 				} else {
 					for (Reserva r: reservas) {
 						int tourid = r.getTour();
 						Tour t = TourFuncs.buscarTourId(currentBD, tourid);
-						if (t.getFecha().after(Date.valueOf("01-01-2022"))  && t.getFecha().before(Date.valueOf(LocalDate.now())) ) {
+						if (t.getFecha().after(Date.valueOf("2022-01-01"))  && t.getFecha().before(Date.valueOf("2022-12-31")) ) {
 							gasto = gasto + r.getPrecio();
 						}
 					}
@@ -2244,21 +2245,21 @@ public class Main {
 				
 				String nombre;
 				do {
-					System.out.print("\nNombre actual del descuento: " + currentDesc.getNombre());
-					System.out.print("Nombre nuevo del descuento:");
+					System.out.println("\nNombre actual del descuento: " + currentDesc.getNombre());
+					System.out.println("Nombre nuevo del descuento:");
 					nombre = br.readLine();
 				}while (nombre.equals(" "));
 				
 				String descripcion;
 				do {
-					System.out.print("\nDescripcion actual del descuento: " + currentDesc.getDescripcion());
-					System.out.print("Descripcion nueva del descuento:");
+					System.out.println("\nDescripcion actual del descuento: " + currentDesc.getDescripcion());
+					System.out.println("Descripcion nueva del descuento:");
 					descripcion = br.readLine();
 				}while (descripcion.equals(" "));
 				
 				int porcentaje;
 				do {
-					System.out.print("\nPorcentaje actual del descuento: " + currentDesc.getPorcentaje());
+					System.out.println("\nPorcentaje actual del descuento: " + currentDesc.getPorcentaje());
 					System.out.println("Porcentaje a descontar: ");
 					try {
 						porcentaje = Integer.parseInt(br.readLine());	
@@ -2280,7 +2281,7 @@ public class Main {
 					if(currentDesc.isAcumulable() == 1) {
 						msg = "SÍ";
 					}
-					System.out.print("\nActualmente el descuento " + msg + " es acumulable.");
+					System.out.println("\nActualmente el descuento " + msg + " es acumulable.");
 					System.out.println("¿El descuento es acumulable? (S/N): ");
 					respuesta = br.readLine();
 					
@@ -2295,7 +2296,7 @@ public class Main {
 				
 				int usosmaximos;
 				do {
-					System.out.print("\nUsos máximos actuales del descuento: " + currentDesc.getUsosmaximos());
+					System.out.println("\nUsos máximos actuales del descuento: " + currentDesc.getUsosmaximos());
 					System.out.println("Usos maximos del descuento: ");
 					try {
 						usosmaximos = Integer.parseInt(br.readLine());	
@@ -2378,7 +2379,7 @@ public class Main {
 				
 				List<Descuento> resultados = DescuentoFuncs.buscarDescuentosPorcen(currentBD, porcen);
 				if (resultados == null) {
-					System.out.println("\nHa habido un error al hacer la búsqueda");
+					System.out.println("\nNo se han encontrado resultados para su búsqueda");
 				} else if (resultados.size() == 0) {
 					System.out.println("\nNo se han encontrado resultados para su búsqueda");
 				} else {
@@ -2409,8 +2410,16 @@ public class Main {
 			if (DescuentoFuncs.leerDescuentos(currentBD).size() != 0) {
 				
 				List<Descuento> descuentos = DescuentoFuncs.leerDescuentosAcumulables(currentBD);
-				for (Descuento d : descuentos) {
-					System.out.println(d);
+				if (DescuentoFuncs.leerDescuentosAcumulables(currentBD) != null) {
+					if (DescuentoFuncs.leerDescuentosAcumulables(currentBD).size() != 0) {
+						for (Descuento d : descuentos) {
+							System.out.println(d);
+						}
+					} else {
+						System.out.println("\nNo se han encontrado resultados.");	
+					}
+				} else {
+					System.out.println("\nNo se han encontrado resultados.");	
 				}
 				
 			} else {
@@ -2521,7 +2530,7 @@ public class Main {
 					for (Reserva r: reservas) {
 						int tourid = r.getTour();
 						Tour t = TourFuncs.buscarTourId(currentBD, tourid);
-						if (t.getFecha().after(Date.valueOf("01-01-2022"))  && t.getFecha().before(Date.valueOf(LocalDate.now())) ) {
+						if (t.getFecha().after(Date.valueOf("2022-01-01"))  && t.getFecha().before(Date.valueOf("2022-12-31")) ) {
 							gasto = gasto + r.getPrecio();
 						}
 					}

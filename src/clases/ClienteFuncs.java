@@ -194,8 +194,8 @@ public class ClienteFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery(
-					"SELECT * FROM clientes WHERE nombre LIKE '" + nombre + "%' OR apellido LIKE '" + nombre + "%' ");
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM clientes WHERE nombre LIKE '" + nombre + "%' OR apellidos LIKE '" + nombre + "%' ");
+			
 
 			if (resul.next()) {
 				Cliente c = new Cliente(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getString(4),

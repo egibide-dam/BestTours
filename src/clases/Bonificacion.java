@@ -85,7 +85,7 @@ public class Bonificacion {
 	@Override
 	public String toString() {
 			return "\nBONIF-" + id + 
-				"\n" + descuento +
+				"\nDescuento: " + descuento +
 				"\nCliente: " + cliente + 
 				"\nFecha:" + fecha;
 	}
