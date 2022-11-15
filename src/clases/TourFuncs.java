@@ -360,8 +360,8 @@ public class TourFuncs {
 			Statement sentencia = conexion.createStatement();
 			String sq;
 			if (bd.getId() == 2) {
-				sq = "INSERT INTO tours VALUES (toursId_seq.nextval, '" + tour.getNombre() + "', '" + tour.getTematica() + "', " + tour.getAforo() + ", '"
-						+ tour.getLugar() + "', '" + tour.getSalida() + "', to_date('" + tour.getFecha() + "', 'yyy-mm-dd'), to_timestamp'"
+				sq = "INSERT INTO tours VALUES (toursid_seq.nextval, '" + tour.getNombre() + "', '" + tour.getTematica() + "', " + tour.getAforo() + ", '"
+						+ tour.getLugar() + "', '" + tour.getSalida() + "', to_date('" + tour.getFecha() + "', 'yyyy-mm-dd'), to_timestamp('"
 						+ tour.getHora() + "', 'HH24:MI:SS'), " + tour.getPrecio()  + ", " + tour.getEmpleado() + ", " + tour.getAlta() + ")";
 			} else {
 				sq = "INSERT INTO tours (nombre, tematica, aforo, lugar, salida, fecha, hora, precio, guia, alta) VALUES ('"

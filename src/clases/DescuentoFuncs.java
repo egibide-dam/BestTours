@@ -250,7 +250,7 @@ public class DescuentoFuncs {
 			Statement sentencia = conexion.createStatement();
 			String sq;
 			if (bd.getId() == 2) {
-				sq = "INSERT INTO descuentos VALUES (descuentosId.nextval, '" + desc.getNombre() + "', '" + desc.getDescripcion() + "', " + desc.getPorcentaje() + ", " + desc.isAcumulable()
+				sq = "INSERT INTO descuentos VALUES (descuentosId_seq.nextval, '" + desc.getNombre() + "', '" + desc.getDescripcion() + "', " + desc.getPorcentaje() + ", " + desc.isAcumulable()
 				+ ", " + desc.getUsosmaximos() + ")";
 			} else {
 				sq = "INSERT INTO descuentos (nombre, descripcion, porcentaje, acumulable, usosmaximos) VALUES ('"

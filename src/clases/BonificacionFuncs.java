@@ -250,7 +250,7 @@ public class BonificacionFuncs {
 			Statement sentencia = conexion.createStatement();
 			String sq;
 			if (bd.getId() == 2) {
-				sq = "INSERT INTO empleados VALUES (bonificaciones_seq.nextval, " + boni.getDescuento() + ", " + boni.getCliente() + ", to_date('" + boni.getFecha() + "', 'yyyy-mm-dd'), " + boni.getUsos() + ")";
+				sq = "INSERT INTO bonificaciones VALUES (bonificaciones_seq.nextval, " + boni.getDescuento() + ", " + boni.getCliente() + ", to_date('" + boni.getFecha() + "', 'yyyy-mm-dd'), " + boni.getUsos() + ")";
 			} else {
 				sq = "INSERT INTO bonificaciones (descuento, cliente, fecha, usos) VALUES (" + boni.getDescuento() + ", " + boni.getCliente() + ", '" + boni.getFecha() + "', " + boni.getUsos() + ")";
 			}

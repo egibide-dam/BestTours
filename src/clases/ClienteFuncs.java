@@ -299,7 +299,7 @@ public class ClienteFuncs {
 			Statement sentencia = conexion.createStatement();
 			String sq;
 			if (bd.getId() == 2) {
-				sq = "INSERT INTO clientes VALUES (clientesId_seq.nextval, '" + cliente.getDni() + "', '" + cliente.getNombre() + "', " + cliente.getEdad()+ ", '" + cliente.getProfesion() + "', " + cliente.getAlta() + ")";
+				sq = "INSERT INTO clientes VALUES (clientesId_seq.nextval, '" + cliente.getDni() + "', '" + cliente.getNombre() + "', '" + cliente.getApellidos() + "', " + cliente.getEdad()+ ", '" + cliente.getProfesion() + "', " + cliente.getAlta() + ")";
 			} else {
 				sq = "INSERT INTO clientes (dni, nombre, apellidos, edad, profesion, alta) VALUES ('"
 					+ cliente.getDni() + "', '" + cliente.getNombre() + "', '" + cliente.getApellidos() + "', " + cliente.getEdad()
