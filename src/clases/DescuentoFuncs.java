@@ -197,7 +197,7 @@ public class DescuentoFuncs {
 
 			// Preparamos la consulta
 			Statement sentencia = conexion.createStatement();
-			ResultSet resul = sentencia.executeQuery("SELECT * FROM decuentos WHERE acumulable = 1");
+			ResultSet resul = sentencia.executeQuery("SELECT * FROM descuentos WHERE acumulable = 1");
 
 			if (resul.next()) {
 				Descuento d = new Descuento(resul.getInt(1), resul.getString(2), resul.getString(3), resul.getInt(4),

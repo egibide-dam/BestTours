@@ -304,15 +304,19 @@ public class Main {
 					System.out.println(e);
 				}
 				int id;
+				Empleado currentEmp = null;
 				do {
 					System.out.print("\nID (nº):");
 					id = Integer.parseInt(br.readLine());
-					if (id < 1 || id > empleados.size()) {
+					
+					currentEmp = EmpleadoFuncs.buscarEmpleadoId(currentBD, id);
+
+					if (id < 1 || currentEmp == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (id < 1 || id > empleados.size());
+
+				}while (id < 1 || currentEmp==null);
 				
-				Empleado currentEmp = EmpleadoFuncs.buscarEmpleadoId(currentBD, id);
 				
 				String dni;
 				boolean exist = false;
@@ -444,15 +448,19 @@ public class Main {
 					System.out.println(e);
 				}
 				int id;
+				Empleado emple = null;
 				do {
 					System.out.print("\nID (nº):");
 					id = Integer.parseInt(br.readLine());
-					if (id < 1 || id > empleados.size()) {
+					
+					emple = EmpleadoFuncs.buscarEmpleadoId(currentBD, id);
+
+					if (id < 1 || emple == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (id < 1 || id > empleados.size());
+
+				}while (id < 1 || emple == null);
 				
-				Empleado emple = EmpleadoFuncs.buscarEmpleadoId(currentBD, id);
 
 				String respuesta = "";
 				do {
@@ -753,13 +761,18 @@ public class Main {
 				System.out.println(e);
 			}
 			int idguia;
+			Empleado emple = null;
 			do {
 				System.out.print("\nID (nº):");
 				idguia = Integer.parseInt(br.readLine());
-				if (idguia < 1 || idguia > empleados.size()) {
+				
+				emple = EmpleadoFuncs.buscarEmpleadoId(currentBD, idguia);
+
+				if (idguia < 1 || emple == null) {
 					System.out.println("\nEl valor indicado no es válido.");
 				}
-			}while (idguia < 1 || idguia > empleados.size());
+				
+			}while (idguia < 1 || emple == null);
 			
 			double precio = 0.00;
 			System.out.print("\nPrecio del tour por persona:");
@@ -797,15 +810,19 @@ public class Main {
 					System.out.println(t);
 				}
 				int id;
+				Tour currentT = null;
 				do {
 					System.out.print("\nID (nº):");
 					id = Integer.parseInt(br.readLine());
-					if (id < 1 || id > tours.size()) {
+					
+					currentT = TourFuncs.buscarTourId(currentBD, id);
+
+					if (id < 1 || currentT == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (id < 1 || id > tours.size());
+
+				}while (id < 1 || currentT == null);
 				
-				Tour currentT = TourFuncs.buscarTourId(currentBD, id);
 				
 				
 				String nombre;
@@ -889,13 +906,17 @@ public class Main {
 					System.out.println(e);
 				}
 				int idguia;
+				Empleado emple = null;
 				do {
 					System.out.print("\nID (nº):");
 					idguia = Integer.parseInt(br.readLine());
-					if (idguia < 1 || idguia > empleados.size()) {
+					
+					emple = EmpleadoFuncs.buscarEmpleadoId(currentBD, idguia);
+
+					if (idguia < 1 || emple == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (idguia < 1 || idguia > empleados.size());
+				}while (idguia < 1 || emple == null);
 				
 				double precio = 0.00;
 				System.out.print("\nPrecio del tour por persona:");
@@ -925,9 +946,7 @@ public class Main {
 					}
 					
 				} while (!respuesta.equalsIgnoreCase("S") && !respuesta.equalsIgnoreCase("N"));
-				
-				
-				
+								
 				Tour t = new Tour(id, nombre, tematica, aforo, lugar, salida, Date.valueOf(fecha), Time.valueOf(hora), precio, idguia, alta);
 				TourFuncs.modificarTour(currentBD, t);	
 				
@@ -959,15 +978,18 @@ public class Main {
 					System.out.println(t);
 				}
 				int id;
+				Tour t = null;
 				do {
 					System.out.print("\nID (nº):");
 					id = Integer.parseInt(br.readLine());
-					if (id < 1 || id > tours.size()) {
+					
+					t = TourFuncs.buscarTourId(currentBD, id);
+
+					if (id < 1 || t == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (id < 1 || id > tours.size());
+				}while (id < 1 || t == null);
 				
-				Tour t = TourFuncs.buscarTourId(currentBD, id);
 
 				String respuesta = "";
 				do {
@@ -1147,13 +1169,17 @@ public class Main {
 					System.out.println(e);
 				}
 				int idguia;
+				Empleado emp = null;
 				do {
 					System.out.print("\nID (nº):");
 					idguia = Integer.parseInt(br.readLine());
-					if (idguia < 1 || idguia > empleados.size()) {
+					
+					emp = EmpleadoFuncs.buscarEmpleadoId(currentBD, idguia);
+
+					if (idguia < 1 || emp == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (idguia < 1 || idguia > empleados.size());
+				}while (idguia < 1 || emp == null);
 				
 				
 				List<Tour> resultados = TourFuncs.buscarToursGuia(currentBD, idguia);
@@ -1218,13 +1244,17 @@ public class Main {
 					System.out.println(t);
 				}
 				int idtour;
+				Tour t = null;
 				do {
 					System.out.print("\nID (nº):");
 					idtour = Integer.parseInt(br.readLine());
-					if (idtour < 1 || idtour > tours.size()) {
+					
+					t = TourFuncs.buscarTourId(currentBD, idtour);
+
+					if (idtour < 1 || t == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (idtour < 1 || idtour > tours.size());
+				}while (idtour < 1 || t==null);
 				
 				
 				List<Reserva> resultados = ReservaFuncs.leerReservasTour(currentBD, idtour);
@@ -1413,16 +1443,18 @@ public class Main {
 					System.out.println(c);
 				}
 				int id;
+				Cliente currentCli = null;
 				do {
 					System.out.print("\nID (nº):");
 					id = Integer.parseInt(br.readLine());
-					if (id < 1 || id > clientes.size()) {
+					
+					currentCli = ClienteFuncs.buscarClienteId(currentBD, id);
+
+					if (id < 1 || currentCli == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (id < 1 || id > clientes.size());
-				
-				Cliente currentCli = ClienteFuncs.buscarClienteId(currentBD, id);
-								
+				}while (id < 1 || currentCli == null);
+												
 				String dni;
 				boolean exist = false;
 				do {
@@ -1533,15 +1565,18 @@ public class Main {
 					System.out.println(c);
 				}
 				int id;
+				Cliente cli = null;
 				do {
 					System.out.print("\nID (nº):");
 					id = Integer.parseInt(br.readLine());
-					if (id < 1 || id > clientes.size()) {
+					
+					cli = ClienteFuncs.buscarClienteId(currentBD, id);
+
+					if (id < 1 || cli == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (id < 1 || id > clientes.size());
+				}while (id < 1 || cli == null);
 				
-				Cliente cli = ClienteFuncs.buscarClienteId(currentBD, id);
 
 				String respuesta = "";
 				do {
@@ -1736,16 +1771,18 @@ public class Main {
 							System.out.println(c);
 						}
 						int idcli;
+						Cliente cli = null;
 						do {
 							System.out.print("\nID (nº):");
 							idcli = Integer.parseInt(br.readLine());
-							if (idcli < 1 || idcli > clientes.size()) {
+							
+							cli = ClienteFuncs.buscarClienteId(currentBD, idcli);
+
+							if (idcli < 1 || cli == null) {
 								System.out.println("\nEl valor indicado no es válido.");
 							}
-						}while (idcli < 1 || idcli > clientes.size());
-						
-						Cliente cli = ClienteFuncs.buscarClienteId(currentBD, idcli);
-						
+						}while (idcli < 1 || cli == null);
+												
 						
 						System.out.println("\nIndique el ID del tour:");
 						List<Tour> tours = TourFuncs.leerTours(currentBD);
@@ -1753,15 +1790,19 @@ public class Main {
 							System.out.println(t);
 						}
 						int idtour;
+						Tour t = null;
+
 						do {
 							System.out.print("\nID (nº):");
 							idtour = Integer.parseInt(br.readLine());
-							if (idtour < 1 || idtour > tours.size()) {
+							
+							t = TourFuncs.buscarTourId(currentBD, idtour);
+
+							if (idtour < 1 || t == null) {
 								System.out.println("\nEl valor indicado no es válido.");
 							}
-						}while (idtour < 1 || idtour > tours.size());
+						}while (idtour < 1 || t == null);
 						
-						Tour t = TourFuncs.buscarTourId(currentBD, idtour);
 						
 						//Precio
 						List<Bonificacion> bonificaciones = BonificacionFuncs.leerBonificacionesCliente(currentBD, cli.getId());
@@ -1833,13 +1874,16 @@ public class Main {
 					System.out.println(c);
 				}
 				int idcliente;
+				Cliente cli = null;
 				do {
 					System.out.print("\nID (nº):");
 					idcliente = Integer.parseInt(br.readLine());
-					if (idcliente < 1 || idcliente > cliente.size()) {
+					cli = ClienteFuncs.buscarClienteId(currentBD, idcliente);
+
+					if (idcliente < 1 || cli == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (idcliente < 1 || idcliente > cliente.size());
+				}while (idcliente < 1 || cli == null);
 				
 				
 				List<Reserva> resultados = ReservaFuncs.leerReservasCliente(currentBD, idcliente);
@@ -1883,16 +1927,18 @@ public class Main {
 					System.out.println(r);
 				}
 				int id;
+				Reserva res = null;
+
 				do {
 					System.out.print("\nID (nº):");
 					id = Integer.parseInt(br.readLine());
-					if (id < 1 || id > reservas.size()) {
+					res = ReservaFuncs.buscarReservaId(currentBD, id);
+
+					if (id < 1 || res == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (id < 1 || id > reservas.size());
-				
-				Reserva res = ReservaFuncs.buscarReservaId(currentBD, id);
-				
+				}while (id < 1 || res == null);
+								
 
 				String respuesta = "";
 				do {
@@ -1941,16 +1987,18 @@ public class Main {
 							System.out.println(c);
 						}
 						int idcli;
+						Cliente cli = null;
+
 						do {
 							System.out.print("\nID (nº):");
 							idcli = Integer.parseInt(br.readLine());
-							if (idcli < 1 || idcli > clientes.size()) {
+							cli = ClienteFuncs.buscarClienteId(currentBD, idcli);
+
+							if (idcli < 1 ||cli == null) {
 								System.out.println("\nEl valor indicado no es válido.");
 							}
-						}while (idcli < 1 || idcli > clientes.size());
-						
-						Cliente cli = ClienteFuncs.buscarClienteId(currentBD, idcli);
-						
+						}while (idcli < 1 ||cli == null);
+												
 						
 						System.out.println("\nIndique el ID del descuento:");
 						List<Descuento> descuentos = DescuentoFuncs.leerDescuentos(currentBD);
@@ -1958,15 +2006,18 @@ public class Main {
 							System.out.println(d);
 						}
 						int iddesc;
+						Descuento d = null;
+
 						do {
 							System.out.print("\nID (nº):");
 							iddesc = Integer.parseInt(br.readLine());
-							if (iddesc < 1 || iddesc > descuentos.size()) {
+							d = DescuentoFuncs.buscarDescuentoId(currentBD, iddesc);
+
+							if (iddesc < 1 || d == null) {
 								System.out.println("\nEl valor indicado no es válido.");
 							}
-						}while (iddesc < 1 || iddesc > descuentos.size());
+						}while (iddesc < 1 || d == null);
 						
-						Descuento d = DescuentoFuncs.buscarDescuentoId(currentBD, iddesc);
 						
 						LocalDate date = LocalDate.now();
 						
@@ -1976,10 +2027,10 @@ public class Main {
 										
 						
 					} else {
-						System.out.println("\nAún no hay tours registrados.");	
+						System.out.println("\nAún no hay descuentos registrados.");	
 					}
 				} else {
-					System.out.println("\nAún no hay tours registrados.");	
+					System.out.println("\nAún no hay descuentos registrados.");	
 				}
 
 			} else {
@@ -2009,13 +2060,17 @@ public class Main {
 					System.out.println(c);
 				}
 				int idcliente;
+				Cliente cli = null;
 				do {
 					System.out.print("\nID (nº):");
 					idcliente = Integer.parseInt(br.readLine());
-					if (idcliente < 1 || idcliente > cliente.size()) {
+					
+					cli = ClienteFuncs.buscarClienteId(currentBD, idcliente);
+
+					if (idcliente < 1 || cli == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (idcliente < 1 || idcliente > cliente.size());
+				}while (idcliente < 1 || cli == null);
 				
 				
 				List<Bonificacion> resultados = BonificacionFuncs.leerBonificacionesCliente(currentBD, idcliente);
@@ -2058,13 +2113,17 @@ public class Main {
 					System.out.println(c);
 				}
 				int idcliente;
+				Cliente cli = null;
 				do {
 					System.out.print("\nID (nº):");
 					idcliente = Integer.parseInt(br.readLine());
-					if (idcliente < 1 || idcliente > cliente.size()) {
+					
+					cli = ClienteFuncs.buscarClienteId(currentBD, idcliente);
+
+					if (idcliente < 1 || cli == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (idcliente < 1 || idcliente > cliente.size());
+				}while (idcliente < 1 || cli == null);
 				
 				double gasto = 0;
 				List<Reserva> reservas = ReservaFuncs.leerReservasCliente(currentBD, idcliente);
@@ -2222,7 +2281,7 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void editDesc() throws NumberFormatException, IOException {
-		System.out.println("\nEditar cliente");
+		System.out.println("\nEditar descuento");
 		
 		if (DescuentoFuncs.leerDescuentos(currentBD) != null) {
 			if (DescuentoFuncs.leerDescuentos(currentBD).size() != 0) {
@@ -2233,15 +2292,19 @@ public class Main {
 					System.out.println(d);
 				}
 				int id;
+				Descuento currentDesc = null;
+
 				do {
 					System.out.print("\nID (nº):");
 					id = Integer.parseInt(br.readLine());
-					if (id < 1 || id > descuentos.size()) {
+					
+					currentDesc = DescuentoFuncs.buscarDescuentoId(currentBD, id);
+
+					if (id < 1 || currentDesc == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (id < 1 || id > descuentos.size());
+				}while (id < 1 || currentDesc == null);
 				
-				Descuento currentDesc = DescuentoFuncs.buscarDescuentoId(currentBD, id);
 				
 				String nombre;
 				do {
@@ -2477,13 +2540,19 @@ public class Main {
 					System.out.println(d);
 				}
 				int iddesc;
+				
+				Descuento desc = null;
+
 				do {
 					System.out.print("\nID (nº):");
 					iddesc = Integer.parseInt(br.readLine());
-					if (iddesc < 1 || iddesc > descuentos.size()) {
+					
+					desc = DescuentoFuncs.buscarDescuentoId(currentBD, iddesc);
+
+					if (iddesc < 1 || desc == null) {
 						System.out.println("\nEl valor indicado no es válido.");
 					}
-				}while (iddesc < 1 || iddesc > descuentos.size());
+				}while (iddesc < 1 || desc == null);
 				
 				
 				List<Bonificacion> resultados = BonificacionFuncs.leerBonificacionesDescuento(currentBD, iddesc);
